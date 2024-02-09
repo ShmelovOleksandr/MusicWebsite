@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+    <html th:lang="${#locale.language}" th:xmllang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{index.title}">[Music]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<header th:replace="~{view/fragments/header::header}"></header>
+
+<div class="container">
+    <h3 class="mt-4" th:utext="#{index.welcome}">[Welcome to the website!]</h3>
+
+    <a th:href="@{/artists}" class="mt-4">
+        <button class="btn btn-primary" th:utext="#{index.allArtists}">[Show all artists]</button>
+    </a>
+    <a th:href="@{/songs}" class="mt-3">
+        <button class="btn btn-primary" th:utext="#{index.allSongs}">[Show all songs]</button>
+    </a>
+    <a th:href="@{/tours}" class="mt-3">
+        <button class="btn btn-primary" th:utext="#{index.allTours}">[Show all tours]</button>
+    </a>
+    <a th:href="@{/sessionHistory}" class="mt-3">
+        <button class="btn btn-primary" th:utext="#{index.session-history}">[Show all tours]</button>
+    </a>
+</div>
+<footer th:replace="~{view/fragments/footer::footer}"></footer>
+</body>
+</html>

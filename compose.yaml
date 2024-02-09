@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres_musicwebsite_db:
+    image: 'postgres:16.1-alpine'
+    restart: always
+    environment:
+      - 'POSTGRES_DB=musicwebsite'
+      - 'POSTGRES_USER=music_admin'
+      - 'POSTGRES_PASSWORD=best_music_admin'
+    ports:
+      - '5433:5432'

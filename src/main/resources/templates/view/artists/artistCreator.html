@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{artist.create.title}">[Create artist]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<div th:replace="~{view/fragments/header::header}"></div>
+
+<div class="container">
+    <h3 class="mt-4" th:utext="#{artist.create.header}">[Add New Artist]</h3>
+
+    <form th:method="POST" th:action="@{/artists}" th:object="${artistViewModel}" class="mt-4">
+        <input type="hidden" th:field="*{id}" th:value="0">
+
+        <div class="form-group">
+            <label for="name" th:utext="#{artist.create.name}">[Name:]</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="date" th:utext="#{artist.create.birthdate}">[Birth Date:]</label>
+            <input type="date" id="date" th:field="*{birthDate}" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="listeners" th:utext="#{artist.create.listeners}">[Listeners:]</label>
+            <input type="number" id="listeners" th:field="*{listeners}" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('listeners')}" th:errors="*{listeners}"></div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" th:utext="#{application.add}">[add]</button>
+    </form>
+
+    <a href="/artists" class="mt-3" th:utext="#{application.back}">[Back]</a>
+</div>
+<div th:replace="~{view/fragments/footer::footer}"></div>
+</body>
+</html>

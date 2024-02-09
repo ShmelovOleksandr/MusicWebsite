@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" th:xmllang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{index.title}">[Music]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<header th:replace="~{view/fragments/header::header}"></header>
+
+<div class="container pb-3 col-lg-5">
+    <h3 th:utext="#{error.header}">[error header]</h3>
+    <span th:text="${errorCode}" class="text-danger">[error code]</span>
+    <p th:text="${errorMessage}">[error message]</p>
+</div>
+
+<footer th:replace="~{view/fragments/footer::footer}"></footer>
+</body>
+</html>

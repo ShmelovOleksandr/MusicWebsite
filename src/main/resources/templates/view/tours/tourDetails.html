@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tour.getLocation()}">[Title]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <div th:replace="~{view/fragments/header::header}"></div>
+
+    <div class="container">
+        <h3 class="mt-4" th:text="${tour.getLocation()}">[Location]</h3>
+
+        <div class="my-3 row border rounded-3">
+            <table class="col-xxl-12 justify-content-center">
+                <tbody>
+                <tr class="row d-table-row"><td th:utext="#{tour.details.location}" class="col-auto px-3">[location]</td> <td th:text="${tour.getLocation()}" class="col-auto px-3">[name]</td></tr>
+                <tr class="row d-table-row"><td th:utext="#{tour.details.date}" class="col-auto px-3">[length]</td> <td th:text="${tour.getDate().toString()}" class="col-auto px-3">[00:00]</td></tr>
+                <tr class="row d-table-row"><td th:utext="#{tour.details.price}" class="col-auto px-3">[price]</td> <td th:text="${tour.getPrice()}" class="col-auto px-3">[0.00$]</td></tr>
+                <tr class="row d-table-row"><td th:utext="#{tour.details.artist}" class="col-auto px-3">[artist]</td> <td  class="col-auto px-3">
+                    <a th:href="@{/artists/{id}(id=${tour.getArtist().getId()})}" th:text="${tour.getArtist()}" class="text-black-50">[artist name]</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <form th:method="GET" th:action="@{/tours/{id}/editor(id=${tour.getId()})}" class="mb-2">
+            <input class="btn btn-warning" type="submit" th:value="#{application.edit}">
+        </form>
+
+        <form th:method="DELETE" th:action="@{/tours/{id}(id=${tour.getId()})}" class="mb-2">
+            <input class="btn btn-outline-danger" type="submit" th:value="#{application.delete}">
+        </form>
+
+        <a th:href="@{/tours}" class="mt-3" th:utext="#{application.back}">[Back]</a>
+    </div>
+
+    <div th:replace="~{view/fragments/footer::footer}"></div>
+</body>
+</html>

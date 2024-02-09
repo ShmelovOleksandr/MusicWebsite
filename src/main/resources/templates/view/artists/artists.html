@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{artist.index.title}">[Artists]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <meta name="viewport" content="width=device-width, initial- scale=1">
+</head>
+<body>
+<div th:replace="~{view/fragments/header::header}"></div>
+
+<div class="container">
+    <h3 class="mt-4" th:utext="#{artist.index.header}">[Artists]</h3>
+
+    <form method="GET" action="/artists" class="mt-4">
+        <div class="form-group">
+            <label for="namePart" th:utext="#{artist.index.filter.name}">[Artist's Name:]</label>
+            <input type="text" id="namePart" placeholder="Artist's name" name="namePart" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="listeners" th:utext="#{artist.index.filter.listeners}">[Minimal number of listeners:]</label>
+            <input type="text" id="listeners" placeholder="Number of listeners" name="listeners" class="form-control">
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="m-2 col-md-6">
+                <button class="btn btn-primary col-md-12" type="submit" th:utext="#{application.filter}">[Filter]</button>
+            </div>
+
+            <div class="m-2 col-md-6">
+                <a th:href="@{/artists/new}" class="btn btn-primary col-md-12" th:utext="#{artist.index.addArtist}">[Add artist]</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="my-3 row border rounded-3">
+        <table class="col-xxl-12 justify-content-center">
+            <tbody>
+            <tr class="row d-table-row" th:each="artist : ${artists}">
+                <td class="col-auto px-3 py-2 d-flex justify-content-center">
+                    <a th:href="@{/artists/{id}(id=${artist.getId()})}" th:text="${artist}" class="text-black-50">[artist]</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{artists/download}" class="mt-3"><button class="btn btn-secondary" th:utext="#{application.download}">[Download .json]</button></a>
+
+    <a th:href="@{/}" class="mt-3" th:utext="#{application.back}">[Back]</a>
+</div>
+<div th:replace="~{view/fragments/footer::footer}"></div>
+</body>
+</html>

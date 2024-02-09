@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" th:xmllang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{session.title}">[Session history]</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<header th:replace="~{view/fragments/header::header}"></header>
+
+<table class="my-5 col-3 align-self-center">
+    <thead>
+    <tr class="table100-head">
+        <th th:utext="#{session.link}" class="px-3">[Link]</th>
+        <th th:utext="#{session.time}" class="px-3">[Time]</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="sessionHistoryEntity : ${#ctx.session.get(sessionHistoryAttributeName)}">
+            <td th:text="${sessionHistoryEntity.getLink()}" class="px-3">[link]</td>
+            <td th:text="${sessionHistoryEntity.getTimestamp()}" class="px-3">[time]</td>
+        </tr>
+    </tbody>
+</table>
+
+<footer th:replace="~{view/fragments/footer::footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${songViewModel.getName()}">[Title]</title>
+  <link rel="stylesheet" th:href="@{/style/style.css}">
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+  <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<div th:replace="~{view/fragments/header::header}"></div>
+
+<div class="container">
+  <h3 class="mt-4" th:utext="#{song.editor.title(${songViewModel.getName()})}">[Edit song]</h3>
+
+  <form th:method="PATCH" th:action="@{/songs/{id}(id=${songViewModel.getId()})}" th:object="${songViewModel}" class="mt-4">
+    <input type="hidden" th:field="*{id}" th:value="${songViewModel.getId()}">
+
+    <div class="form-group">
+      <label for="name" th:utext="#{song.edit.name}">[Name:]</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control">
+      <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">[Name errors]</div>
+    </div>
+
+    <div class="form-group">
+      <label for="length" th:utext="#{song.edit.length}">[Length:]</label>
+      <input type="number" id="length" th:field="*{length}" class="form-control">
+      <div class="text-danger" th:if="${#fields.hasErrors('length')}" th:errors="*{length}">[Length errors]</div>
+    </div>
+
+    <div class="form-group">
+      <label for="genre" th:utext="#{song.edit.genre}">[Genre:]</label>
+      <select id="genre" th:field="*{genre}" class="form-control">
+        <option th:each="genre : ${#ctx.session.get('sessionGenres')}" th:text="${genre}" th:value="${genre}">[Genre]</option>
+      </select>
+      <div class="text-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}">[Genres errors]</div>
+    </div>
+
+    <div class="form-group">
+      <label for="artist" th:utext="#{song.edit.artists}">[Artists:]</label>
+      <div th:each="artist : ${#ctx.session.get('sessionArtists')}">
+        <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getId()}" th:field="*{artistsId}">
+      </div>
+      <div class="text-danger" th:if="${#fields.hasErrors('artistsId')}" th:errors="*{artistsId}">[ArtistsId errors]</div>
+    </div>
+
+    <input class="btn btn-primary" type="submit" th:value="#{application.edit}">
+  </form>
+
+  <a th:href="@{/songs/{id}(id=${songViewModel.getId()})}" class="mt-3" th:utext="#{application.back}">[Back]</a>
+</div>
+<div th:replace="~{view/fragments/footer::footer}"></div>
+</body>
+</html>

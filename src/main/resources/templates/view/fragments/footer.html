@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <div th:fragment="footer" class="mt-auto">
+        <footer class="bg-dark text-light py-4 container-fluid">
+            <div class="d-flex flex-column min-vh-50 mx-5">
+                <div class="row flex-grow-1">
+                    <div class="col-md-6">
+                        <h5 th:utext="#{footer.contact}">[Contact Us]</h5>
+                        <p><span th:utext="#{footer.email}">[Email]</span> <a href="mailto: info@musictracker.com" class="text-secondary">info@musictracker.com</a></p>
+                        <p><span th:utext="#{footer.phone}">[Phone]</span> +1 (123) 456-7890</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 th:utext="#{footer.follow}">[Follow]</h5>
+                        <a href="https://www.facebook.com/" target="_blank" class="text-light">Facebook</a> |
+                        <a href="https://twitter.com/" target="_blank" class="text-light">Twitter</a> |
+                        <a href="https://www.instagram.com/" target="_blank" class="text-light">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
