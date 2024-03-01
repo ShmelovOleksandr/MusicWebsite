@@ -1,6 +1,7 @@
 package be.kdg.programming5.musicwebsite.config;
 
 import be.kdg.programming5.musicwebsite.util.logger.LogRunner;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -48,4 +49,8 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 //    -------------------------
 
+    @Bean
+    public ModelMapper getModelMapper() {
+        return new ModelMapper();
+    }
 }

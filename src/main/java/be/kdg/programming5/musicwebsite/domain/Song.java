@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "song")
@@ -62,6 +63,12 @@ public class Song {
 
         this.songParticipations.removeIf(songParticipation -> songParticipation.getArtist().equals(artist));
         artist.getSongParticipations().removeIf(songParticipation -> songParticipation.getArtist().equals(artist));
+    }
+
+    public Set<Artist> getArtists() {
+        return getSongParticipations().stream()
+                .map(SongParticipation::getArtist)
+                .collect(Collectors.toSet());
     }
 
 

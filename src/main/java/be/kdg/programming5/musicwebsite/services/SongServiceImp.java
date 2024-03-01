@@ -3,7 +3,6 @@ package be.kdg.programming5.musicwebsite.services;
 import be.kdg.programming5.musicwebsite.domain.Song;
 import be.kdg.programming5.musicwebsite.repositories.SongJpaRepository;
 import be.kdg.programming5.musicwebsite.util.exceptions.SongNotFoundException;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class SongServiceImp implements SongService {
 
     @Override
     public Song getOne(Integer id) {
-        return songJpaRepository.findById(id).orElseThrow(
+        return songJpaRepository.findSongByIdFetched(id).orElseThrow(
                 () -> new SongNotFoundException("No songs with given id have been found.")
         );
     }

@@ -1,12 +1,8 @@
 package be.kdg.programming5.musicwebsite.util.converters;
 
 import be.kdg.programming5.musicwebsite.domain.Artist;
-import be.kdg.programming5.musicwebsite.domain.SongParticipation;
 import be.kdg.programming5.musicwebsite.view_model.ArtistViewModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class ArtistViewModelConverter implements ViewModelConverter<ArtistViewModel, Artist> {

@@ -8,14 +8,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/artists")
+@Controller
+@RequestMapping("/artists")
 public class ArtistController extends DownloadController {
     @Value("${download.json-file.name.artists}")
     private String ARTIST_JSON_FILE_NAME;
@@ -33,23 +32,24 @@ public class ArtistController extends DownloadController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArtistViewModel>> getAllArtists(
-                                @RequestParam(value = "namePart", required = false) String artistNamePat,
+    public String getArtistPage(@RequestParam(value = "namePart", required = false) String artistNamePat,
                                 @RequestParam(value = "listeners", required = false) Long listeners) {
 
-        List<ArtistViewModel> artists = artistService.getAll(artistNamePat, listeners).stream().map(artistViewModelConverter::convertToView).toList();
-        logger.trace("Request on /api/artists has been handled ({})", artists);
+//        List<ResponseArtistDTO> artists = artistService.getAll(artistNamePat, listeners).stream()
+//                .map(artistViewModelConverter::convertToView).
+//                toList();
+//        logger.trace("Request on /api/artists has been handled. ({})", artists);
 //        addJsonSessionAttribute(session, artists);
 //        logger.trace("Added artists.json to the session");
-        return ResponseEntity.ok(artists);
+        return "view/artists/artists";
     }
 
     @GetMapping("/{id}")
     public String getArtistsDetailsPage(Model model, @PathVariable int id){
-        ArtistViewModel artist = artistViewModelConverter.convertToView(artistService.getOne(id));
-        model.addAttribute("artist", artist);
-
-        logger.trace("Added {} to the model", artist);
+//        ResponseArtistDTO artist = artistViewModelConverter.convertToView(artistService.getOne(id));
+//        model.addAttribute("artist", artist);
+//
+//        logger.trace("Added {} to the model", artist);
         return "view/artists/artistDetails";
     }
 

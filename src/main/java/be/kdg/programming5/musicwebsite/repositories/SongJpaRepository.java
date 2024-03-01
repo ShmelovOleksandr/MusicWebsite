@@ -2,17 +2,22 @@ package be.kdg.programming5.musicwebsite.repositories;
 
 
 import be.kdg.programming5.musicwebsite.domain.Song;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface SongJpaRepository extends JpaRepository<Song, Integer> {
+    @Query("select s from Song s " +
+            "inner join fetch s.songParticipations " +
+            "where s.id = ?1 ")
+    Optional<Song> findSongByIdFetched(int id);
+
     // For some reason doesn't delete records from the DB without a custom Query
     @Override
     @Modifying

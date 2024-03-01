@@ -1,5 +1,6 @@
 package be.kdg.programming5.musicwebsite.domain;
 
+import be.kdg.programming5.musicwebsite.util.ids.SongParticipationId;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -53,8 +54,9 @@ public class Artist implements Serializable {
         if(this.songParticipations == null)
             this.songParticipations = new HashSet<>();
 
-        this.songParticipations.add(new SongParticipation(this, song));
-        song.getSongParticipations().add(new SongParticipation(this, song));
+        SongParticipation songParticipation = new SongParticipation(this, song);
+        this.songParticipations.add(songParticipation);
+        song.getSongParticipations().add(songParticipation);
     }
 
     public void removeSong(Song song){

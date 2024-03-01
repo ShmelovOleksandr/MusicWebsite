@@ -2,10 +2,12 @@ package be.kdg.programming5.musicwebsite.controllers;
 
 import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.domain.Song;
-import be.kdg.programming5.musicwebsite.domain.Genre;
 import be.kdg.programming5.musicwebsite.services.ArtistService;
 import be.kdg.programming5.musicwebsite.services.SongService;
+import be.kdg.programming5.musicwebsite.util.converters.ArtistViewModelConverter;
+import be.kdg.programming5.musicwebsite.util.converters.SimpleSongViewModelConverter;
 import be.kdg.programming5.musicwebsite.util.converters.SongViewModelConverter;
+import be.kdg.programming5.musicwebsite.view_model.SimpleSongViewModel;
 import be.kdg.programming5.musicwebsite.view_model.SongViewModel;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -17,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/songs")
@@ -28,13 +32,17 @@ public class SongsController extends DownloadController {
     private final SongService songService;
     private final ArtistService artistService;
     private final SongViewModelConverter songViewModelConverter;
+    private final SimpleSongViewModelConverter simpleSongViewModelConverter;
+    private final ArtistViewModelConverter artistViewModelConverter;
 
     @Autowired
-    public SongsController(Logger logger, SongService songService, ArtistService artistService, SongViewModelConverter songViewModelConverter) {
+    public SongsController(Logger logger, SongService songService, ArtistService artistService, SongViewModelConverter songViewModelConverter, SimpleSongViewModelConverter simpleSongViewModelConverter, ArtistViewModelConverter artistViewModelConverter) {
         this.logger = logger;
         this.songService = songService;
         this.artistService = artistService;
         this.songViewModelConverter = songViewModelConverter;
+        this.simpleSongViewModelConverter = simpleSongViewModelConverter;
+        this.artistViewModelConverter = artistViewModelConverter;
 
         this.fileName = SONG_JSON_FILE_NAME;
     }
@@ -44,7 +52,7 @@ public class SongsController extends DownloadController {
                                HttpSession session,
                                @RequestParam(value = "songName", required = false) String songName){
 
-        List<SongViewModel> songs = songService.getAll(songName).stream().map(songViewModelConverter::convertToView).toList();
+        List<SimpleSongViewModel> songs = songService.getAll(songName).stream().map(simpleSongViewModelConverter::convertToView).toList();
         model.addAttribute("songs", songs);
         logger.trace("Added list of Songs({}) to the model", songs);
 
@@ -56,7 +64,9 @@ public class SongsController extends DownloadController {
     @GetMapping("/{id}")
     public String getSongsDetailsPage(Model model, @PathVariable int id){
         Song song = songService.getOne(id);
-        model.addAttribute("song", song);
+        Set<Artist> relatedArtists = song.getArtists();
+        model.addAttribute("song", songViewModelConverter.convertToView(song));
+        model.addAttribute("relatedArtists", relatedArtists.stream().map(artistViewModelConverter::convertToView).toList());
         logger.trace("Added {} to the model", song);
         return "view/songs/songDetails";
     }
@@ -73,7 +83,7 @@ public class SongsController extends DownloadController {
 
     @GetMapping("/new")
     public String getSongCreationPage(Model model){
-        model.addAttribute("songViewModel", new SongViewModel(0, null, 0,null, 0));
+        model.addAttribute("songViewModel", new SongViewModel(0, null, 0,null, new ArrayList<>()));
         model.addAttribute("artists", artistService.getAll());
 
 //        logger.trace("Added Genres({}) and Artists({}) to the model", genres, artists);
@@ -81,8 +91,7 @@ public class SongsController extends DownloadController {
     }
 
     @PostMapping
-    public String createSong(Model model,
-                             @ModelAttribute @Valid SongViewModel songViewModel,
+    public String createSong(@ModelAttribute @Valid SongViewModel songViewModel,
                              BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
             logger.debug("Errors in the bindingResult (SongsController::createSong): {}", bindingResult.getAllErrors());

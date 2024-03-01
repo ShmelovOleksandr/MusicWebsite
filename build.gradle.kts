@@ -30,6 +30,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 //	testImplementation("org.springframework.security:spring-security-test")
 
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	implementation("org.modelmapper:modelmapper:3.1.1")
 	implementation("org.webjars:bootstrap:5.3.2")
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
