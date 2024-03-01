@@ -44,11 +44,11 @@ public class SongsController extends DownloadController {
                                HttpSession session,
                                @RequestParam(value = "songName", required = false) String songName){
 
-        List<Song> songs = songService.getAll(songName);
+        List<SongViewModel> songs = songService.getAll(songName).stream().map(songViewModelConverter::convertToView).toList();
         model.addAttribute("songs", songs);
         logger.trace("Added list of Songs({}) to the model", songs);
 
-        addJsonSessionAttribute(session, songs.stream().map(songViewModelConverter::convertToView).toList());
+        addJsonSessionAttribute(session, songs);
         logger.trace("Added songs.json to the session");
         return "view/songs/songs";
     }
@@ -62,31 +62,27 @@ public class SongsController extends DownloadController {
     }
 
     @GetMapping("/{id}/editor")
-    public String getSongsEditorPage(Model model, HttpSession session, @PathVariable int id){
+    public String getSongsEditorPage(Model model, @PathVariable int id){
         Song song = songService.getOne(id);
         SongViewModel songViewModel = songViewModelConverter.convertToView(song);
         model.addAttribute("songViewModel", songViewModel);
-        session.setAttribute("sessionGenres", Genre.values());
-        session.setAttribute("sessionArtists", artistService.getAll());
+        model.addAttribute("artists", artistService.getAll());
         logger.trace("Added {} to the model", song);
         return "view/songs/songEditor";
     }
 
     @GetMapping("/new")
-    public String getSongCreationPage(Model model, HttpSession session){
+    public String getSongCreationPage(Model model){
         model.addAttribute("songViewModel", new SongViewModel(0, null, 0,null, 0));
+        model.addAttribute("artists", artistService.getAll());
 
-        Genre[] genres = Genre.values();
-        List<Artist> artists = artistService.getAll();
-        session.setAttribute("sessionGenres", genres);
-        session.setAttribute("sessionArtists", artists);
-
-        logger.trace("Added Genres({}) and Artists({}) to the model", genres, artists);
+//        logger.trace("Added Genres({}) and Artists({}) to the model", genres, artists);
         return "view/songs/songCreator";
     }
 
     @PostMapping
-    public String createSong(@ModelAttribute @Valid SongViewModel songViewModel,
+    public String createSong(Model model,
+                             @ModelAttribute @Valid SongViewModel songViewModel,
                              BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
             logger.debug("Errors in the bindingResult (SongsController::createSong): {}", bindingResult.getAllErrors());
@@ -99,11 +95,12 @@ public class SongsController extends DownloadController {
 
     @PatchMapping("/{id}")
     public String editSong(@PathVariable int id,
+                           Model model,
                            @ModelAttribute("songViewModel") @Valid SongViewModel songViewModel,
                            BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
             logger.debug("Errors in the bindingResult (SongsController::editSong): {}", bindingResult.getAllErrors());
-            return "view/songs/songEditor";
+            return getSongsEditorPage(model, id);
         }
 
         songService.update(id, songViewModelConverter.convertToModel(songViewModel));

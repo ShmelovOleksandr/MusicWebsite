@@ -13,15 +13,15 @@ public class SongViewModel {
     @NotNull(message = "You shoud specify the genre.")
     private Genre genre;
 
-    @NotEmpty(message = "Song should have at least one artist.")
-    private Integer[] artistsId;
+//    @NotEmpty(message = "Song should have at least one artist.")
+//    private Integer[] artistsId;
 
     public SongViewModel(Integer id, String name, int length, Genre genre, Integer... artistsId) {
         this.id = id;
         this.name = name;
         this.length = length;
         this.genre = genre;
-        this.artistsId = artistsId;
+//        this.artistsId = artistsId;
     }
 
     public Integer getId() {
@@ -40,7 +40,7 @@ public class SongViewModel {
         return genre;
     }
 
-    public Integer[] getArtistsId() {
-        return artistsId;
-    }
+//    public Integer[] getArtistsId() {
+//        return artistsId;
+//    }
 }

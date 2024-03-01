@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-@Profile("jpa")
 public class SongServiceImp implements SongService {
     private final SongJpaRepository songJpaRepository;
 

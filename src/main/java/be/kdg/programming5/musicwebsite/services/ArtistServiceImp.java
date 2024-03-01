@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-@Profile("jpa")
 public class ArtistServiceImp implements ArtistService {
     private final ArtistJpaRepository artistJpaRepository;
 
@@ -48,6 +47,11 @@ public class ArtistServiceImp implements ArtistService {
             return getAll(namePart);
 
         return artistJpaRepository.findAllByListenersAfterAndNameContainingIgnoreCase(minListeners, namePart);
+    }
+
+    @Override
+    public List<Artist> getAllFetched(String namePart, Long minListeners) {
+        return artistJpaRepository.getAllFetched();
     }
 
     @Override

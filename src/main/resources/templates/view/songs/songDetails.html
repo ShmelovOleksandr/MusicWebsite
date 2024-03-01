@@ -18,8 +18,9 @@
             <tbody>
             <tr class="row d-table-row"><td th:utext="#{song.details.name}" class="col-auto px-3">[name]</td> <td th:text="${song.getName()}" class="col-auto px-3">[name]</td></tr>
             <tr class="row d-table-row"><td th:utext="#{song.details.length}" class="col-auto px-3">[length]</td> <td th:text="${song.getFormattedLength()}" class="col-auto px-3">[00:00]</td></tr>
-            <tr class="row d-table-row" th:each="artist : ${song.getArtists()}"><td th:utext="#{song.details.artist}" class="col-auto px-3">[artist]</td> <td  class="col-auto px-3">
-                <a th:href="@{/artists/{id}(id=${artist.getId()})}" th:text="${artist.getName()}" class="text-black-50">[artist name]</a></td></tr>
+<!--            TODO-->
+<!--            <tr class="row d-table-row" th:each="artist : ${song.getSongParticipations()}"><td th:utext="#{song.details.artist}" class="col-auto px-3">[artist]</td> <td class="col-auto px-3">-->
+<!--                <a th:href="@{/artists/{id}(id=${artist.getId()})}" th:text="${artist.getName()}" class="text-black-50">[artist name]</a></td></tr>-->
             </tbody>
         </table>
     </div>

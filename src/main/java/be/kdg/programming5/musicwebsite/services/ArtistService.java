@@ -9,4 +9,5 @@ public interface ArtistService extends GeneralService<Artist, Integer> {
     List<Artist> getAll(String name);
     List<Artist> getAll(Long minListeners);
     List<Artist> getAll(String namePart, Long minListeners);
+    List<Artist> getAllFetched(String namePart, Long minListeners);
 }

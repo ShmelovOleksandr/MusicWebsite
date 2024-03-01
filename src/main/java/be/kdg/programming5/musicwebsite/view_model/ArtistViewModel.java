@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 public class ArtistViewModel {
-    private Integer id;
+    private int id;
 
     @Size(min = 3, max = 18, message = "Name of the artist should be between 3 and 18 characters.")
     private String name;
@@ -18,6 +18,9 @@ public class ArtistViewModel {
     @Max(value = Long.MAX_VALUE, message = "Too big number, unable to process.")
     private long listeners;
 
+    public ArtistViewModel() {
+    }
+
     public ArtistViewModel(Integer id, String name, LocalDate birthDate, long listeners) {
         this.id = id;
         this.name = name;
@@ -29,15 +32,31 @@ public class ArtistViewModel {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public long getListeners() {
         return listeners;
+    }
+
+    public void setListeners(long listeners) {
+        this.listeners = listeners;
     }
 }

@@ -1,8 +1,6 @@
 package be.kdg.programming5.musicwebsite.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -26,17 +24,11 @@ public class Song {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "artist_song",
-            joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "artist_id", referencedColumnName = "id")
-    )
-    @Cascade(CascadeType.PERSIST)
-    private Set<Artist> artists;
+    @OneToMany(mappedBy = "song")
+    private Set<SongParticipation> songParticipations;
 
     public Song() {
-        this.artists = new HashSet<>();
+        this.songParticipations = new HashSet<>();
     }
 
     public Song(int id, String name, Integer length, Genre genre) {
@@ -44,32 +36,32 @@ public class Song {
         this.name = name;
         this.length = length;
         this.genre = genre;
-        this.artists = new HashSet<>();
+        this.songParticipations = new HashSet<>();
     }
 
-    public Song(int id, String name, int length, Genre genre, Set<Artist> artists) {
+    public Song(int id, String name, int length, Genre genre, Set<SongParticipation> songParticipations) {
         this.id = id;
         this.name = name;
         this.length = length;
         this.genre = genre;
-        this.artists = artists;
+        this.songParticipations = songParticipations;
     }
 
 
     public void addArtist(Artist artist){
-        if(this.artists == null)
-            this.artists = new HashSet<>();
+        if(this.songParticipations == null)
+            this.songParticipations = new HashSet<>();
 
-        this.artists.add(artist);
-        artist.getSongs().add(this);
+        this.songParticipations.add(new SongParticipation(artist, this));
+        artist.getSongParticipations().add(new SongParticipation(artist, this));
     }
 
     public void removeArtist(Artist artist){
-        if(this.artists == null)
+        if(this.songParticipations == null)
             return;
 
-        this.artists.remove(artist);
-        artist.getSongs().remove(this);
+        this.songParticipations.removeIf(songParticipation -> songParticipation.getArtist().equals(artist));
+        artist.getSongParticipations().removeIf(songParticipation -> songParticipation.getArtist().equals(artist));
     }
 
 
@@ -105,21 +97,21 @@ public class Song {
         this.genre = genre;
     }
 
-    public Set<Artist> getArtists() {
-        if(artists == null)
-            artists = new HashSet<>();
+    public Set<SongParticipation> getSongParticipations() {
+        if(songParticipations == null)
+            songParticipations = new HashSet<>();
 
-        return artists;
+        return songParticipations;
     }
 
-    public void setArtists(Set<Artist> artists) {
-        this.artists = artists;
+    public void setSongParticipations(Set<SongParticipation> artists) {
+        this.songParticipations = artists;
     }
 
     public String getArtistsString(){
         StringBuilder stringBuilder = new StringBuilder();
-        for (Artist artist : artists)
-            stringBuilder.append(artist.getName()).append(", ");
+        for (SongParticipation songParticipation : songParticipations)
+            stringBuilder.append(songParticipation.getArtist().getName()).append(", ");
 
         int lastComaIndex = stringBuilder.length()-2;
         return stringBuilder.substring(0, Math.max(lastComaIndex, 0));

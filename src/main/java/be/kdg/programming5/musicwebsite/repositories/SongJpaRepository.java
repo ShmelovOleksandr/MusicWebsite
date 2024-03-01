@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @Repository
-@Profile("jpa")
 public interface SongJpaRepository extends JpaRepository<Song, Integer> {
     // For some reason doesn't delete records from the DB without a custom Query
     @Override

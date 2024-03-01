@@ -28,7 +28,8 @@
     </form>
 
     <h5 th:utext="#{artist.details.all-songs}" class="mt-4">[All songs]</h5>
-
+<!--TODO-->
+<!--
     <table class="my-3 col-xxl-12 justify-content-center">
         <thead>
             <tr class="table100-head">
@@ -43,7 +44,9 @@
             </tr>
         </tbody>
     </table>
-
+-->
+<!--    TODO-->
+<!--
     <h5 th:utext="#{artist.details.all-tours}" class="mt-4">[All tours]</h5>
 
     <table class="my-3 col-xxl-12 justify-content-center">
@@ -60,7 +63,7 @@
                 </tr>
         </tbody>
     </table>
-
+-->
     <form th:method="DELETE" th:action="@{/artists/{id}(id=${artist.getId()})}" class="mb-2">
         <input class="btn btn-outline-danger" type="submit" th:value="#{application.delete}">
     </form>

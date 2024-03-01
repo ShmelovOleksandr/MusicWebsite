@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "artist")
-public class Artist {
+public class Artist implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -27,43 +28,41 @@ public class Artist {
     @Column(name = "listeners")
     private long listeners;
 
-    @ManyToMany(mappedBy = "artists", fetch = FetchType.EAGER)
-    @Cascade(CascadeType.PERSIST)
-    private Set<Song> songs;
+    @OneToMany(mappedBy = "artist", fetch = FetchType.LAZY)
+    private Set<SongParticipation> songParticipations;
 
 
-    @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER)
-    @Cascade(CascadeType.PERSIST)
+    @OneToMany(mappedBy = "artist", fetch = FetchType.LAZY)
     private Set<Tour> tours;
 
     public Artist() {
-        this.songs = new HashSet<>();
+        this.songParticipations = new HashSet<>();
         this.tours = new HashSet<>();
     }
 
-    public Artist(int id, String name, LocalDate birthDate, long listeners) {
+    public Artist(int id, String name, LocalDate birthDate, long listeners, Set<SongParticipation> songParticipations, Set<Tour> tours) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.listeners = listeners;
-        this.songs = new HashSet<>();
-        this.tours = new HashSet<>();
+        this.songParticipations = songParticipations != null ? songParticipations : new HashSet<>();
+        this.tours = tours != null ? tours : new HashSet<>();
     }
 
     public void addSong(Song song){
-        if(this.songs == null)
-            this.songs = new HashSet<>();
+        if(this.songParticipations == null)
+            this.songParticipations = new HashSet<>();
 
-        this.songs.add(song);
-        song.getArtists().add(this);
+        this.songParticipations.add(new SongParticipation(this, song));
+        song.getSongParticipations().add(new SongParticipation(this, song));
     }
 
     public void removeSong(Song song){
-        if(this.songs == null)
+        if(this.songParticipations == null)
             return;
 
-        this.songs.remove(song);
-        song.getArtists().remove(this);
+        this.songParticipations.removeIf(songParticipation -> songParticipation.getSong().equals(song));
+        song.getSongParticipations().removeIf(songParticipation -> songParticipation.getSong().equals(song));
     }
 
     public void addTour(Tour tour){
@@ -114,12 +113,12 @@ public class Artist {
         this.listeners = listeners;
     }
 
-    public Set<Song> getSongs() {
-        return songs;
+    public Set<SongParticipation> getSongParticipations() {
+        return songParticipations;
     }
 
-    public void setSongs(Set<Song> songs) {
-        this.songs = songs;
+    public void setSongParticipations(Set<SongParticipation> songParticipations) {
+        this.songParticipations = songParticipations;
     }
 
     public Set<Tour> getTours() {

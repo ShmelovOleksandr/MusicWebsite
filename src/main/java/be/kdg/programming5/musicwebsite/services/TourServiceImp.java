@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-@Profile("jpa")
 public class TourServiceImp implements TourService {
     private final TourJpaRepository tourJpaRepository;
 

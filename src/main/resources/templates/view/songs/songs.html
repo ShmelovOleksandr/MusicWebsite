@@ -33,7 +33,7 @@
             <tbody>
             <tr class="row d-table-row" th:each="song : ${songs}">
                 <td  class="col-auto px-3 py-2">
-                    <a th:href="@{/songs/{id}(id=${song.getId()})}" th:text="${song}" class="text-black-50">[song]</a>
+                    <a th:href="@{/songs/{id}(id=${song.getId()})}" th:text="${song.getName()}" class="text-black-50">[song]</a>
                 </td>
             </tr>
             </tbody>
