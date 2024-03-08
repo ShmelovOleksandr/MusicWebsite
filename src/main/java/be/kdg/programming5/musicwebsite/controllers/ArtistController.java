@@ -55,7 +55,7 @@ public class ArtistController extends DownloadController {
 
     @GetMapping("/new")
     public String getArtistCreatorPage(Model model){
-        model.addAttribute("artistViewModel", new ArtistViewModel());
+        model.addAttribute("artistViewModel", new ArtistViewModel(0, null, null, 0));
         return "view/artists/artistCreator";
     }
 

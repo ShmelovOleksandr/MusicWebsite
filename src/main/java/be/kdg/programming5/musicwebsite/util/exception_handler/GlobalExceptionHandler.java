@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         this.logger = logger;
     }
 
-    @ExceptionHandler(value = { EntityNotFoundException.class })
+//    @ExceptionHandler(value = { EntityNotFoundException.class })
     private ModelAndView handleNotFoundExceptions(EntityNotFoundException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 

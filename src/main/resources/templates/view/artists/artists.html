@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
     <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <script defer src="/js/artists.js"></script>
     <meta name="viewport" content="width=device-width, initial- scale=1">
 </head>
 <body>
@@ -38,10 +39,10 @@
 
     <div class="my-3 row border rounded-3">
         <table class="col-xxl-12 justify-content-center">
-            <tbody>
-            <tr class="row d-table-row" th:each="artist : ${artists}">
+            <tbody id="artistRecordsList">
+            <tr class="row d-table-row">
                 <td class="col-auto px-3 py-2 d-flex justify-content-center">
-                    <a th:href="@{/artists/{id}(id=${artist.getId()})}" th:text="${artist.getName()}" class="text-black-50">[artist]</a>
+                    <p>Loading...</p>
                 </td>
             </tr>
             </tbody>

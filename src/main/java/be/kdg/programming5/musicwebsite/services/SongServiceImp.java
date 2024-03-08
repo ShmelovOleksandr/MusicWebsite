@@ -46,8 +46,11 @@ public class SongServiceImp implements SongService {
     @Override
     @Transactional
     public Song update(Integer id, Song song) {
-        if(!songJpaRepository.existsById(id))
+        System.out.println(song);
+        System.out.println(song.getSongParticipations());
+        if(!songJpaRepository.existsById(id)) {
             throw new SongNotFoundException("Cannot update. Song with given id does not exist.");
+        }
 
         song.setId(id);
         return songJpaRepository.save(song);

@@ -83,7 +83,7 @@ public class SongsController extends DownloadController {
 
     @GetMapping("/new")
     public String getSongCreationPage(Model model){
-        model.addAttribute("songViewModel", new SongViewModel(0, null, 0,null, new ArrayList<>()));
+        model.addAttribute("songViewModel", new SongViewModel(0, null, 0, null));
         model.addAttribute("artists", artistService.getAll());
 
 //        logger.trace("Added Genres({}) and Artists({}) to the model", genres, artists);

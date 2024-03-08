@@ -10,8 +10,8 @@ import be.kdg.programming5.musicwebsite.view_model.SongViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class SongViewModelConverter implements ViewModelConverter<SongViewModel, Song> {
@@ -26,30 +26,19 @@ public class SongViewModelConverter implements ViewModelConverter<SongViewModel,
 
     @Override
     public Song convertToModel(SongViewModel songViewModel){
-        Song song = new Song(
-                songViewModel.getId(),
-                songViewModel.getName(),
-                songViewModel.getLength(),
-                songViewModel.getGenre()
-        );
-//        Arrays.stream(songViewModel.getArtistsId()).map(artistService::getOne).forEach(song::addArtist);
-        song.setSongParticipations(songViewModel.getArtists().stream().map(artistViewModel -> songParticipationService.getOne(new SongParticipationId(artistService.getArtistByName(artistViewModel.getName()), song))).collect(Collectors.toSet()));
+        Song song = new Song(songViewModel.getId(), songViewModel.getName(), songViewModel.getLength(), songViewModel.getGenre());
+        Set<SongParticipation> songParticipations = new HashSet<>();
+        for (int id : songViewModel.getArtistsId())
+            songParticipations.add(songParticipationService.getOne(new SongParticipationId(artistService.getOne(id), song)));
 
+        song.setSongParticipations(songParticipations);
         return song;
     }
 
     @Override
     public SongViewModel convertToView(Song song) {
-//        Integer[] artistsIds = song.getSongParticipations().stream().map(songParticipation -> songParticipation.getArtist().getId()).toArray(Integer[]::new);
-        return new SongViewModel(
-                song.getId(),
-                song.getName(),
-                song.getLength(),
-                song.getGenre(),
-null
-//                TODO
-//                song.getArtists().stream().map(artist -> )
-//                artistsIds
-        );
+        Integer[] artistsIds = song.getArtists().stream().map(Artist::getId).toArray(Integer[]::new);
+
+        return new SongViewModel(song.getId(), song.getName(), song.getLength(), song.getGenre(), artistsIds);
     }
 }

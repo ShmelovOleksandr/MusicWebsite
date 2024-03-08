@@ -6,14 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ArtistViewModelConverter implements ViewModelConverter<ArtistViewModel, Artist> {
+
     @Override
     public Artist convertToModel(ArtistViewModel artistViewModel){
-        Artist artist = new Artist();
-        artist.setId(artistViewModel.getId());
-        artist.setName(artistViewModel.getName());
-        artist.setBirthDate(artistViewModel.getBirthDate());
-        artist.setListeners(artistViewModel.getListeners());
-        return artist;
+        return new Artist(
+                artistViewModel.getId(),
+                artistViewModel.getName(),
+                artistViewModel.getBirthDate(),
+                artistViewModel.getListeners()
+        );
     }
 
     @Override
