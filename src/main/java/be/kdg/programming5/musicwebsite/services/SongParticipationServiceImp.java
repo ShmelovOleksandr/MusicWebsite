@@ -67,4 +67,10 @@ public class SongParticipationServiceImp implements SongParticipationService {
     public Set<SongParticipation> getAllByArtist(Artist artist) {
         return new HashSet<>(songParticipationRepository.findSongParticipationByArtist(artist));
     }
+
+    @Override
+    @Transactional
+    public void deleteByArtistId(int artistId) {
+        songParticipationRepository.deleteAllByArtist_Id(artistId);
+    }
 }

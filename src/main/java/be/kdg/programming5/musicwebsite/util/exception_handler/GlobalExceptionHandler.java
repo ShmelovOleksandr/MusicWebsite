@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         this.logger = logger;
     }
 
-//    @ExceptionHandler(value = { EntityNotFoundException.class })
+    @ExceptionHandler(value = { EntityNotFoundException.class })
     private ModelAndView handleNotFoundExceptions(EntityNotFoundException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-    @ExceptionHandler(value = { SQLException.class })
+//    @ExceptionHandler(value = { SQLException.class })
     private ModelAndView handleSQLException(SQLException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 

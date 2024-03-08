@@ -7,17 +7,15 @@ const artistBirthdateField = document.getElementById("artistBirthDateField");
 const artistListenersField = document.getElementById("artistListenersField");
 const url = window.location.href
 const artistId = url.substring(url.lastIndexOf("/") + 1);
-console.log(artistId)
 
-async function sendDeleteRequest() {
+async function deleteArtist() {
     const response = await fetch("/api/artists/" + artistId, {
         method:"DELETE"
     })
-    return response.status
-}
-
-async function fetchArtistJson() {
-    return await fetch("api/artists/" + artistId).then(artist => artist.json());
+    console.log(response.status)
+    if(response.status === 204) {
+        window.location.replace("/artists")
+    }
 }
 
 function updateTextFields(artist) {
@@ -33,7 +31,7 @@ function updateArtistDetails(artist) {
 }
 
 function addEventListeners() {
-    deleteButton.addEventListener("click", sendDeleteRequest)
+    deleteButton.addEventListener("click", deleteArtist)
 }
 
 async function updateArtistDetailsPage() {

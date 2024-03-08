@@ -20,4 +20,8 @@ public interface TourJpaRepository extends JpaRepository<Tour, Integer> {
     // Not necessary here. Annotation added only to fulfill one of the requirements to the project. Function will work without it as well.
     @Query("SELECT t FROM Tour t JOIN Artist a ON t.artist.id=a.id WHERE LOWER(a.name) LIKE '%' || LOWER(?1) || '%'")
     List<Tour> findAllByArtist_NameContainingIgnoreCase(String artistNamePart);
+
+    @Modifying
+    @Query(value = "delete from Tour where artist.id = :artistId")
+    void deleteAllByArtist_Id(int artistId);
 }

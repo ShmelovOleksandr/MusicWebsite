@@ -7,12 +7,9 @@ async function fetchArtistsJson() {
 
 async function fillInArtistsRecordsTable() {
     const artists = await fetchArtistsJson();
-    console.log(artists)
     artistRecordsTable.innerHTML = "";
-    // for (const artist in artists) {
     for (let i = 0; i < artists.length; i++) {
         const artist = artists[i]
-        console.log(artist)
         artistRecordsTable.innerHTML += `
         <tr class="row d-table-row">
             <td class="col-auto px-3 py-2 d-flex justify-content-center">

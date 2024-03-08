@@ -4,6 +4,8 @@ import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.domain.SongParticipation;
 import be.kdg.programming5.musicwebsite.util.ids.SongParticipationId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,8 @@ public interface SongParticipationJpaRepository extends JpaRepository<SongPartic
     List<SongParticipation> findSongParticipationByArtist_Name(String artistName);
 
     List<SongParticipation> findSongParticipationByArtist(Artist artist);
+
+    @Modifying
+    @Query(value = "delete from SongParticipation where artist.id = :artistId")
+    void deleteAllByArtist_Id(int artistId);
 }

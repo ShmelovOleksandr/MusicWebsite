@@ -34,6 +34,12 @@ public class TourServiceImp implements TourService {
     }
 
     @Override
+    @Transactional
+    public void deleteAllByArtistId(int artistId) {
+        tourJpaRepository.deleteAllByArtist_Id(artistId);
+    }
+
+    @Override
     public Tour getOne(Integer id) {
         return tourJpaRepository.findById(id).orElseThrow(
                 () -> new TourNotFoundException("No tours with given id have been found.")

@@ -25,12 +25,16 @@ public class SecurityConfiguration {
                                         antMatcher(HttpMethod.GET, "/pictures/**"),
                                         antMatcher(HttpMethod.GET, "/style/**"))
                                 .permitAll()
-                                .requestMatchers(antMatcher(HttpMethod.GET, "/"))
+                                .requestMatchers(
+                                        antMatcher(HttpMethod.GET, "/"),
+                                        antMatcher(HttpMethod.DELETE, "/api/**"),
+                                        antMatcher(HttpMethod.GET, "/")
+                                )
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
-                .formLogin(formLogin -> formLogin.permitAll());
+                .formLogin(formLogin -> formLogin.permitAll()).csrf(csrf -> csrf.disable());
         return http.build();
     }
 

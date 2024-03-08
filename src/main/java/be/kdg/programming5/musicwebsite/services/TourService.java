@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TourService extends GeneralService<Tour, Integer>{
     List<Tour> getAll(String artistName);
+
+    void deleteAllByArtistId(int artistId);
 }

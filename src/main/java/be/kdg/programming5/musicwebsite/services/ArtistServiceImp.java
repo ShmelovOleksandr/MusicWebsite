@@ -14,10 +14,14 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ArtistServiceImp implements ArtistService {
     private final ArtistJpaRepository artistJpaRepository;
+    private final SongParticipationService songParticipationService;
+    private final TourService tourService;
 
     @Autowired
-    public ArtistServiceImp(ArtistJpaRepository artistJpaRepository) {
+    public ArtistServiceImp(ArtistJpaRepository artistJpaRepository, SongParticipationService songParticipationService, TourService tourService) {
         this.artistJpaRepository = artistJpaRepository;
+        this.songParticipationService = songParticipationService;
+        this.tourService = tourService;
     }
 
     @Override
@@ -87,6 +91,8 @@ public class ArtistServiceImp implements ArtistService {
     @Override
     @Transactional
     public void delete(Integer id) {
+        songParticipationService.deleteByArtistId(id);
+        tourService.deleteAllByArtistId(id);
         artistJpaRepository.deleteById(id);
     }
 }
