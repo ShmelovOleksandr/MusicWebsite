@@ -8,6 +8,10 @@ const artistListenersField = document.getElementById("artistListenersField");
 const url = window.location.href
 const artistId = url.substring(url.lastIndexOf("/") + 1);
 
+function redirectToArtistEditor() {
+    window.location.replace(`/artists/${artistId}/editor`)
+}
+
 async function deleteArtist() {
     const response = await fetch("/api/artists/" + artistId, {
         method:"DELETE"
@@ -31,7 +35,8 @@ function updateArtistDetails(artist) {
 }
 
 function addEventListeners() {
-    deleteButton.addEventListener("click", deleteArtist)
+    editButton.addEventListener("click", redirectToArtistEditor);
+    deleteButton.addEventListener("click", deleteArtist);
 }
 
 async function updateArtistDetailsPage() {

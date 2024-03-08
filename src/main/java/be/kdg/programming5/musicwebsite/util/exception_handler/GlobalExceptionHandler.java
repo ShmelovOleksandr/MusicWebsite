@@ -42,6 +42,8 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
+
+
     @ExceptionHandler(value = { JsonParseException.class })
     private ModelAndView handleJsonException(JsonParseException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
@@ -54,7 +56,7 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-//    @ExceptionHandler(value = { SQLException.class })
+    @ExceptionHandler(value = { SQLException.class })
     private ModelAndView handleSQLException(SQLException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -66,7 +68,7 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-//    @ExceptionHandler(value = { RuntimeException.class })
+    @ExceptionHandler(value = { RuntimeException.class })
     private ModelAndView handleSQLException(RuntimeException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
