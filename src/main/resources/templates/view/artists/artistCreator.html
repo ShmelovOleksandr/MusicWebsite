@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
     <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <script defer src="/js/artistCreator.js"></script>
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
@@ -13,28 +14,28 @@
 <div class="container">
     <h3 class="mt-4" th:utext="#{artist.create.header}">[Add New Artist]</h3>
 
-    <form th:method="POST" th:action="@{/artists}" th:object="${artistViewModel}" class="mt-4">
-        <input type="hidden" th:field="*{id}" th:value="0">
+    <form class="mt-4">
+        <div class="text-danger disabled" id="generalError"></div>
 
         <div class="form-group">
             <label for="name" th:utext="#{artist.create.name}">[Name:]</label>
-            <input type="text" id="name" th:field="*{name}" class="form-control">
-            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            <input type="text" id="name" class="form-control">
+            <div class="text-danger disabled" id="nameError"></div>
         </div>
 
         <div class="form-group">
             <label for="date" th:utext="#{artist.create.birthdate}">[Birth Date:]</label>
-            <input type="date" id="date" th:field="*{birthDate}" class="form-control">
-            <div class="text-danger" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></div>
+            <input type="date" id="date" class="form-control">
+            <div class="text-danger disabled" id="dateError"></div>
         </div>
 
         <div class="form-group">
             <label for="listeners" th:utext="#{artist.create.listeners}">[Listeners:]</label>
-            <input type="number" id="listeners" th:field="*{listeners}" class="form-control">
-            <div class="text-danger" th:if="${#fields.hasErrors('listeners')}" th:errors="*{listeners}"></div>
+            <input type="number" id="listeners" class="form-control">
+            <div class="text-danger disabled" id="listenersError"></div>
         </div>
 
-        <button class="btn btn-primary" type="submit" th:utext="#{application.add}">[add]</button>
+        <button class="btn btn-primary" id="submit" type="submit" th:utext="#{application.add}">[add]</button>
     </form>
 
     <a href="/artists" class="mt-3" th:utext="#{application.back}">[Back]</a>
