@@ -55,24 +55,24 @@ public class ArtistController extends DownloadController {
 
     @GetMapping("/new")
     public String getArtistCreatorPage(Model model){
-        model.addAttribute("artistViewModel", new ArtistViewModel(0, null, null, 0));
+//        model.addAttribute("artistViewModel", new ArtistViewModel(0, null, null, 0));
         return "view/artists/artistCreator";
     }
 
     @GetMapping("/{id}/editor")
     public String getArtistEditorPage(Model model, @PathVariable int id){
-        model.addAttribute("artistViewModel", artistViewModelConverter.convertToView(artistService.getOne(id)));
+//        model.addAttribute("artistViewModel", artistViewModelConverter.convertToView(artistService.getOne(id)));
         return "view/artists/artistEditor";
     }
 
     @PostMapping
     public String createArtist(@ModelAttribute("artistViewModel") @Valid ArtistViewModel artistViewModel,
                                BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            logger.debug("Errors in the bindingResult (ArtistsController::createArtist): {}", bindingResult.getAllErrors());
-            return "view/artists/artistCreator";
-        }
-        artistService.save(artistViewModelConverter.convertToModel(artistViewModel));
+//        if (bindingResult.hasErrors()) {
+//            logger.debug("Errors in the bindingResult (ArtistsController::createArtist): {}", bindingResult.getAllErrors());
+//            return "view/artists/artistCreator";
+//        }
+//        artistService.save(artistViewModelConverter.convertToModel(artistViewModel));
         return "redirect:/artists";
     }
 
@@ -80,18 +80,18 @@ public class ArtistController extends DownloadController {
     public String editArtist(@PathVariable int id,
                              @ModelAttribute("artistViewModel") @Valid ArtistViewModel artistViewModel,
                              BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            logger.debug("Errors in the bindingResult (ArtistsController::editArtist): {}", bindingResult.getAllErrors());
-            return "view/artists/artistEditor";
-        }
-
-        artistService.update(id, artistViewModelConverter.convertToModel(artistViewModel));
+//        if(bindingResult.hasErrors()) {
+//            logger.debug("Errors in the bindingResult (ArtistsController::editArtist): {}", bindingResult.getAllErrors());
+//            return "view/artists/artistEditor";
+//        }
+//
+//        artistService.update(id, artistViewModelConverter.convertToModel(artistViewModel));
         return "redirect:/artists/" + id;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArtist(@PathVariable int id){
-        artistService.delete(id);
-        return ResponseEntity.status(204).build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteArtist(@PathVariable int id){
+//        artistService.delete(id);
+//        return ResponseEntity.status(204).build();
+//    }
 }

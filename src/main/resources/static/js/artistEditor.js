@@ -1,3 +1,10 @@
+const submitButton = document.getElementById("submit");
+const backButton = document.getElementById("backButton");
+
+const nameInputField = document.getElementById('name');
+const dateInputField = document.getElementById('date');
+const listenersInputField = document.getElementById('listeners');
+
 const nameErrorField = document.getElementById("nameError");
 const dateErrorField = document.getElementById("dateError");
 const listenersErrorField = document.getElementById("listenersError");
@@ -7,20 +14,19 @@ const nameFieldName = "name";
 const dateFieldName = "birthDate";
 const listenersFieldName = "listeners";
 
-function addEventListeners() {
-    document.getElementById('submit').addEventListener('click', submitForm);
-}
+const url = window.location.href
+const artistId = url.substring(url.lastIndexOf("/artists") + "/artists".length + 1, url.lastIndexOf("/"));
 
 async function submitForm(event) {
     event.preventDefault()
 
-    const response = await sendPostRequest();
+    const response = await sendPatchRequest();
     await handleResponse(response)
 }
 
 async function handleResponse(response) {
-    if (response.status === 201) {
-        window.location.replace("/artists")
+    if (response.status === 200) {
+        window.location.replace(`/artists/${artistId}`)
     } else if (response.status === 400) {
         const errorJson = await response.json()
         for (let i = 0; i < errorJson.errors.length; i++) {
@@ -48,18 +54,17 @@ async function handleResponse(response) {
         generalErrorField.innerText = "An unknown error has occurred. Try one more time.";
         generalErrorField.classList.remove("disabled");
     }
-
 }
 
-async function sendPostRequest() {
+async function sendPatchRequest() {
     const formData = {
-        name: document.getElementById('name').value,
-        birthDate: document.getElementById('date').value,
-        listeners: document.getElementById('listeners').value
+        name: nameInputField.value,
+        birthDate: dateInputField.value,
+        listeners: listenersInputField.value
     };
 
-    return await fetch('/api/artists', {
-        method: 'POST',
+    return await fetch(`/api/artists/${artistId}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -67,4 +72,23 @@ async function sendPostRequest() {
     });
 }
 
+function fetchArtist() {
+    return fetch(`/api/artists/${artistId}`).then(response => response.json());
+}
+
+
+async function loadCurrentValues() {
+    const artist = await fetchArtist();
+    console.log(artist)
+    nameInputField.value = artist.name;
+    dateInputField.value = artist.birthDate;
+    listenersInputField.value = artist.listeners;
+}
+
+function addEventListeners() {
+    submitButton.addEventListener('click', submitForm);
+    backButton.addEventListener("click", (event) => window.location.replace(`/artists/${artistId}`))
+}
+
 addEventListeners()
+loadCurrentValues()

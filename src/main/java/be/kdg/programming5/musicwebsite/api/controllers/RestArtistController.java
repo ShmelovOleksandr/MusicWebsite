@@ -8,6 +8,9 @@ import be.kdg.programming5.musicwebsite.view_model.ArtistViewModel;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +20,12 @@ import java.util.List;
 @RequestMapping("/api/artists")
 public class RestArtistController {
     private final ArtistService artistService;
-    private final ArtistViewModelConverter artistViewModelConverter;
     private final ModelMapper mapper;
     private final Logger logger;
 
-    public RestArtistController(ArtistService artistService, ArtistViewModelConverter artistViewModelConverter, ModelMapper mapper, Logger logger) {
+    @Autowired
+    public RestArtistController(ArtistService artistService, ModelMapper mapper, Logger logger) {
         this.artistService = artistService;
-        this.artistViewModelConverter = artistViewModelConverter;
         this.mapper = mapper;
         this.logger = logger;
     }
@@ -52,7 +54,7 @@ public class RestArtistController {
     public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistDTO artistDTO) {
         Artist artist = mapper.map(artistDTO, Artist.class);
         artistService.save(artist);
-        return ResponseEntity.status(201).body(artistDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(artistDTO);
     }
 
     @PatchMapping({"/{id}"})
@@ -65,6 +67,6 @@ public class RestArtistController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteArtist(@PathVariable int id) {
         artistService.delete(id);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
