@@ -1,0 +1,65 @@
+@id=1
+###
+# @no-redirect
+GET http://localhost:8080/api/artists
+Accept: application/json
+
+<> 2024-03-17T152644.200.json
+
+###
+# @no-redirect
+GET http://localhost:8080/api/artists/{{id}}
+Accept: application/json
+
+<> 2024-03-17T152644-1.200.json
+
+###
+# @no-redirect
+GET http://localhost:8080/api/artists/{{id}}/songs
+Accept: application/json
+
+<> 2024-03-17T152644-2.200.json
+
+###
+GET http://localhost:8080/api/artists/{{id}}/tours
+Accept: application/json
+
+<> 2024-03-17T152645.200.json
+
+###
+# @no-redirect
+POST http://localhost:8080/api/artists
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "test name",
+  "birthDate": "2000-01-01",
+  "listeners": 1000
+}
+
+<> 2024-03-17T152645.201.json
+
+
+###
+# @no-redirect
+PATCH http://localhost:8080/api/artists/{{id}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Taylor",
+  "birthDate": "2001-01-01",
+  "listeners": 1000000
+}
+
+<> 2024-03-17T152645-1.200.json
+
+
+
+###
+# @no-redirect
+DELETE http://localhost:8080/api/artists/{{id}}
+Accept: application/json
+
+
