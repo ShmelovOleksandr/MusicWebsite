@@ -1,7 +1,7 @@
 package be.kdg.programming5.musicwebsite.domain;
 
 
-import be.kdg.programming5.musicwebsite.util.ids.SongParticipationId;
+import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
 import jakarta.persistence.*;
 
 @Entity

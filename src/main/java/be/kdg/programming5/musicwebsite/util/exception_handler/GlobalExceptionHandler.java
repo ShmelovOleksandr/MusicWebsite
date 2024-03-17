@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.sql.SQLException;
 
 @ControllerAdvice
+//@ControllerAdvice(basePackages = { "be.kdg.programming5.musicwebsite.controller" })
 public class GlobalExceptionHandler {
     @Value("${sql-exception.message}")
     private String SQL_EXCEPTION_MESSAGE;

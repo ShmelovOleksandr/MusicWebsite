@@ -26,7 +26,7 @@ public class SessionHistoryAspect {
         this.request = request;
     }
 
-    @Before("execution(* be.kdg.programming5.musicwebsite.controllers.*.*(..))")
+    @Before("execution(* be.kdg.programming5.musicwebsite.controller.*.*(..))")
     public void recordSessionHistory() {
         List<SessionHistory> sessionHistoryList = (List<SessionHistory>) session.getAttribute(SESSION_HISTORY_ATTRIBUTE_NAME);
         if(sessionHistoryList == null)

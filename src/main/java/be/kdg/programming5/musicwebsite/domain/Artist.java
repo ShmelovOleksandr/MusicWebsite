@@ -1,9 +1,6 @@
 package be.kdg.programming5.musicwebsite.domain;
 
-import be.kdg.programming5.musicwebsite.util.ids.SongParticipationId;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
