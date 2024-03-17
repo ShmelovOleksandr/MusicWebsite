@@ -26,22 +26,22 @@
 
     <button id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
 
-    <h5 th:utext="#{artist.details.all-songs}" class="mt-4">[All songs]</h5>
 <!--TODO-->
-    <table class="my-3 col-xxl-12 justify-content-center disabled" id="songsTable">
-        <thead>
-            <tr class="table100-head">
-                <th th:utext="#{artist.details.songs.name}" class="px-3">[Name]</th>
-                <th th:utext="#{artist.details.songs.length}" class="px-3">[Length]</th>
-            </tr>
-        </thead>
-        <tbody id="songsTableBody">
-            <tr>
-<!--                <td class="px-3"><a th:href="@{/songs/{id}(id=${song.getId()})}" th:text="${song.getName()}" class="text-black-50">[name]</a></td>-->
-<!--                IM<td th:text="${song.getFormattedLength()}" class="px-3">[time]</td>-->
-            </tr>
-        </tbody>
-    </table>
+    <button id="songsButton" class="btn mt-3">Show songs</button>
+    <div id="songsTable" class="disabled">
+        <h5 th:utext="#{artist.details.all-songs}" class="mt-4">[All songs]</h5>
+        <table class="my-3 col-xxl-12 justify-content-center">
+            <thead>
+                <tr class="table100-head">
+                    <th th:utext="#{artist.details.songs.name}" class="px-3">[Name]</th>
+                    <th class="px-3"></th>
+                </tr>
+            </thead>
+            <tbody id="songsTableBody">
+
+            </tbody>
+        </table>
+    </div>
 <!--    TODO-->
 <!--
     <h5 th:utext="#{artist.details.all-tours}" class="mt-4">[All tours]</h5>

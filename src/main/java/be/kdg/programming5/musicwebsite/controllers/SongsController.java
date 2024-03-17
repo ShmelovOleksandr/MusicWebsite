@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +51,7 @@ public class SongsController extends DownloadController {
                                HttpSession session,
                                @RequestParam(value = "songName", required = false) String songName){
 
-        List<SimpleSongViewModel> songs = songService.getAll(songName).stream().map(simpleSongViewModelConverter::convertToView).toList();
+        List<SimpleSongViewModel> songs = songService.getAllByName(songName).stream().map(simpleSongViewModelConverter::convertToView).toList();
         model.addAttribute("songs", songs);
         logger.trace("Added list of Songs({}) to the model", songs);
 

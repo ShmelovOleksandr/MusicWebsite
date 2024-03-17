@@ -5,5 +5,7 @@ import be.kdg.programming5.musicwebsite.domain.Song;
 import java.util.List;
 
 public interface SongService extends GeneralService<Song, Integer> {
-    List<Song> getAll(String name);
+    List<Song> getAllByName(String name);
+
+    List<Song> getAllByArtistId(int artistId);
 }

@@ -1,8 +1,11 @@
 package be.kdg.programming5.musicwebsite.api.controllers;
 
 import be.kdg.programming5.musicwebsite.api.dto.ArtistDTO;
+import be.kdg.programming5.musicwebsite.api.dto.SongDTO;
 import be.kdg.programming5.musicwebsite.domain.Artist;
+import be.kdg.programming5.musicwebsite.domain.Song;
 import be.kdg.programming5.musicwebsite.services.ArtistService;
+import be.kdg.programming5.musicwebsite.services.SongService;
 import be.kdg.programming5.musicwebsite.util.converters.ArtistViewModelConverter;
 import be.kdg.programming5.musicwebsite.view_model.ArtistViewModel;
 import jakarta.validation.Valid;
@@ -20,12 +23,14 @@ import java.util.List;
 @RequestMapping("/api/artists")
 public class RestArtistController {
     private final ArtistService artistService;
+    private final SongService songService;
     private final ModelMapper mapper;
     private final Logger logger;
 
     @Autowired
-    public RestArtistController(ArtistService artistService, ModelMapper mapper, Logger logger) {
+    public RestArtistController(ArtistService artistService, SongService songService, ModelMapper mapper, Logger logger) {
         this.artistService = artistService;
+        this.songService = songService;
         this.mapper = mapper;
         this.logger = logger;
     }
@@ -48,6 +53,13 @@ public class RestArtistController {
     public ResponseEntity<ArtistDTO> getArtist(@PathVariable int id) {
         ArtistDTO artistDTO = mapper.map(artistService.getOne(id), ArtistDTO.class);
         return ResponseEntity.ok(artistDTO);
+    }
+
+    @GetMapping("/{id}/songs")
+    public ResponseEntity<List<SongDTO>> getAllSongsByArtist(@PathVariable int id) {
+        List<Song> songs = songService.getAllByArtistId(id);
+        List<SongDTO> songDTOS = songs.stream().map(song -> mapper.map(song, SongDTO.class)).toList();
+        return ResponseEntity.ok(songDTOS);
     }
 
     @PostMapping

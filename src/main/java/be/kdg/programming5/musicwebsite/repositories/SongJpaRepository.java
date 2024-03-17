@@ -22,6 +22,12 @@ public interface SongJpaRepository extends JpaRepository<Song, Integer> {
     @Override
     @Modifying
     @Query("DELETE FROM Song WHERE id=?1")
-    void deleteById(Integer integer);
+    void deleteById(Integer id);
     List<Song> findAllByNameContainingIgnoreCase(String name);
+
+    @Query("select s from Song s " +
+            "join SongParticipation sp on s.id = sp.song.id " +
+            "join Artist a on sp.artist.id = a.id " +
+            "where a.id = :artistId")
+    List<Song> findAllByArtistId(int artistId);
 }

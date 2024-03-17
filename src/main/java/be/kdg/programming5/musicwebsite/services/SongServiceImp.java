@@ -23,11 +23,12 @@ public class SongServiceImp implements SongService {
     }
 
     @Override
-    public List<Song> getAll(String name) {
-        if(name == null || name.isBlank())
-            return getAll();
-
+    public List<Song> getAllByName(String name) {
         return songJpaRepository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    public List<Song> getAllByArtistId(int artistId) {
+        return songJpaRepository.findAllByArtistId(artistId);
     }
 
     @Override
