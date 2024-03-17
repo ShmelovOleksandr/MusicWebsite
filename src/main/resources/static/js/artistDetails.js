@@ -10,6 +10,10 @@ const songsButton = document.getElementById("songsButton");
 const songsTable = document.getElementById("songsTable");
 const songsTableBody = document.getElementById("songsTableBody");
 
+const toursButton = document.getElementById("toursButton");
+const toursTable = document.getElementById("toursTable");
+const toursTableBody = document.getElementById("toursTableBody");
+
 const url = window.location.href
 const artistId = url.match("(/artists/)([0-9]*)")[2];
 
@@ -64,6 +68,34 @@ async function fillSongsTable() {
     }
 }
 
+function enableToursTable() {
+
+}
+
+async function fetchTours() {
+    return fetch(`/api/artists/${artistId}/tours`).then(response => response.json());
+}
+
+async function fillToursTable() {
+    const tours = await fetchTours();
+
+    toursTableBody.innerHTML = "";
+    for (let i = 0; i < tours.length; i++) {
+        const tour = tours[i];
+        toursTableBody.innerHTML += `
+        <tr class="table100-head">
+            <td class="px-3"><span class="text-black-50">${tour.location}</span></td>
+            <td class="px-3"><a href="/tours/${tour.id}" class="text-black-50">Details</a></td>
+        </tr>
+        `;
+    }
+}
+
+async function showToursTable() {
+    enableToursTable();
+    await fillToursTable();
+}
+
 async function showSongsTable() {
     enableSongsTable();
     await fillSongsTable();
@@ -73,6 +105,7 @@ function addEventListeners() {
     editButton.addEventListener("click", redirectToArtistEditor);
     deleteButton.addEventListener("click", deleteArtist);
     songsButton.addEventListener("click", showSongsTable)
+    toursButton.addEventListener("click", showToursTable)
 }
 
 async function updateArtistDetailsPage() {

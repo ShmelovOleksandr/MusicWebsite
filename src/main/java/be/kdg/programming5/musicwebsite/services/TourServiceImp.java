@@ -40,6 +40,11 @@ public class TourServiceImp implements TourService {
     }
 
     @Override
+    public List<Tour> getAllByArtistId(int id) {
+        return tourJpaRepository.findAllByArtist_Id(id);
+    }
+
+    @Override
     public Tour getOne(Integer id) {
         return tourJpaRepository.findById(id).orElseThrow(
                 () -> new TourNotFoundException("No tours with given id have been found.")

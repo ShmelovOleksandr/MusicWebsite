@@ -2,10 +2,13 @@ package be.kdg.programming5.musicwebsite.api.controllers;
 
 import be.kdg.programming5.musicwebsite.api.dto.ArtistDTO;
 import be.kdg.programming5.musicwebsite.api.dto.SongDTO;
+import be.kdg.programming5.musicwebsite.api.dto.TourDTO;
 import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.domain.Song;
+import be.kdg.programming5.musicwebsite.domain.Tour;
 import be.kdg.programming5.musicwebsite.services.ArtistService;
 import be.kdg.programming5.musicwebsite.services.SongService;
+import be.kdg.programming5.musicwebsite.services.TourService;
 import be.kdg.programming5.musicwebsite.util.converters.ArtistViewModelConverter;
 import be.kdg.programming5.musicwebsite.view_model.ArtistViewModel;
 import jakarta.validation.Valid;
@@ -24,13 +27,15 @@ import java.util.List;
 public class RestArtistController {
     private final ArtistService artistService;
     private final SongService songService;
+    private final TourService tourService;
     private final ModelMapper mapper;
     private final Logger logger;
 
     @Autowired
-    public RestArtistController(ArtistService artistService, SongService songService, ModelMapper mapper, Logger logger) {
+    public RestArtistController(ArtistService artistService, SongService songService, TourService tourService, ModelMapper mapper, Logger logger) {
         this.artistService = artistService;
         this.songService = songService;
+        this.tourService = tourService;
         this.mapper = mapper;
         this.logger = logger;
     }
@@ -60,6 +65,13 @@ public class RestArtistController {
         List<Song> songs = songService.getAllByArtistId(id);
         List<SongDTO> songDTOS = songs.stream().map(song -> mapper.map(song, SongDTO.class)).toList();
         return ResponseEntity.ok(songDTOS);
+    }
+
+    @GetMapping("/{id}/tours")
+    public ResponseEntity<List<TourDTO>> getAllToursByArtist(@PathVariable int id) {
+        List<Tour> tours = tourService.getAllByArtistId(id);
+        List<TourDTO> tourDTOS = tours.stream().map(song -> mapper.map(song, TourDTO.class)).toList();
+        return ResponseEntity.ok(tourDTOS);
     }
 
     @PostMapping

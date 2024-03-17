@@ -2,6 +2,7 @@ package be.kdg.programming5.musicwebsite.repositories;
 
 import be.kdg.programming5.musicwebsite.domain.Tour;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,6 @@ public interface TourJpaRepository extends JpaRepository<Tour, Integer> {
     @Modifying
     @Query(value = "delete from Tour where artist.id = :artistId")
     void deleteAllByArtist_Id(int artistId);
+
+    List<Tour> findAllByArtist_Id(int artist_id);
 }
