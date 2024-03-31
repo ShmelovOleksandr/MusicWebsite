@@ -1,6 +1,7 @@
+import {header, token} from "./util/csrf.js";
+
 const editButton= document.getElementById("editButton");
 const deleteButton = document.getElementById("deleteButton");
-const header = document.getElementById("header");
 const title = document.getElementById("title");
 const artistNameField = document.getElementById("artistNameField");
 const artistBirthdateField = document.getElementById("artistBirthDateField");
@@ -23,7 +24,10 @@ function redirectToArtistEditor() {
 
 async function deleteArtist() {
     const response = await fetch("/api/artists/" + artistId, {
-        method:"DELETE"
+        method:"DELETE",
+        headers: {
+            [header]: token
+        }
     })
     if(response.status === 204) {
         window.location.replace("/artists")
@@ -31,7 +35,6 @@ async function deleteArtist() {
 }
 
 function updateTextFields(artist) {
-    // header.innerText = artist.name;
     // window.location.head.title = artist.name
     title.innerText = artist.name;
 }
@@ -102,10 +105,10 @@ async function showSongsTable() {
 }
 
 function addEventListeners() {
-    editButton.addEventListener("click", redirectToArtistEditor);
-    deleteButton.addEventListener("click", deleteArtist);
-    songsButton.addEventListener("click", showSongsTable)
-    toursButton.addEventListener("click", showToursTable)
+    editButton?.addEventListener("click", redirectToArtistEditor);
+    deleteButton?.addEventListener("click", deleteArtist);
+    songsButton?.addEventListener("click", showSongsTable)
+    toursButton?.addEventListener("click", showToursTable)
 }
 
 async function updateArtistDetailsPage() {

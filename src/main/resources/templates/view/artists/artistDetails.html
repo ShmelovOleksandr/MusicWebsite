@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title class="header">MusicTracker</title>
     <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
@@ -21,7 +23,7 @@
         </table>
     </div>
 
-    <button id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
+    <button sec:authorize="isAuthenticated()" id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
 
     <button id="songsButton" class="btn mt-3">Show songs</button>
     <div id="songsTable" class="disabled">
@@ -53,11 +55,10 @@
         </tbody>
     </table>
 
-    <button id="deleteButton" class="btn btn-outline-danger" th:utext="#{application.delete}">[Delete]</button>
+    <button sec:authorize="isAuthenticated()" id="deleteButton" class="btn btn-outline-danger" th:utext="#{application.delete}">[Delete]</button>
 
     <a th:href="@{/artists}" class="mt-3" th:utext="#{application.back}">[Back]</a>
 </div>
 
-<div th:replace="~{view/fragments/footer::footer}"></div>
 </body>
 </html>

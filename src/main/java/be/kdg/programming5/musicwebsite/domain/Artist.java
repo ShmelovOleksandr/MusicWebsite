@@ -24,7 +24,7 @@ public class Artist implements Serializable {
     @Column(name = "listeners")
     private long listeners;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private WebsiteUser websiteUser;
 
 

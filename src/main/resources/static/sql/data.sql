@@ -1,7 +1,10 @@
 INSERT INTO website_user(username, password, is_admin) VALUES ('taylor', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('ed', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('beyonce', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
-                                                              ('elvis', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false);
+                                                              ('elvis', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
+                                                              ('admin', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', true),
+                                                              ('user', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false);
+
 
 INSERT INTO Artist(name, birthDate, listeners, website_user_id) VALUES ('Taylor Swift', DATE '1989-12-13', 100734996, 1),
                                                                        ('Ed Sheeran', DATE'1991-2-17', 74889692, 2),

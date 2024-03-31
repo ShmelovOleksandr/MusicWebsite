@@ -5,6 +5,7 @@ import be.kdg.programming5.musicwebsite.repository.WebsiteUserJpaRepository;
 import be.kdg.programming5.musicwebsite.security.detail.WebsiteUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,12 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
                 () -> new UsernameNotFoundException("Username not found.")
         );
 
-        //TODO
         Set<GrantedAuthority> authorities = new HashSet<>();
+        if (user.isAdmin())
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        if (user.getArtist() != null)
+            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
 
         return new WebsiteUserDetails(user.getUsername(), user.getPassword(), authorities);
     }

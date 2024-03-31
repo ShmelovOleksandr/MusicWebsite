@@ -1,4 +1,4 @@
-import {header, token} from "./util/csrf";
+import {header, token} from "./util/csrf.js";
 
 const submitButton = document.getElementById("submit");
 const backButton = document.getElementById("backButton");
