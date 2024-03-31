@@ -40,7 +40,7 @@ public class TourServiceImp implements TourService {
 
     @Override
     public List<Tour> getAllByArtistId(int id) {
-        return tourJpaRepository.findAllByArtist_Id(id);
+        return tourJpaRepository.findAllByArtist_ArtistId(id);
     }
 
     @Override

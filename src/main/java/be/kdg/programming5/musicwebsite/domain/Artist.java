@@ -11,12 +11,10 @@ import java.util.Set;
 @Entity
 @Table(name = "artist")
 public class Artist implements Serializable {
-
     @Id
-    @Column(name = "id")
+    @Column(name = "artist_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private int artistId;
     @Column(name = "name")
     private String name;
 
@@ -25,6 +23,10 @@ public class Artist implements Serializable {
 
     @Column(name = "listeners")
     private long listeners;
+
+    @OneToOne(optional = false)
+    private WebsiteUser websiteUser;
+
 
     @OneToMany(mappedBy = "artist", fetch = FetchType.LAZY)
     private Set<SongParticipation> songParticipations;
@@ -38,20 +40,11 @@ public class Artist implements Serializable {
         this.tours = new HashSet<>();
     }
 
-    public Artist(int id, String name, LocalDate birthDate, long listeners) {
-        this.id = id;
+    public Artist(int artistId, String name, LocalDate birthDate, long listeners) {
+        this.artistId = artistId;
         this.name = name;
         this.birthDate = birthDate;
         this.listeners = listeners;
-    }
-
-    public Artist(int id, String name, LocalDate birthDate, long listeners, Set<SongParticipation> songParticipations, Set<Tour> tours) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.listeners = listeners;
-        this.songParticipations = songParticipations != null ? songParticipations : new HashSet<>();
-        this.tours = tours != null ? tours : new HashSet<>();
     }
 
     public void addSong(Song song){
@@ -87,12 +80,12 @@ public class Artist implements Serializable {
         tour.setArtist(null);
     }
 
-    public int getId() {
-        return id;
+    public int getArtistId() {
+        return artistId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setArtistId(int artistId) {
+        this.artistId = artistId;
     }
 
     public String getName() {
@@ -119,6 +112,14 @@ public class Artist implements Serializable {
         this.listeners = listeners;
     }
 
+    public WebsiteUser getWebsiteUser() {
+        return websiteUser;
+    }
+
+    public void setWebsiteUser(WebsiteUser websiteUser) {
+        this.websiteUser = websiteUser;
+    }
+
     public Set<SongParticipation> getSongParticipations() {
         return songParticipations;
     }
@@ -138,18 +139,5 @@ public class Artist implements Serializable {
     @Override
     public String toString() {
         return getName();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Artist artist = (Artist) o;
-        return id == artist.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

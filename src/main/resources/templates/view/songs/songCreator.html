@@ -42,7 +42,7 @@
 <!--      <div th:each="artist : ${#ctx.session.get('sessionArtists')}">-->
       <div th:each="artist : ${artists}">
 <!--        TODO -->
-        <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getId()}" th:field="*{artistsId}">
+        <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getUserId()}" th:field="*{artistsId}">
       </div>
       <div class="text-danger" th:if="${#fields.hasErrors('artistsId')}" th:errors="*{artistsId}">[ArtistsId errors]</div>
     </div>

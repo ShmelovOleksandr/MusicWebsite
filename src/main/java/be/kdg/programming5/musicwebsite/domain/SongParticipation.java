@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 public class SongParticipation {
     @Id
     @ManyToOne
-    @JoinColumn(name = "artist_id", referencedColumnName = "id")
+    @JoinColumn(name = "artist_id", referencedColumnName = "artist_id")
     private Artist artist;
 
     @Id

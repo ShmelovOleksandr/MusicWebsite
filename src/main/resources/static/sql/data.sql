@@ -1,3 +1,5 @@
+INSERT INTO website_user(username, )
+
 INSERT INTO Artist(name, birthDate, listeners) VALUES ('Taylor Swift', DATE '1989-12-13', 100734996),
                                                       ('Ed Sheeran', DATE'1991-2-17', 74889692),
                                                       ('Beyonce', DATE'1981-9-4', 49366942),

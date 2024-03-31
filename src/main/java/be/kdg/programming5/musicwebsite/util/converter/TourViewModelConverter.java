@@ -33,7 +33,7 @@ public class TourViewModelConverter implements ViewModelConverter<TourViewModel,
                 tour.getLocation(),
                 tour.getDate(),
                 tour.getPrice(),
-                tour.getArtist().getId()
+                tour.getArtist().getArtistId()
         );
     }
 }

@@ -2,8 +2,11 @@ package be.kdg.programming5.musicwebsite.service;
 
 import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.repository.ArtistJpaRepository;
+import be.kdg.programming5.musicwebsite.security.detail.ArtistDetails;
 import be.kdg.programming5.musicwebsite.util.exception.ArtistNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +86,7 @@ public class ArtistServiceImp implements ArtistService {
         if(!artistJpaRepository.existsById(id))
             throw new ArtistNotFoundException("Cannot update. Artist with given id does not exist.");
 
-        artist.setId(id);
+        artist.setArtistId(id);
         return artistJpaRepository.save(artist);
     }
 
@@ -93,5 +96,12 @@ public class ArtistServiceImp implements ArtistService {
         songParticipationService.deleteByArtistId(id);
         tourService.deleteAllByArtistId(id);
         artistJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return new ArtistDetails(artistJpaRepository.findByName(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username not found.")
+        ));
     }
 }

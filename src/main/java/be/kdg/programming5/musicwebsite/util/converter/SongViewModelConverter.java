@@ -37,7 +37,7 @@ public class SongViewModelConverter implements ViewModelConverter<SongViewModel,
 
     @Override
     public SongViewModel convertToView(Song song) {
-        Integer[] artistsIds = song.getArtists().stream().map(Artist::getId).toArray(Integer[]::new);
+        Integer[] artistsIds = song.getArtists().stream().map(Artist::getArtistId).toArray(Integer[]::new);
 
         return new SongViewModel(song.getId(), song.getName(), song.getLength(), song.getGenre(), artistsIds);
     }

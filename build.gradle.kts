@@ -8,7 +8,7 @@ group = "be.kdg.programming5"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -18,10 +18,10 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-//	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-//	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-//	testImplementation("org.springframework.security:spring-security-test")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	testImplementation("org.springframework.security:spring-security-test")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
 	implementation("org.springframework.session:spring-session-jdbc")

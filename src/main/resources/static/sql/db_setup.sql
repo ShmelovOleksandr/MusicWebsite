@@ -1,10 +1,17 @@
 -- CREATE DATABASE MusicWebsite;
 
+CREATE TABLE website_user (
+    id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username varchar(128) NOT NULL,
+    password varchar(128) NOT NULL
+);
+
 CREATE TABLE Artist (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name varchar(30) NOT NULL,
     birthDate date,
-    listeners numeric CHECK ( listeners >= 0 ) NOT NULL
+    listeners numeric CHECK ( listeners >= 0 ) NOT NULL,
+    user_id int REFERENCES website_user(id) NOT NULL
 );
 
 CREATE TABLE Song (

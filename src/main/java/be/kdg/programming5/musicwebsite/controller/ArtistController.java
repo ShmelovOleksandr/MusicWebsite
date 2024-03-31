@@ -17,14 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class ArtistController extends DownloadController {
     @Value("${download.json-file.name.artists}")
     private String ARTIST_JSON_FILE_NAME;
-    private final ArtistService artistService;
-    private final ArtistViewModelConverter artistViewModelConverter;
     private final Logger logger;
 
     @Autowired
-    public ArtistController(ArtistService artistService, ArtistViewModelConverter artistViewModelConverter, Logger logger) {
-        this.artistService = artistService;
-        this.artistViewModelConverter = artistViewModelConverter;
+    public ArtistController(Logger logger) {
         this.logger = logger;
 
         this.fileName = ARTIST_JSON_FILE_NAME;
@@ -64,7 +60,7 @@ public class ArtistController extends DownloadController {
         return "view/artists/artistEditor";
     }
 
-    @PostMapping
+//    @PostMapping
     public String createArtist(@ModelAttribute("artistViewModel") @Valid ArtistViewModel artistViewModel,
                                BindingResult bindingResult) {
 //        if (bindingResult.hasErrors()) {
@@ -75,7 +71,7 @@ public class ArtistController extends DownloadController {
         return "redirect:/artists";
     }
 
-    @PatchMapping("/{id}")
+//    @PatchMapping("/{id}")
     public String editArtist(@PathVariable int id,
                              @ModelAttribute("artistViewModel") @Valid ArtistViewModel artistViewModel,
                              BindingResult bindingResult) {
