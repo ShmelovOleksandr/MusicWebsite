@@ -1,3 +1,5 @@
+import {header, token} from "./util/csrf";
+
 const submitButton = document.getElementById("submit");
 const backButton = document.getElementById("backButton");
 
@@ -66,7 +68,8 @@ async function sendPatchRequest() {
     return await fetch(`/api/artists/${artistId}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
         body: JSON.stringify(formData)
     });

@@ -1,3 +1,5 @@
+import { header, token } from "./util/csrf.js";
+
 const nameErrorField = document.getElementById("nameError");
 const dateErrorField = document.getElementById("dateError");
 const listenersErrorField = document.getElementById("listenersError");
@@ -61,7 +63,8 @@ async function sendPostRequest() {
     return await fetch('/api/artists', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
         body: JSON.stringify(formData)
     });

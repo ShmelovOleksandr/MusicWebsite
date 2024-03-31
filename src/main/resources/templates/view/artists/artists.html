@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title th:utext="#{artist.index.title}">[Artists]</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
     <script defer src="/js/artists.js"></script>
     <meta name="viewport" content="width=device-width, initial- scale=1">
 </head>

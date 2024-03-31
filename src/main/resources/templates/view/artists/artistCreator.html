@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title th:utext="#{artist.create.title}">[Create artist]</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
-    <script defer src="/js/artistCreator.js"></script>
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
+    <script type="module" defer src="/js/artistCreator.js"></script>
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>

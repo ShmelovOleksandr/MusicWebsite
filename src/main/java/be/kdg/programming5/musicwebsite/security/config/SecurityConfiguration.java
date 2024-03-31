@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static org.springframework.security.web.util.matcher.RegexRequestMatcher.regexMatcher;
@@ -36,8 +37,8 @@ public class SecurityConfiguration {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .formLogin(formLogin -> formLogin.permitAll())
-                .csrf(csrf -> csrf.disable());
+                .formLogin(formLogin -> formLogin.permitAll());
+//                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 
