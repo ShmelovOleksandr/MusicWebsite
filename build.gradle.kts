@@ -34,7 +34,6 @@ dependencies {
 	implementation("org.webjars:bootstrap:5.3.2")
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
-
 }
 
 tasks.withType<Test> {

@@ -1,5 +1,6 @@
-package be.kdg.programming5.musicwebsite.domain;
+package be.kdg.programming5.musicwebsite.domain.user;
 
+import be.kdg.programming5.musicwebsite.domain.Artist;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -8,20 +9,26 @@ import java.util.Objects;
 @Table(name = "website_user")
 public class WebsiteUser {
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private int id;
 
     @Column(name = "username", nullable = false)
     protected String username;
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "is_admin", nullable = false)
+    private boolean isAdmin;
+
+    @OneToOne(mappedBy = "websiteUser")
+    private Artist artist;
+
     public WebsiteUser() {
     }
 
-    public WebsiteUser(int userId) {
-        this.userId = userId;
+    public WebsiteUser(int id) {
+        this.id = id;
     }
 
     public WebsiteUser(String username, String password) {
@@ -29,18 +36,18 @@ public class WebsiteUser {
         this.password = password;
     }
 
-    public WebsiteUser(int userId, String username, String password) {
-        this.userId = userId;
+    public WebsiteUser(int id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int userId) {
+        this.id = userId;
     }
 
     public String getUsername() {
@@ -59,16 +66,32 @@ public class WebsiteUser {
         this.password = password;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WebsiteUser that = (WebsiteUser) o;
-        return userId == that.userId;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 }

@@ -1,20 +1,20 @@
 package be.kdg.programming5.musicwebsite.domain;
 
+import be.kdg.programming5.musicwebsite.domain.user.WebsiteUser;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "artist")
 public class Artist implements Serializable {
     @Id
-    @Column(name = "artist_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int artistId;
+    private int id;
     @Column(name = "name")
     private String name;
 
@@ -24,7 +24,7 @@ public class Artist implements Serializable {
     @Column(name = "listeners")
     private long listeners;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     private WebsiteUser websiteUser;
 
 
@@ -40,8 +40,8 @@ public class Artist implements Serializable {
         this.tours = new HashSet<>();
     }
 
-    public Artist(int artistId, String name, LocalDate birthDate, long listeners) {
-        this.artistId = artistId;
+    public Artist(int id, String name, LocalDate birthDate, long listeners) {
+        this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.listeners = listeners;
@@ -80,12 +80,12 @@ public class Artist implements Serializable {
         tour.setArtist(null);
     }
 
-    public int getArtistId() {
-        return artistId;
+    public int getId() {
+        return id;
     }
 
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
+    public void setId(int artistId) {
+        this.id = artistId;
     }
 
     public String getName() {

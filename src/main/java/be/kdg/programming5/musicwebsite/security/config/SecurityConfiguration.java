@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -27,8 +30,7 @@ public class SecurityConfiguration {
                                 .permitAll()
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/"),
-                                        antMatcher(HttpMethod.DELETE, "/api/**"),
-                                        antMatcher(HttpMethod.GET, "/")
+                                        antMatcher(HttpMethod.DELETE, "/api/**")
                                 )
                                 .permitAll()
                                 .anyRequest()
@@ -37,6 +39,13 @@ public class SecurityConfiguration {
                 .formLogin(formLogin -> formLogin.permitAll())
                 .csrf(csrf -> csrf.disable());
         return http.build();
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 }

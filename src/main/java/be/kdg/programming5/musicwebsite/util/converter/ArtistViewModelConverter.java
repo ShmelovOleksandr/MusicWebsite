@@ -20,7 +20,7 @@ public class ArtistViewModelConverter implements ViewModelConverter<ArtistViewMo
     @Override
     public ArtistViewModel convertToView(Artist artist) {
         return new ArtistViewModel(
-                artist.getArtistId(),
+                artist.getId(),
                 artist.getName(),
                 artist.getBirthDate(),
                 artist.getListeners()

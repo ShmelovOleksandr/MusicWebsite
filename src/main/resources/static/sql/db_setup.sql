@@ -3,7 +3,8 @@
 CREATE TABLE website_user (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username varchar(128) NOT NULL,
-    password varchar(128) NOT NULL
+    password varchar(128) NOT NULL,
+    is_admin boolean NOT NULL
 );
 
 CREATE TABLE Artist (

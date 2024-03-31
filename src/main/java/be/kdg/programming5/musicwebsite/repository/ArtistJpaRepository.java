@@ -11,13 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface ArtistJpaRepository extends JpaRepository<Artist, Integer> {
-
-    @Query("select a from Artist a " +
-            "inner join fetch a.songParticipations " +
-            "join fetch a.tours " +
-            "")
-    List<Artist> getAllFetched();
-
     // For some reason doesn't delete records from the DB without a custom Query
     @Override
     @Modifying

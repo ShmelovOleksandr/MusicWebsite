@@ -50,8 +50,12 @@ public class SongsController extends DownloadController {
     public String getSongsPage(Model model,
                                HttpSession session,
                                @RequestParam(value = "songName", required = false) String songName){
+        List<SimpleSongViewModel> songs;
+        if(songName != null)
+            songs = songService.getAllByName(songName).stream().map(simpleSongViewModelConverter::convertToView).toList();
+        else
+            songs = songService.getAll().stream().map(simpleSongViewModelConverter::convertToView).toList();
 
-        List<SimpleSongViewModel> songs = songService.getAllByName(songName).stream().map(simpleSongViewModelConverter::convertToView).toList();
         model.addAttribute("songs", songs);
         logger.trace("Added list of Songs({}) to the model", songs);
 
