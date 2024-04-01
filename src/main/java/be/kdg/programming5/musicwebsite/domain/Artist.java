@@ -40,6 +40,12 @@ public class Artist implements Serializable {
         this.tours = new HashSet<>();
     }
 
+    public Artist(String name, LocalDate birthDate, long listeners) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.listeners = listeners;
+    }
+
     public Artist(int id, String name, LocalDate birthDate, long listeners) {
         this.id = id;
         this.name = name;

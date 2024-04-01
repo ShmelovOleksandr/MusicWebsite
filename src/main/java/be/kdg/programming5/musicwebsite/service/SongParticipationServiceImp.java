@@ -41,6 +41,11 @@ public class SongParticipationServiceImp implements SongParticipationService {
     }
 
     @Override
+    public List<SongParticipation> saveAll(Iterable<SongParticipation> songParticipations) {
+        return songParticipationRepository.saveAll(songParticipations);
+    }
+
+    @Override
     @Transactional
     public SongParticipation update(SongParticipationId songParticipationId, SongParticipation songParticipation) {
         if(!songParticipationRepository.existsById(songParticipationId))
@@ -55,6 +60,11 @@ public class SongParticipationServiceImp implements SongParticipationService {
     @Transactional
     public void delete(SongParticipationId songParticipationId) {
         songParticipationRepository.deleteById(songParticipationId);
+    }
+
+    @Override
+    public void deleteAll() {
+        songParticipationRepository.deleteAll();
     }
 
     @Override

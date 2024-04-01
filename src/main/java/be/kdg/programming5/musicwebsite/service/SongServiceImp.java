@@ -45,10 +45,13 @@ public class SongServiceImp implements SongService {
     }
 
     @Override
+    public List<Song> saveAll(Iterable<Song> songs) {
+        return songJpaRepository.saveAll(songs);
+    }
+
+    @Override
     @Transactional
     public Song update(Integer id, Song song) {
-        System.out.println(song);
-        System.out.println(song.getSongParticipations());
         if(!songJpaRepository.existsById(id)) {
             throw new SongNotFoundException("Cannot update. Song with given id does not exist.");
         }
@@ -61,5 +64,10 @@ public class SongServiceImp implements SongService {
     @Transactional
     public void delete(Integer id) {
         songJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        songJpaRepository.deleteAll();
     }
 }

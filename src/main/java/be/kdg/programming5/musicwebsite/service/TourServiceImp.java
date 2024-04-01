@@ -57,6 +57,11 @@ public class TourServiceImp implements TourService {
     }
 
     @Override
+    public List<Tour> saveAll(Iterable<Tour> tours) {
+        return tourJpaRepository.saveAll(tours);
+    }
+
+    @Override
     @Transactional
     public Tour update(Integer id, Tour tour) {
         if(!tourJpaRepository.existsById(id))
@@ -70,5 +75,10 @@ public class TourServiceImp implements TourService {
     @Transactional
     public void delete(Integer id) {
         tourJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        tourJpaRepository.deleteAll();
     }
 }

@@ -73,6 +73,11 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
+    public List<Artist> saveAll(Iterable<Artist> artists) {
+        return artistJpaRepository.saveAll(artists);
+    }
+
+    @Override
     @Transactional
     public Artist update(Integer id, Artist artist) {
         if(!artistJpaRepository.existsById(id))
@@ -88,5 +93,10 @@ public class ArtistServiceImp implements ArtistService {
         songParticipationService.deleteByArtistId(id);
         tourService.deleteAllByArtistId(id);
         artistJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        artistJpaRepository.deleteAll();
     }
 }

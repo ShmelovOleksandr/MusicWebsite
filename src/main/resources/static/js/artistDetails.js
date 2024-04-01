@@ -46,10 +46,7 @@ function updateArtistDetails(artist) {
 }
 
 function enableSongsTable() {
-    // TODO
-    // songsTable.enabled = true;
-    // songsTable.classes.replace("disabled", "");
-    // songsTable.class;
+    songsTable?.classList.remove("d-none");
 }
 
 async function fetchSongs() {
@@ -72,7 +69,7 @@ async function fillSongsTable() {
 }
 
 function enableToursTable() {
-
+    toursTable?.classList.remove("d-none");
 }
 
 async function fetchTours() {

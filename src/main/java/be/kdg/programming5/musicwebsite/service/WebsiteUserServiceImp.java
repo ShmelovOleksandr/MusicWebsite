@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -27,6 +28,9 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
         WebsiteUser user = websiteUserJpaRepository.findByUsernameFetched(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username not found.")
         );
+        // TODO
+        //  Doesn't see any users after id 4
+//        System.out.println(new BCryptPasswordEncoder().matches("123", user.getPassword()));
 
         Set<GrantedAuthority> authorities = new HashSet<>();
         if (user.isAdmin())
