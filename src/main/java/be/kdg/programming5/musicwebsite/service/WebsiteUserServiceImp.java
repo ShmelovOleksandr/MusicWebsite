@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class WebsiteUserServiceImp implements WebsiteUserService {
     private final PasswordEncoder passwordEncoder;
     private final WebsiteUserJpaRepository websiteUserJpaRepository;
@@ -43,6 +45,14 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
     }
 
     @Override
+    public WebsiteUser getOneByNameFetched(String username) {
+        return websiteUserJpaRepository.findByUsernameFetched(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username not found.")
+        );
+    }
+
+    @Override
+    @Transactional
     public WebsiteUser registerUser(String username, String password) {
         if (websiteUserJpaRepository.existsByUsername(username))
             throw new UserAlreadyExistsException();

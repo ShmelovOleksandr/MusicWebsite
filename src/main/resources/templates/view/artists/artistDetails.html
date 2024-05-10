@@ -57,7 +57,7 @@
         </table>
     </div>
 
-    <button sec:authorize="isAuthenticated()" id="deleteButton" class="btn btn-outline-danger" th:utext="#{application.delete}">[Delete]</button>
+    <button sec:authorize="isAuthenticated()" id="deleteButton" class="btn btn-outline-danger mt-3" th:utext="#{application.delete}">[Delete]</button>
 
     <a th:href="@{/artists}" class="mt-3" th:utext="#{application.back}">[Back]</a>
 </div>

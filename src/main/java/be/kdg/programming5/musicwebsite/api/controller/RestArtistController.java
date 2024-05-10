@@ -3,9 +3,11 @@ package be.kdg.programming5.musicwebsite.api.controller;
 import be.kdg.programming5.musicwebsite.api.dto.ArtistDTO;
 import be.kdg.programming5.musicwebsite.api.dto.SongDTO;
 import be.kdg.programming5.musicwebsite.api.dto.TourDTO;
+import be.kdg.programming5.musicwebsite.security.permission_service.ArtistManipulationPermissionService;
 import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.domain.Song;
 import be.kdg.programming5.musicwebsite.domain.Tour;
+import be.kdg.programming5.musicwebsite.security.detail.WebsiteUserDetails;
 import be.kdg.programming5.musicwebsite.service.ArtistService;
 import be.kdg.programming5.musicwebsite.service.SongService;
 import be.kdg.programming5.musicwebsite.service.TourService;
@@ -15,6 +17,8 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,14 +29,16 @@ public class RestArtistController {
     private final ArtistService artistService;
     private final SongService songService;
     private final TourService tourService;
+    private final ArtistManipulationPermissionService artistManipulationPermissionService;
     private final ModelMapper mapper;
     private final Logger logger;
 
     @Autowired
-    public RestArtistController(ArtistService artistService, SongService songService, TourService tourService, ModelMapper mapper, Logger logger) {
+    public RestArtistController(ArtistService artistService, SongService songService, TourService tourService, ArtistManipulationPermissionService artistManipulationPermissionService, ModelMapper mapper, Logger logger) {
         this.artistService = artistService;
         this.songService = songService;
         this.tourService = tourService;
+        this.artistManipulationPermissionService = artistManipulationPermissionService;
         this.mapper = mapper;
         this.logger = logger;
     }
@@ -42,12 +48,8 @@ public class RestArtistController {
             @RequestParam(value = "namePart", required = false) String artistNamePat,
             @RequestParam(value = "listeners", required = false) Long listeners) {
 
-        List<ArtistDTO> artistDTOS = artistService.getAll(artistNamePat, listeners).stream().map(
-                artist -> mapper.map(artist, ArtistDTO.class)
-                ).toList();
-        logger.trace("Request on /api/artists has been handled. ({})", artistDTOS);
-//        addJsonSessionAttribute(session, artists);
-//        logger.trace("Added artists.json to the session");
+        List<ArtistDTO> artistDTOS = artistService.getAll(artistNamePat, listeners).stream().map(artist -> mapper.map(artist, ArtistDTO.class)).toList();
+
         if (artistDTOS.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
@@ -83,21 +85,33 @@ public class RestArtistController {
     }
 
     @PostMapping
-    public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistDTO artistDTO) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails.getUsername()))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
         Artist artist = mapper.map(artistDTO, Artist.class);
         artistService.save(artist);
         return ResponseEntity.status(HttpStatus.CREATED).body(artistDTO);
     }
 
     @PatchMapping({"/{id}"})
-    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistDTO artistDTO) {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
+    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+        if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails.getUsername(), id))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
         Artist artist = mapper.map(artistDTO, Artist.class);
         Artist updatedArtist = artistService.update(id, artist);
         return ResponseEntity.ok(mapper.map(updatedArtist, ArtistDTO.class));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArtist(@PathVariable int id) {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
+    public ResponseEntity<Void> deleteArtist(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+        if (!artistManipulationPermissionService.allowedArtistDelete(websiteUserDetails.getUsername(), id))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
         artistService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
