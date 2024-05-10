@@ -12,7 +12,7 @@ CREATE TABLE Artist (
     name varchar(30) NOT NULL,
     birthDate date,
     listeners numeric CHECK ( listeners >= 0 ) NOT NULL,
-    user_id int REFERENCES website_user(id) NOT NULL
+    user_id int REFERENCES website_user(id) ON DELETE SET NULL NOT NULL
 );
 
 CREATE TABLE Song (
