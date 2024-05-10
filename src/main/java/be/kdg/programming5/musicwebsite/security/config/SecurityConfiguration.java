@@ -30,23 +30,29 @@ public class SecurityConfiguration {
                                         antMatcher(HttpMethod.GET, "/pictures/**"),
                                         antMatcher(HttpMethod.GET, "/style/**")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/"),
                                         antMatcher(HttpMethod.GET, "/artists"),
                                         antMatcher(HttpMethod.GET, "/songs"),
                                         antMatcher(HttpMethod.GET, "/tours")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         regexMatcher(HttpMethod.GET, "^/artists/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/songs/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/tours/[0-9]*")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/api/**")
-                                )
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        antMatcher(HttpMethod.GET, "/registration"),
+                                        antMatcher(HttpMethod.POST, "/register")
+                                ).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(
                         formLogin -> formLogin

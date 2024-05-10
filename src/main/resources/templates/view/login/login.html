@@ -4,26 +4,30 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Login</title>
-    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"></thymeleaf>
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
 
 <div class="container">
-  <h2>Sign in</h2>
-  <p>username: ed</p>
-  <p>password: 1234</p>
-  <form th:action="@{/login}" method="post" class="mt-4 d-block justify-content-center">
-    <div class="input-group my-2 row">
-      <label for="username" class="col-4">Username:</label>
-      <input name="username" type="text" id="username" class="col-8 form-control mx-4 rounded">
-    </div>
-    <div class="input-group my-2 row">
-      <label for="password" class="col-4">Password:</label>
-      <input name="password" type="password" id="password" class="col-8 form-control mx-4 rounded">
-    </div>
-    <input type="submit" class="btn btn-primary mt-2">
-  </form>
+    <h2>Sign in</h2>
+    <p>username: ed</p>
+    <p>password: 1234</p>
+    <form th:action="@{/login}" method="post" class="mt-4 d-block justify-content-center">
+        <div class="input-group my-2 row">
+            <label for="username" class="col-4">Username:</label>
+            <input name="username" type="text" id="username" class="col-8 form-control mx-4 rounded">
+        </div>
+        <div class="input-group my-2 row">
+            <label for="password" class="col-4">Password:</label>
+            <input name="password" type="password" id="password" class="col-8 form-control mx-4 rounded">
+        </div>
+        <div class="d-block justify-content-center">
+            <span>Don't have an account yet?</span>
+            <a href="/registration">Register here</a>
+        </div>
+        <input type="submit" class="btn btn-primary mt-2 align-self-center">
+    </form>
 </div>
 
 <div th:replace="~{view/fragments/footer::footer}"></div>
