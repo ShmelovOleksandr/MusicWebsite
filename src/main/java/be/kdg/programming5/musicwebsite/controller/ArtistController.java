@@ -1,16 +1,11 @@
 package be.kdg.programming5.musicwebsite.controller;
 
-import be.kdg.programming5.musicwebsite.service.ArtistService;
-import be.kdg.programming5.musicwebsite.util.converter.ArtistViewModelConverter;
-import be.kdg.programming5.musicwebsite.view_model.ArtistViewModel;
-import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import be.kdg.programming5.musicwebsite.security.detail.WebsiteUserDetails;
+import be.kdg.programming5.musicwebsite.security.permission_service.MvcArtistAccessPermissionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -19,13 +14,15 @@ public class ArtistController extends DownloadController {
     @Value("${download.json-file.name.artists}")
     private String ARTIST_JSON_FILE_NAME;
 
+    private final MvcArtistAccessPermissionService mvcArtistAccessPermissionService;
 
-    public ArtistController() {
+    public ArtistController(MvcArtistAccessPermissionService mvcArtistAccessPermissionService) {
+        this.mvcArtistAccessPermissionService = mvcArtistAccessPermissionService;
         this.fileName = ARTIST_JSON_FILE_NAME;
     }
 
     @GetMapping
-    public String getArtistPage() {
+    public String getArtistsPage() {
         return "view/artists/artists";
     }
 
@@ -36,13 +33,17 @@ public class ArtistController extends DownloadController {
 
     @GetMapping("/new")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getArtistCreatorPage(){
+    public String getArtistCreatorPage(@AuthenticationPrincipal WebsiteUserDetails websiteUserDetails){
+        if(!mvcArtistAccessPermissionService.allowToSeeCreatorPage(websiteUserDetails.getUsername()))
+            return "redirect:/artists";
         return "view/artists/artistCreator";
     }
 
     @GetMapping("/{id}/editor")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
-    public String getArtistEditorPage(){
+    public String getArtistEditorPage(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails){
+        if(!mvcArtistAccessPermissionService.allowToSeeEditorPage(id, websiteUserDetails.getUsername()))
+            return "redirect:/artists/" + id;
         return "view/artists/artistEditor";
     }
 
