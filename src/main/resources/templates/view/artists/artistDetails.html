@@ -25,8 +25,8 @@
 
     <button sec:authorize="isAuthenticated()" id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
 
-    <button id="songsButton" class="btn mt-3">Show songs</button>
-    <div id="songsTable" class="disabled">
+    <button id="songsButton" class="btn btn-secondary mt-3">Show songs</button>
+    <div id="songsTable" class="d-none">
         <h5 th:utext="#{artist.details.all-songs}" class="mt-4">[All songs]</h5>
         <table class="my-3 col-xxl-12 justify-content-center">
             <thead>
@@ -42,18 +42,20 @@
     </div>
 
 <!--    TODO-->
-    <button id="toursButton" class="btn mt-3">Show tours</button>
-    <h5 th:utext="#{artist.details.all-tours}" class="mt-4">[All tours]</h5>
-    <table class="my-3 col-xxl-12 justify-content-center" id="toursTable">
-        <thead>
-            <tr class="table100-head">
-                <th th:utext="#{artist.details.tours.location}" class="px-3">[Location]</th>
-                <th class="px-3"></th>
-            </tr>
-        </thead>
-        <tbody id="toursTableBody">
-        </tbody>
-    </table>
+    <button id="toursButton" class="btn btn-secondary mt-3">Show tours</button>
+    <div id="toursTable" class="d-none">
+        <h5 th:utext="#{artist.details.all-tours}" class="mt-4">[All tours]</h5>
+        <table class="my-3 col-xxl-12 justify-content-center" >
+            <thead>
+                <tr class="table100-head">
+                    <th th:utext="#{artist.details.tours.location}" class="px-3">[Location]</th>
+                    <th class="px-3"></th>
+                </tr>
+            </thead>
+            <tbody id="toursTableBody">
+            </tbody>
+        </table>
+    </div>
 
     <button sec:authorize="isAuthenticated()" id="deleteButton" class="btn btn-outline-danger" th:utext="#{application.delete}">[Delete]</button>
 

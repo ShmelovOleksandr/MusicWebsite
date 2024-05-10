@@ -25,9 +25,14 @@ public class TourServiceImp implements TourService {
     }
 
     @Override
-    public List<Tour> getAll(String artistNamePart) {
+    public List<Tour> getAllWithArtistFetched() {
+        return tourJpaRepository.findAllWithArtistFetched();
+    }
+
+    @Override
+    public List<Tour> getAllWithArtistFetched(String artistNamePart) {
         if(artistNamePart == null || artistNamePart.isBlank())
-            return getAll();
+            return getAllWithArtistFetched();
 
         return tourJpaRepository.findAllByArtist_NameContainingIgnoreCase(artistNamePart);
     }
@@ -45,7 +50,7 @@ public class TourServiceImp implements TourService {
 
     @Override
     public Tour getOne(Integer id) {
-        return tourJpaRepository.findById(id).orElseThrow(
+        return tourJpaRepository.findByIdWithArtistFetched(id).orElseThrow(
                 () -> new TourNotFoundException("No tours with given id have been found.")
         );
     }

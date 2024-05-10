@@ -5,7 +5,8 @@ import be.kdg.programming5.musicwebsite.domain.Tour;
 import java.util.List;
 
 public interface TourService extends GeneralService<Tour, Integer>{
-    List<Tour> getAll(String artistName);
+    List<Tour> getAllWithArtistFetched();
+    List<Tour> getAllWithArtistFetched(String artistName);
 
     void deleteAllByArtistId(int artistId);
 

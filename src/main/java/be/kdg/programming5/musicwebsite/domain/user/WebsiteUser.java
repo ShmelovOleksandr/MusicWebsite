@@ -21,7 +21,7 @@ public class WebsiteUser {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
 
-    @OneToOne(mappedBy = "websiteUser")
+    @OneToOne(mappedBy = "websiteUser", fetch = FetchType.LAZY)
     private Artist artist;
 
     public WebsiteUser() {

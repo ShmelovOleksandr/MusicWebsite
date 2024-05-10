@@ -52,6 +52,7 @@
                     </div>
                 </div>
                 <div class="col-md-1 justify-content-center align-items-center d-flex" sec:authorize="isAuthenticated()">
+                    <p>Hi, </p><div sec></div>
                     <form th:method="POST" th:action="@{/logout}" class="justify-content-center align-items-center" >
                         <input class="btn btn-outline-danger" type="submit" value="Logout">
                     </form>
