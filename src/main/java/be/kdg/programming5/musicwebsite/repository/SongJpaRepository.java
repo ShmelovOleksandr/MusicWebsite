@@ -14,8 +14,9 @@ import java.util.Optional;
 @Repository
 public interface SongJpaRepository extends JpaRepository<Song, Integer> {
     @Query("select s from Song s " +
-            "inner join fetch s.songParticipations " +
-            "where s.id = ?1 ")
+            "join fetch s.songParticipations sp " +
+            "join fetch sp.artist " +
+            "where s.id=:id ")
     Optional<Song> findSongByIdFetched(int id);
 
     // For some reason doesn't delete records from the DB without a custom Query
