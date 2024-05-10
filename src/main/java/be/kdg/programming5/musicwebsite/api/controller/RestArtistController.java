@@ -3,6 +3,8 @@ package be.kdg.programming5.musicwebsite.api.controller;
 import be.kdg.programming5.musicwebsite.api.dto.ArtistDTO;
 import be.kdg.programming5.musicwebsite.api.dto.SongDTO;
 import be.kdg.programming5.musicwebsite.api.dto.TourDTO;
+import be.kdg.programming5.musicwebsite.api.dto.patch.ArtistPatchDTO;
+import be.kdg.programming5.musicwebsite.api.dto.post.ArtistPostDTO;
 import be.kdg.programming5.musicwebsite.security.permission_service.ArtistManipulationPermissionService;
 import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.domain.Song;
@@ -86,18 +88,18 @@ public class RestArtistController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+    public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistPostDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails.getUsername()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Artist artist = mapper.map(artistDTO, Artist.class);
-        artistService.save(artist);
-        return ResponseEntity.status(HttpStatus.CREATED).body(artistDTO);
+        Artist savedArtist = artistService.save(artist);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.map(savedArtist, ArtistDTO.class));
     }
 
     @PatchMapping({"/{id}"})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
-    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails.getUsername(), id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
