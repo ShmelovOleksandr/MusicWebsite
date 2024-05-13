@@ -43,7 +43,7 @@ public class TourController extends DownloadController {
                                HttpSession session,
                                @RequestParam(value = "artistName", required = false) String artistName) {
 
-        List<Tour> tours = tourService.getAll(artistName);
+        List<Tour> tours = tourService.getAllWithArtistFetched(artistName);
         model.addAttribute("tours", tours);
         logger.trace("Added list of tours({}) to the model", tours);
 

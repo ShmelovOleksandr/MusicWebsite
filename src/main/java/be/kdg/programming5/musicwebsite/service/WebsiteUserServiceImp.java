@@ -3,23 +3,28 @@ package be.kdg.programming5.musicwebsite.service;
 import be.kdg.programming5.musicwebsite.domain.user.WebsiteUser;
 import be.kdg.programming5.musicwebsite.repository.WebsiteUserJpaRepository;
 import be.kdg.programming5.musicwebsite.security.detail.WebsiteUserDetails;
+import be.kdg.programming5.musicwebsite.util.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class WebsiteUserServiceImp implements WebsiteUserService {
+    private final PasswordEncoder passwordEncoder;
     private final WebsiteUserJpaRepository websiteUserJpaRepository;
 
     @Autowired
-    public WebsiteUserServiceImp(WebsiteUserJpaRepository websiteUserJpaRepository) {
+    public WebsiteUserServiceImp(PasswordEncoder passwordEncoder, WebsiteUserJpaRepository websiteUserJpaRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.websiteUserJpaRepository = websiteUserJpaRepository;
     }
 
@@ -28,9 +33,6 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
         WebsiteUser user = websiteUserJpaRepository.findByUsernameFetched(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username not found.")
         );
-        // TODO
-        //  Doesn't see any users after id 4
-//        System.out.println(new BCryptPasswordEncoder().matches("123", user.getPassword()));
 
         Set<GrantedAuthority> authorities = new HashSet<>();
         if (user.isAdmin())
@@ -40,5 +42,21 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
 
         return new WebsiteUserDetails(user.getUsername(), user.getPassword(), authorities);
+    }
+
+    @Override
+    public WebsiteUser getOneByNameFetched(String username) {
+        return websiteUserJpaRepository.findByUsernameFetched(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username not found.")
+        );
+    }
+
+    @Override
+    @Transactional
+    public WebsiteUser registerUser(String username, String password) {
+        if (websiteUserJpaRepository.existsByUsername(username))
+            throw new UserAlreadyExistsException();
+
+        return websiteUserJpaRepository.save(new WebsiteUser(username, passwordEncoder.encode(password)));
     }
 }

@@ -11,4 +11,6 @@ public interface WebsiteUserJpaRepository extends JpaRepository<WebsiteUser, Int
             "join fetch wu.artist " +
             "where wu.username = :username ")
     Optional<WebsiteUser> findByUsernameFetched(String username);
+
+    boolean existsByUsername(String username);
 }

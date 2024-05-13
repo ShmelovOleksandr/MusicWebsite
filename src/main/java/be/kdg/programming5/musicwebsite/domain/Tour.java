@@ -25,7 +25,7 @@ public class Tour {
     @Column(name = "price")
     private double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id", referencedColumnName = "id")
     @Cascade(CascadeType.PERSIST)
     private Artist artist;

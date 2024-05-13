@@ -18,7 +18,7 @@
             <tbody>
             <tr class="row d-table-row"><td th:utext="#{song.details.name}" class="col-auto px-3">[name]</td> <td th:text="${song.getName()}" class="col-auto px-3">[name]</td></tr>
             <tr class="row d-table-row"><td th:utext="#{song.details.length}" class="col-auto px-3">[length]</td> <td th:text="${song.getFormattedLength()}" class="col-auto px-3">[00:00]</td></tr>
-<!--            TODO-->
+            <tr class="row d-table-row"><td th:utext="#{song.details.genre}" class="col-auto px-3">[genre]</td> <td th:text="${song.getGenre().name()}" class="col-auto px-3">[genre]</td></tr>
             <tr class="row d-table-row" th:each="artist : ${relatedArtists}">
                 <td th:utext="#{song.details.artist}" class="col-auto px-3">[artist]</td>
                 <td class="col-auto px-3">

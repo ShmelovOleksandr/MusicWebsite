@@ -20,7 +20,7 @@
                 <tr class="row d-table-row"><td th:utext="#{tour.details.date}" class="col-auto px-3">[length]</td> <td th:text="${tour.getDate().toString()}" class="col-auto px-3">[00:00]</td></tr>
                 <tr class="row d-table-row"><td th:utext="#{tour.details.price}" class="col-auto px-3">[price]</td> <td th:text="${tour.getPrice()}" class="col-auto px-3">[0.00$]</td></tr>
                 <tr class="row d-table-row"><td th:utext="#{tour.details.artist}" class="col-auto px-3">[artist]</td> <td  class="col-auto px-3">
-                    <a th:href="@{/artists/{id}(id=${tour.getArtist().getUserId()})}" th:text="${tour.getArtist()}" class="text-black-50">[artist name]</a></td></tr>
+                    <a th:href="@{/artists/{id}(id=${tour.getArtist().getId()})}" th:text="${tour.getArtist()}" class="text-black-50">[artist name]</a></td></tr>
                 </tbody>
             </table>
         </div>

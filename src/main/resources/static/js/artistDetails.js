@@ -18,6 +18,9 @@ const toursTableBody = document.getElementById("toursTableBody");
 const url = window.location.href
 const artistId = url.match("(/artists/)([0-9]*)")[2];
 
+let songsTableIsEnabled = false;
+let toursTableIsEnabled = false;
+
 function redirectToArtistEditor() {
     window.location.replace(`/artists/${artistId}/editor`)
 }
@@ -42,11 +45,35 @@ function updateTextFields(artist) {
 function updateArtistDetails(artist) {
     artistNameField.innerText = artist.name;
     artistBirthdateField.innerText = artist.birthDate;
-    artistListenersField.innerText = artist.listeners
+    artistListenersField.innerText = artist.listeners;
+}
+
+async function toggleSongsTable() {
+    if (songsTableIsEnabled)
+        hideSongsTable();
+    else
+        await showSongsTable();
+}
+
+async function showSongsTable() {
+    enableSongsTable();
+    await fillSongsTable();
+    songsButton.innerText = "Hide songs";
+}
+
+function hideSongsTable() {
+    disableSongsTable();
+    songsButton.innerText = "Show songs"
 }
 
 function enableSongsTable() {
-    songsTable?.classList.remove("d-none");
+    songsTable.classList.remove("d-none");
+    songsTableIsEnabled = true;
+}
+
+function disableSongsTable() {
+    songsTable.classList.add("d-none");
+    songsTableIsEnabled = false;
 }
 
 async function fetchSongs() {
@@ -68,8 +95,32 @@ async function fillSongsTable() {
     }
 }
 
+async function toggleToursTable() {
+    if (toursTableIsEnabled)
+        hideToursTable();
+    else
+        await showToursTable();
+}
+
+async function showToursTable() {
+    enableToursTable();
+    await fillToursTable();
+    toursButton.innerText = "Hide tours"
+}
+
+function hideToursTable() {
+    disableToursTable();
+    toursButton.innerText = "Show tours"
+}
+
 function enableToursTable() {
-    toursTable?.classList.remove("d-none");
+    toursTable.classList.remove("d-none");
+    toursTableIsEnabled = true;
+}
+
+function disableToursTable() {
+    toursTable.classList.add("d-none");
+    toursTableIsEnabled = false;
 }
 
 async function fetchTours() {
@@ -91,21 +142,15 @@ async function fillToursTable() {
     }
 }
 
-async function showToursTable() {
-    enableToursTable();
-    await fillToursTable();
-}
 
-async function showSongsTable() {
-    enableSongsTable();
-    await fillSongsTable();
-}
+
+
 
 function addEventListeners() {
     editButton?.addEventListener("click", redirectToArtistEditor);
     deleteButton?.addEventListener("click", deleteArtist);
-    songsButton?.addEventListener("click", showSongsTable)
-    toursButton?.addEventListener("click", showToursTable)
+    songsButton?.addEventListener("click", toggleSongsTable)
+    toursButton?.addEventListener("click", toggleToursTable)
 }
 
 async function updateArtistDetailsPage() {

@@ -1,8 +1,8 @@
 INSERT INTO website_user(username, password, is_admin) VALUES ('taylor', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
+                                                              ('admin', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', true),
                                                               ('ed', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('beyonce', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('elvis', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
-                                                              ('admin', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', true),
                                                               ('user', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false);
 
 
@@ -16,13 +16,13 @@ INSERT INTO Song(name, length, genre) VALUES ('Run', 240, 'POP'),
                                              ('Halo', 261, 'POP'),
                                              ('Can''t Help Falling In Love', 182, 'ROCK');
 
-INSERT INTO Tour(location, date, price, artist_id) VALUES ('Tokyo, Japan', DATE'2024-2-7', 125.86, 1),
-                                                          ('Las Vegas, USA', DATE'2023-10-23', 39.0, 3),
-                                                          ('Kansas City, USA', DATE'2023-10-1', 325.0, 2),
-                                                          ('Sydney, Australia', DATE'2024-2-23', 79.90, 1);
-
 INSERT INTO Artist_Song VALUES (1, 1),
                                (1, 2),
                                (2, 2),
                                (3, 3),
                                (4, 4);
+
+INSERT INTO Tour(location, date, price, artist_id) VALUES ('Tokyo, Japan', DATE'2024-2-7', 125.86, 1),
+                                                          ('Las Vegas, USA', DATE'2023-10-23', 39.0, 3),
+                                                          ('Kansas City, USA', DATE'2023-10-1', 325.0, 2),
+                                                          ('Sydney, Australia', DATE'2024-2-23', 79.90, 1);

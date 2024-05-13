@@ -79,12 +79,15 @@ public class ArtistServiceImp implements ArtistService {
 
     @Override
     @Transactional
-    public Artist update(Integer id, Artist artist) {
-        if(!artistJpaRepository.existsById(id))
-            throw new ArtistNotFoundException("Cannot update. Artist with given id does not exist.");
+    public Artist update(Integer id, Artist newArtist) {
+        Artist savedArtist = artistJpaRepository.findById(id).orElseThrow(
+                () -> new ArtistNotFoundException("Cannot update. Artist with given id does not exist.")
+        );
 
-        artist.setId(id);
-        return artistJpaRepository.save(artist);
+        savedArtist.setName(newArtist.getName());
+        savedArtist.setBirthDate(newArtist.getBirthDate());
+        savedArtist.setListeners(newArtist.getListeners());
+        return savedArtist;
     }
 
     @Override

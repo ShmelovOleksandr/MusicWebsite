@@ -9,12 +9,12 @@ import jakarta.persistence.*;
 @IdClass(SongParticipationId.class)
 public class SongParticipation {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id", referencedColumnName = "id")
     private Artist artist;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id", referencedColumnName = "id")
     private Song song;
 

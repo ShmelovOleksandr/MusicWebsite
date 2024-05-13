@@ -13,7 +13,7 @@ public class WebsiteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     protected String username;
     @Column(name = "password", nullable = false)
     private String password;
@@ -21,7 +21,7 @@ public class WebsiteUser {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
 
-    @OneToOne(mappedBy = "websiteUser")
+    @OneToOne(mappedBy = "websiteUser", fetch = FetchType.LAZY)
     private Artist artist;
 
     public WebsiteUser() {
@@ -32,12 +32,6 @@ public class WebsiteUser {
     }
 
     public WebsiteUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public WebsiteUser(int id, String username, String password) {
-        this.id = id;
         this.username = username;
         this.password = password;
     }

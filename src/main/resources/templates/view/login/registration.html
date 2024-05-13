@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"></thymeleaf>
+    <script type="module" defer src="/js/registration.js"></script>
+</head>
+<body>
+<div th:replace="~{view/fragments/header::header}"></div>
+
+<div class="container">
+    <h2>Sign up</h2>
+    <span id="errorsField" class="text-danger"></span>
+    <form class="mt-4 d-block justify-content-center">
+        <div class="input-group my-2 row">
+            <label for="username" class="col-4">Username:</label>
+            <input type="text" id="username" class="col-8 form-control mx-4 rounded">
+        </div>
+        <div class="input-group my-2 row">
+            <label for="password" class="col-4">Password:</label>
+            <input type="password" id="password" class="col-8 form-control mx-4 rounded">
+        </div>
+        <div class="input-group my-2 row">
+            <label for="password_validation" class="col-4">Repeat password:</label>
+            <input id="password_validation" type="password" class="col-8 form-control mx-4 rounded">
+        </div>
+        <div class="d-block justify-content-center">
+            <span>Already have an account?</span>
+            <a href="/login">Login here</a>
+        </div>
+        <button id="submit" class="btn btn-primary mt-2">Sign Up</button>
+    </form>
+</div>
+
+<div th:replace="~{view/fragments/footer::footer}"></div>
+</body>
+</html>

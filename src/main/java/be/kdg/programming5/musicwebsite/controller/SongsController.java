@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -75,6 +76,7 @@ public class SongsController extends DownloadController {
     }
 
     @GetMapping("/{id}/editor")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     public String getSongsEditorPage(Model model, @PathVariable int id){
         Song song = songService.getOne(id);
         SongViewModel songViewModel = songViewModelConverter.convertToView(song);
@@ -85,6 +87,7 @@ public class SongsController extends DownloadController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     public String getSongCreationPage(Model model){
         model.addAttribute("songViewModel", new SongViewModel(0, null, 0, null));
         model.addAttribute("artists", artistService.getAll());

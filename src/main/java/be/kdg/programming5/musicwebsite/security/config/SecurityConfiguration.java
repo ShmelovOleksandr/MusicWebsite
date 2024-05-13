@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,7 @@ import static org.springframework.security.web.util.matcher.RegexRequestMatcher.
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,23 +32,29 @@ public class SecurityConfiguration {
                                         antMatcher(HttpMethod.GET, "/pictures/**"),
                                         antMatcher(HttpMethod.GET, "/style/**")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/"),
                                         antMatcher(HttpMethod.GET, "/artists"),
                                         antMatcher(HttpMethod.GET, "/songs"),
                                         antMatcher(HttpMethod.GET, "/tours")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         regexMatcher(HttpMethod.GET, "^/artists/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/songs/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/tours/[0-9]*")
                                 ).permitAll()
+
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/api/**")
-                                )
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        antMatcher(HttpMethod.GET, "/registration"),
+                                        antMatcher(HttpMethod.POST, "/register")
+                                ).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(
                         formLogin -> formLogin
