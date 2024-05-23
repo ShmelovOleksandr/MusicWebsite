@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -38,6 +39,16 @@ public class Artist implements Serializable {
     public Artist() {
         this.songParticipations = new HashSet<>();
         this.tours = new HashSet<>();
+    }
+
+    public Artist(int id) {
+        this.id = id;
+    }
+
+    public Artist(String name, LocalDate birthDate, long listeners) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.listeners = listeners;
     }
 
     public Artist(int id, String name, LocalDate birthDate, long listeners) {
@@ -134,6 +145,19 @@ public class Artist implements Serializable {
 
     public void setTours(Set<Tour> tours) {
         this.tours = tours;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Artist artist = (Artist) o;
+        return id == artist.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     @Override

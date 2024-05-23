@@ -32,6 +32,10 @@ public class Song {
         this.songParticipations = new HashSet<>();
     }
 
+    public Song(int id) {
+        this.id = id;
+    }
+
     public Song(int id, String name, Integer length, Genre genre) {
         this.id = id;
         this.name = name;
