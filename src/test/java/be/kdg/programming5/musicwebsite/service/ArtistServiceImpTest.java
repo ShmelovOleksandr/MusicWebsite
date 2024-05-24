@@ -1,76 +1,109 @@
 package be.kdg.programming5.musicwebsite.service;
 
 import be.kdg.programming5.musicwebsite.domain.Artist;
-import org.junit.jupiter.api.*;
+import be.kdg.programming5.musicwebsite.domain.Song;
+import be.kdg.programming5.musicwebsite.repository.ArtistJpaRepository;
+import be.kdg.programming5.musicwebsite.repository.SongParticipationJpaRepository;
+import be.kdg.programming5.musicwebsite.repository.TourJpaRepository;
+import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
+import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@SpringBootTest
-//@ActiveProfiles("test")
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest
+@ActiveProfiles("test")
+
 class ArtistServiceImpTest {
+    @Autowired
+    private ArtistService artistService;
 
-//    @Autowired
-    private ArtistServiceImp artistServiceImp;
+    @Autowired
+    private ArtistJpaRepository artistJpaRepository;
 
-//    @BeforeAll
-    void beforeAll() {
+    @Autowired
+    private SongParticipationJpaRepository songParticipationJpaRepository;
 
-    }
+    @Autowired
+    private TourJpaRepository tourJpaRepository;
 
-//    @BeforeEach
+    @BeforeEach
     void setUp() {
-        assertDoesNotThrow(() -> artistServiceImp.deleteAll());
-
-        List<Artist> savedArtists = artistServiceImp.saveAll(List.of(
-                new Artist("test name 1", LocalDate.of(2000, 1, 1), 1),
-                new Artist("test name 2", LocalDate.of(2000, 1, 1), 1),
-                new Artist("test name 3", LocalDate.of(2000, 1, 1), 1)
-        ));
-
-        assertEquals(3, savedArtists.size());
     }
 
-    void savingArtistShouldCreateNewRecordInDB() {
-        // Arrange
+    @AfterEach
+    void tearDown() {
+    }
 
+    @Test
+    void updatingFieldsOfActorShouldUpdateEveryChangedField() {
+        // Arrange
+        var createdArtist = artistService.save(new Artist("Name", LocalDate.of(2000,1,1), 1));
+        var changedArist = new Artist();
+        changedArist.setName("New_name");
+        changedArist.setBirthDate(LocalDate.of(2000,1,2));
+        changedArist.setListeners(2);
 
         // Act
+        var updatedArtist = artistService.update(createdArtist.getId(), changedArist);
 
         // Assert
+        assertNotNull(updatedArtist);
+        assertEquals("New_name", updatedArtist.getName());
+        assertEquals(LocalDate.of(2000,1,2), updatedArtist.getBirthDate());
+        assertEquals(2, updatedArtist.getListeners());
+
     }
 
-//    @Test
-    void updatingArtistsNameShouldChangeTheirNameInDB() {
-        String testArtistName = "test name update";
-        LocalDate testArtistBirthDate = LocalDate.of(2000, 1, 1);
-        int testArtistListeners = 1;
-
+    @Test
+    void updatingNonExistingActorShouldThrowEntityNotFoundException() {
         // Arrange
-        Artist testArtist = new Artist(testArtistName, testArtistBirthDate, testArtistListeners);
-        Artist savedArtist = artistServiceImp.save(testArtist);
+        var createdArtist = artistService.save(new Artist("Name", LocalDate.of(2000,1,1), 1));
+        var changedArist = new Artist();
+        changedArist.setName("New_name");
+        changedArist.setBirthDate(LocalDate.of(2000,1,2));
+        changedArist.setListeners(2);
 
         // Act
-//        Artist changedArtist =
-//        Artist updatedArtist = artistServiceImp.update(savedArtist.getId(), )
+        Executable executable = () -> artistService.update(9999999, changedArist);
 
-//         Assert
-//        assertNotNull(savedArtist);
-//        assertEquals(testArtistName, savedArtist.getName());
-//        assertEquals(testArtistBirthDate, savedArtist.getBirthDate());
-//        assertEquals(testArtistListeners, savedArtist.getListeners());
-
-
+        // Assert
+        assertThrows(EntityNotFoundException.class, executable);
     }
 
-//    @AfterEach
-    void tearDown() {
-        assertDoesNotThrow(() -> artistServiceImp.deleteAll());
+    @Test
+    void deleteShouldDeleteArtistAndAllRelatedEntities() {
+        // Arrange
+        final int ID = 1;
+        Artist artist = artistJpaRepository.findByIdFetched(ID).orElseThrow();
+
+        // Act
+        artistService.delete(ID);
+
+        // Assert
+        assertThrows(EntityNotFoundException.class, () -> artistService.getOne(ID));
+        artist.getSongParticipations().forEach(
+                songParticipation -> assertFalse(
+                        songParticipationJpaRepository.existsById(
+                                new SongParticipationId(
+                                        artist,
+                                        new Song(songParticipation.getSong().getId())
+                                )
+                        )
+                )
+        );
+        artist.getTours().forEach(
+                tour -> assertFalse(
+                        tourJpaRepository.existsById(tour.getId())
+                )
+        );
     }
 }

@@ -17,6 +17,14 @@ public interface ArtistJpaRepository extends JpaRepository<Artist, Integer> {
     @Query("DELETE FROM Artist WHERE id=?1")
     void deleteById(Integer integer);
 
+    @Query("""
+    select a from Artist a
+    join fetch a.songParticipations
+    join fetch a.tours
+    join fetch a.websiteUser
+    where a.id = :id
+    """)
+    Optional<Artist> findByIdFetched(Integer id);
     Optional<Artist> findByName(String name);
 
     List<Artist> findAllByNameContainingIgnoreCase(String namePart);

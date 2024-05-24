@@ -8,15 +8,16 @@ services:
       - 'POSTGRES_DB=musicwebsite'
       - 'POSTGRES_USER=music_admin'
       - 'POSTGRES_PASSWORD=best_music_admin'
+      - "SPRING_PROFILES_ACTIVE="
     ports:
       - '5433:5432'
-
-#  postgres_musicwebsite_test_db:
-#    image: 'postgres:16.1-alpine'
-#    restart: always
-#    environment:
-#      - 'POSTGRES_DB=musicwebsite'
-#      - 'POSTGRES_USER=music_admin'
-#      - 'POSTGRES_PASSWORD=best_music_admin'
-#    ports:
-#      - '12222:5433'
+  postgres_musicwebsite_db_test:
+    image: 'postgres:16.1-alpine'
+    restart: no
+    environment:
+      - 'POSTGRES_DB=musicwebsite_test'
+      - 'POSTGRES_USER=music_admin'
+      - 'POSTGRES_PASSWORD=best_music_admin'
+      - "SPRING_PROFILES_ACTIVE=test"
+    ports:
+      - '12222:5432'
