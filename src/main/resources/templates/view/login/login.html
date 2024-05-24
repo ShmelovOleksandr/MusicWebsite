@@ -9,7 +9,7 @@
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
 
-<div class="container">
+<div class="container d-flex align-items-center flex-column mb-auto">
     <h2>Sign in</h2>
     <p>username: ed</p>
     <p>password: 1234</p>
@@ -30,6 +30,6 @@
     </form>
 </div>
 
-<div th:replace="~{view/fragments/footer::footer}"></div>
+<div class="mt-auto" th:replace="~{view/fragments/footer::footer}"></div>
 </body>
 </html>

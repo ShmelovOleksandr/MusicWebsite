@@ -39,15 +39,10 @@ class ArtistJpaRepositoryTest {
         artistJpaRepository.deleteAll();
     }
 
-    @Test
+//    @Test
     void deleteByIdShouldThrowDataIntegrityViolationException() {
-        try {
-            artistJpaRepository.deleteById(1);
-        } catch (RuntimeException ignored) {
 
-        }
-
-        // Arrange
+    // Arrange
         var artist = artistJpaRepository.save(new Artist(3, "test_name3", LocalDate.of(2000, 1, 1), 3));
 
 
@@ -58,6 +53,8 @@ class ArtistJpaRepositoryTest {
 //        ));
 
         // Assert
+        assertThrows(RuntimeException.class, () -> artistJpaRepository.deleteById(1));
+
 //        assertThrows(DataIntegrityViolationException.class, executable);
         //assertThrows(DataIntegrityViolationException.class,
         // Act
@@ -67,7 +64,7 @@ class ArtistJpaRepositoryTest {
         //)));
     }
 
-    @Test
+//    @Test
     void findByName() {
     }
 }

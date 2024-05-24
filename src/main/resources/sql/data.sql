@@ -1,8 +1,8 @@
 INSERT INTO website_user(username, password, is_admin) VALUES ('taylor', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
-                                                              ('admin', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', true),
                                                               ('ed', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('beyonce', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
                                                               ('elvis', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false),
+                                                              ('admin', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', true),
                                                               ('user', '$2a$12$SAgySMF8xPVh/HPgwOkmj.amBtsVKnKydezdZXk.4Ud.AIO1Nx1ae', false);
 
 

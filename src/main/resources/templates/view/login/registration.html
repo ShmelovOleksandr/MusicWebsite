@@ -5,13 +5,13 @@
 <head>
     <title>Register</title>
     <meta charset="UTF-8">
+    <script type="module" defer src="/js/bundle-registration.js"></script>
     <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"></thymeleaf>
-    <script type="module" defer src="/js/registration.js"></script>
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
 
-<div class="container">
+<div class="container d-flex align-items-center flex-column h-auto">
     <h2>Sign up</h2>
     <span id="errorsField" class="text-danger"></span>
     <form class="mt-4 d-block justify-content-center">

@@ -3,12 +3,12 @@
 <head>
     <title th:utext="#{artist.create.title}">[Create artist]</title>
     <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
-    <script type="module" defer src="/js/artistCreator.js"></script>
+    <script defer src="/js/bundle-artistCreator.js"></script>
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
 
-<div class="container">
+<div class="container d-flex align-items-center flex-column">
     <h3 class="mt-4" th:utext="#{artist.create.header}">[Add New Artist]</h3>
 
     <form class="mt-4">

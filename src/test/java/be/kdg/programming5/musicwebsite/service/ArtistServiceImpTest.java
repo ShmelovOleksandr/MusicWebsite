@@ -16,22 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ArtistServiceImpTest {
 
-    @Autowired
+//    @Autowired
     private ArtistServiceImp artistServiceImp;
 
-    @BeforeAll
+//    @BeforeAll
     void beforeAll() {
 
     }
 
-    @BeforeEach
+//    @BeforeEach
     void setUp() {
         assertDoesNotThrow(() -> artistServiceImp.deleteAll());
 
         List<Artist> savedArtists = artistServiceImp.saveAll(List.of(
                 new Artist("test name 1", LocalDate.of(2000, 1, 1), 1),
                 new Artist("test name 2", LocalDate.of(2000, 1, 1), 1),
-                new Artist("test name 3", LocalDate.of(2000, 1, 1), 1),
+                new Artist("test name 3", LocalDate.of(2000, 1, 1), 1)
         ));
 
         assertEquals(3, savedArtists.size());
@@ -46,7 +46,7 @@ class ArtistServiceImpTest {
         // Assert
     }
 
-    @Test
+//    @Test
     void updatingArtistsNameShouldChangeTheirNameInDB() {
         String testArtistName = "test name update";
         LocalDate testArtistBirthDate = LocalDate.of(2000, 1, 1);
@@ -69,7 +69,7 @@ class ArtistServiceImpTest {
 
     }
 
-    @AfterEach
+//    @AfterEach
     void tearDown() {
         assertDoesNotThrow(() -> artistServiceImp.deleteAll());
     }

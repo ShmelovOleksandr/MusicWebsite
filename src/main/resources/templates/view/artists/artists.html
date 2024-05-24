@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:utext="#{artist.index.title}">[Artists]</title>
+    <script defer src="/js/bundle-artists.js"></script>
     <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
-    <script defer src="/js/artists.js"></script>
     <meta name="viewport" content="width=device-width, initial- scale=1">
 </head>
 <body>
 <div th:replace="~{view/fragments/header::header}"></div>
 
-<div class="container">
+<div class="container d-flex align-items-center flex-column">
     <h3 class="mt-4" th:utext="#{artist.index.header}">[Artists]</h3>
 
     <form method="GET" action="/artists" class="mt-4">
@@ -46,9 +46,7 @@
         </table>
     </div>
 
-    <a th:href="@{artists/download}" class="mt-3"><button class="btn btn-secondary" th:utext="#{application.download}">[Download .json]</button></a>
-
-    <a th:href="@{/}" class="mt-3" th:utext="#{application.back}">[Back]</a>
+    <a th:href="@{/}" class="my-3" th:utext="#{application.back}">[Back]</a>
 </div>
 <div th:replace="~{view/fragments/footer::footer}"></div>
 </body>

@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
-    <script defer th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
 </head>
 <body>
     <div th:fragment="header">

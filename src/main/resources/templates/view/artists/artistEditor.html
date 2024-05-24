@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Artist Editor</title>
+  <script defer src="/js/bundle-artistEditor.js"></script>
   <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
-  <script type="module" defer src="/js/artistEditor.js"></script>
 </head>
 <body>
   <div th:replace="~{view/fragments/header::header}"></div>
 
-  <div class="container">
+  <div class="container d-flex align-items-center flex-column">
     <h3 class="mt-4" th:utext="#{artist.editor.title}">[Edit artist]</h3>
 
     <form class="mt-4">

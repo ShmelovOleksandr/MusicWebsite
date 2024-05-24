@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface WebsiteUserJpaRepository extends JpaRepository<WebsiteUser, Integer> {
     @Query("select wu from WebsiteUser wu " +
-            "join fetch wu.artist " +
+            "left join fetch wu.artist " +
             "where wu.username = :username ")
     Optional<WebsiteUser> findByUsernameFetched(String username);
 

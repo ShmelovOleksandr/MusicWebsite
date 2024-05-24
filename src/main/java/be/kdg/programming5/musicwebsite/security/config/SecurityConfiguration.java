@@ -24,13 +24,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         auths -> auths
-//                                .requestMatchers(regexMatcher("^/artists\\?.+"))
-//                                .permitAll()
                                 .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/js/**"),
-                                        antMatcher(HttpMethod.GET, "/webjars/**"),
-                                        antMatcher(HttpMethod.GET, "/pictures/**"),
-                                        antMatcher(HttpMethod.GET, "/style/**")
+                                        antMatcher(HttpMethod.GET, "/css/**"),
+                                        antMatcher(HttpMethod.GET, "/pictures/**")
                                 ).permitAll()
 
                                 .requestMatchers(

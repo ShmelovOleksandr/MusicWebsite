@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.2.2"
 	id("io.spring.dependency-management") version "1.1.4"
+	id("com.github.node-gradle.node") version "7.0.2"
 }
 
 group = "be.kdg.programming5"
@@ -36,10 +37,14 @@ dependencies {
 
 	implementation("org.modelmapper:modelmapper:3.1.1")
 	implementation("com.google.code.gson:gson:2.10.1")
-	implementation("org.webjars:bootstrap:5.3.2")
 //	implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.named<Copy>("processResources") {
+	dependsOn("npm_run_build")
+}
+

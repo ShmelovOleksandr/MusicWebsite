@@ -1,13 +1,16 @@
-const artistRecordsTable = document.getElementById("artistRecordsList");
+// import '../scss/search-issues.scss'
+import 'bootstrap'
+
+const artistRecordsTable = document.getElementById('artistRecordsList')
 
 async function fetchArtistsJson() {
-    const artistsResponse = await fetch("api/artists");
-    return await artistsResponse.json();
+    const artistsResponse = await fetch('api/artists')
+    return await artistsResponse.json()
 }
 
 async function fillInArtistsRecordsTable() {
-    const artists = await fetchArtistsJson();
-    artistRecordsTable.innerHTML = "";
+    const artists = await fetchArtistsJson()
+    artistRecordsTable.innerHTML = ''
     for (let i = 0; i < artists.length; i++) {
         const artist = artists[i]
         artistRecordsTable.innerHTML += `
@@ -16,8 +19,8 @@ async function fillInArtistsRecordsTable() {
                 <a href="/artists/${artist.id}" class="text-black-50">${artist.name}</a>
             </td>
         </tr>
-        `;
+        `
     }
 }
 
-fillInArtistsRecordsTable();
+fillInArtistsRecordsTable()
