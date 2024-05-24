@@ -9,8 +9,8 @@ import be.kdg.programming5.musicwebsite.service.ArtistService;
 import be.kdg.programming5.musicwebsite.service.SongParticipationService;
 import be.kdg.programming5.musicwebsite.service.SongService;
 import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@ class RestArtistControllerTest {
 
     @Test
     @WithUserDetails("admin")
-    public void patchArtistShouldReturnNotFoundForNonExistingArtist() throws Exception {
+    public void patchArtistShouldReturnUnauthorizedForNonExistingArtist() throws Exception {
         mockMvc.perform(
                 patch("/api/artists/{artistId}", 999999)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -102,4 +102,116 @@ class RestArtistControllerTest {
                         )
         ).andExpect(status().isNotFound());
     }
+
+    @Test
+    public void patchArtistShouldReturnForbiddenForNonAuthorizedRequest() throws Exception {
+        mockMvc.perform(
+                patch("/api/artists/{artistId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(
+                                objectMapper.writeValueAsString(
+                                        new ArtistPatchDTO(
+                                                "patch_name",
+                                                LocalDate.of(2024, 1, 1),
+                                                123
+                                        )
+                                )
+                        )
+        ).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    public void patchArtistWithAuthenticatedUserShouldReturnArtistWithUpdatedFields() throws Exception {
+        mockMvc.perform(
+                patch("/api/artists/{artistId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(
+                                objectMapper.writeValueAsString(
+                                        new ArtistPatchDTO(
+                                                "patch_name",
+                                                LocalDate.of(2024, 1, 1),
+                                                123
+                                        )
+                                )
+                        )
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
+                .andExpect(jsonPath("$.name", Matchers.equalTo("patch_name")))
+                .andExpect(jsonPath("$.birthDate", Matchers.equalTo(LocalDate.of(2024, 1, 1).toString())))
+                .andExpect(jsonPath("$.listeners", Matchers.equalTo(123)))
+                .andDo(print());
+    }
+
+
+    @Test
+    void postAdminShouldReturnUnauthorizedForAllNonAdminUsers() throws Exception {
+        mockMvc.perform(
+                post("/api/artists")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(
+                                objectMapper.writeValueAsString(
+                                        new ArtistPatchDTO(
+                                                "post_name",
+                                                LocalDate.of(2024, 1, 1),
+                                                1
+                                        )
+                                )
+                        )
+        ).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void postAdminWithAdminAuthorizationShouldReturnStatusCreatedAndCreatedArtist() throws Exception {
+        mockMvc.perform(
+                post("/api/artists")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(
+                                objectMapper.writeValueAsString(
+                                        new ArtistPatchDTO(
+                                                "post_name",
+                                                LocalDate.of(2024, 1, 1),
+                                                1
+                                        )
+                                )
+                        )
+        )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", Matchers.equalTo("post_name")))
+                .andExpect(jsonPath("$.birthDate", Matchers.equalTo(LocalDate.of(2024, 1, 1).toString())))
+                .andExpect(jsonPath("$.listeners", Matchers.equalTo(1)))
+                .andDo(print());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void postAdminWithBadDataShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(
+                post("/api/artists")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(
+                                objectMapper.writeValueAsString(
+                                        new ArtistPatchDTO(
+                                                "n",
+                                                LocalDate.of(2999, 1, 1),
+                                                -1
+                                        )
+                                )
+                        )
+        ).andExpect(status().isBadRequest());
+    }
+
+
 }

@@ -7,8 +7,6 @@ import be.kdg.programming5.musicwebsite.repository.SongParticipationJpaRepositor
 import be.kdg.programming5.musicwebsite.repository.TourJpaRepository;
 import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +32,6 @@ class ArtistServiceImpTest {
 
     @Autowired
     private TourJpaRepository tourJpaRepository;
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void updatingFieldsOfActorShouldUpdateEveryChangedField() {
