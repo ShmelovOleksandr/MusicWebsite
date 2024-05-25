@@ -29,7 +29,7 @@ public class SongViewModelConverter implements ViewModelConverter<SongViewModel,
         Song song = new Song(songViewModel.getId(), songViewModel.getName(), songViewModel.getLength(), songViewModel.getGenre());
         Set<SongParticipation> songParticipations = new HashSet<>();
         for (int id : songViewModel.getArtistsId())
-            songParticipations.add(songParticipationService.getOne(new SongParticipationId(artistService.getOne(id), song)));
+            songParticipations.add(new SongParticipation(new Artist(id), song));
 
         song.setSongParticipations(songParticipations);
         return song;

@@ -3,6 +3,8 @@ package be.kdg.programming5.musicwebsite.view_model;
 import be.kdg.programming5.musicwebsite.domain.Genre;
 import jakarta.validation.constraints.*;
 
+import java.util.Arrays;
+
 public class SongViewModel {
     private Integer id;
     @Size(min = 3, max = 30, message = "Name of the song should be between 3 and 30 characters.")
@@ -47,5 +49,16 @@ public class SongViewModel {
 
     public Integer[] getArtistsId() {
         return artistsId;
+    }
+
+    @Override
+    public String toString() {
+        return "SongViewModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", length=" + length +
+                ", genre=" + genre +
+                ", artistsId=" + Arrays.toString(artistsId) +
+                '}';
     }
 }

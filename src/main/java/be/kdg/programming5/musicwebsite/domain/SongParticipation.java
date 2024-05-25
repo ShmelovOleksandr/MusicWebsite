@@ -4,6 +4,8 @@ package be.kdg.programming5.musicwebsite.domain;
 import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "artist_song")
 @IdClass(SongParticipationId.class)
@@ -21,7 +23,7 @@ public class SongParticipation {
     public SongParticipation() {
     }
 
-    public SongParticipation(Artist artist, be.kdg.programming5.musicwebsite.domain.Song song) {
+    public SongParticipation(Artist artist, Song song) {
         this.artist = artist;
         this.song = song;
     }
@@ -34,11 +36,24 @@ public class SongParticipation {
         this.artist = artist;
     }
 
-    public be.kdg.programming5.musicwebsite.domain.Song getSong() {
+    public Song getSong() {
         return song;
     }
 
-    public void setSong(be.kdg.programming5.musicwebsite.domain.Song song) {
+    public void setSong(Song song) {
         this.song = song;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SongParticipation that = (SongParticipation) o;
+        return Objects.equals(artist, that.artist) && Objects.equals(song, that.song);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artist, song);
     }
 }
