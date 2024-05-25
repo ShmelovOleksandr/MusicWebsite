@@ -37,12 +37,15 @@
                             <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ADMIN')">
                                 <a class="nav-link d-inline-block text-nowrap" th:href="@{/artists/new}"><span th:utext="#{header.addArtist}">[add-artist]</span></a>
                             </li>
-                            <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ARTIST', 'ROLE_ADMIN')">
-                                <a class="nav-link d-inline-block  text-nowrap" th:href="@{/songs/new}"><span th:utext="#{header.addSong}">[add-song]</span></a>
+                            <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <a class="nav-link d-inline-block text-nowrap" th:href="@{/artists_csv}"><span>Upload Artists CSV</span></a>
                             </li>
-                            <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ARTIST', 'ROLE_ADMIN')">
-                                <a class="nav-link d-inline-block text-nowrap" th:href="@{/tours/new}"><span th:utext="#{header.addTour}">[add-tour]</span></a>
-                            </li>
+<!--                            <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ARTIST', 'ROLE_ADMIN')">-->
+<!--                                <a class="nav-link d-inline-block  text-nowrap" th:href="@{/songs/new}"><span th:utext="#{header.addSong}">[add-song]</span></a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item col-auto " sec:authorize="hasAnyRole('ROLE_ARTIST', 'ROLE_ADMIN')">-->
+<!--                                <a class="nav-link d-inline-block text-nowrap" th:href="@{/tours/new}"><span th:utext="#{header.addTour}">[add-tour]</span></a>-->
+<!--                            </li>-->
                             <li class="nav-item col-auto ">
                                 <a class="nav-link d-inline-block text-nowrap" th:href="@{/sessionHistory}"><span th:utext="#{header.session-history}">[session-history]</span></a>
                             </li>

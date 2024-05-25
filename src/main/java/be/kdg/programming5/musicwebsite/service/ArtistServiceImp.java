@@ -4,6 +4,7 @@ import be.kdg.programming5.musicwebsite.domain.Artist;
 import be.kdg.programming5.musicwebsite.repository.ArtistJpaRepository;
 import be.kdg.programming5.musicwebsite.util.exception.ArtistNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,21 +25,25 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
+    @Cacheable("all_artists_search")
     public List<Artist> getAll() {
         return artistJpaRepository.findAll();
     }
 
     @Override
+    @Cacheable("name_part_artists_search")
     public List<Artist> getAllByNamePart(String namePart) {
         return artistJpaRepository.findAllByNameContainingIgnoreCase(namePart);
     }
 
     @Override
+    @Cacheable("min_listeners_artists_search")
     public List<Artist> getAllByMinListeners(Long minListeners) {
         return artistJpaRepository.findAllByListenersAfter(minListeners);
     }
 
     @Override
+    @Cacheable("name_part_and_min_listeners_artists_search")
     public List<Artist> getAllByNamePartAndMinListeners(String namePart, Long minListeners) {
         return artistJpaRepository.findAllByListenersAfterAndNameContainingIgnoreCase(minListeners, namePart);
     }

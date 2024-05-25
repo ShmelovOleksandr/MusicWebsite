@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -96,6 +97,7 @@ public class RestArtistController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistPostDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails.getUsername()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -107,6 +109,7 @@ public class RestArtistController {
 
     @PatchMapping({"/{id}"})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
+    @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails.getUsername(), id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -118,6 +121,7 @@ public class RestArtistController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
+    @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<Void> deleteArtist(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if (!artistManipulationPermissionService.allowedArtistDelete(websiteUserDetails.getUsername(), id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
