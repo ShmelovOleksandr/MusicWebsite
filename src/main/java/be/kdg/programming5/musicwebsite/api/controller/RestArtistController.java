@@ -50,12 +50,20 @@ public class RestArtistController {
             @RequestParam(value = "namePart", required = false) String artistNamePat,
             @RequestParam(value = "listeners", required = false) Long listeners) {
 
-        List<ArtistDTO> artistDTOS = artistService.getAll(artistNamePat, listeners).stream().map(artist -> mapper.map(artist, ArtistDTO.class)).toList();
+        List<Artist> artists;
+        if ((artistNamePat != null && !artistNamePat.isEmpty()) && (listeners != null && listeners > 0))
+            artists = artistService.getAllByNamePartAndMinListeners(artistNamePat, listeners);
+        else if (artistNamePat != null && !artistNamePat.isBlank())
+            artists = artistService.getAllByNamePart(artistNamePat);
+        else if (listeners != null && listeners > 0)
+            artists = artistService.getAllByMinListeners(listeners);
+        else
+            artists = artistService.getAll();
 
-        if (artistDTOS.isEmpty())
+        if (artists.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
-        return ResponseEntity.ok(artistDTOS);
+        return ResponseEntity.ok(artists.stream().map(artist -> mapper.map(artist, ArtistDTO.class)).toList());
     }
 
     @GetMapping("/{id}")

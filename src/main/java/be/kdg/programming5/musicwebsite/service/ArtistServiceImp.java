@@ -29,26 +29,17 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
-    public List<Artist> getAll(String namePart) {
-        if(namePart == null || namePart.isBlank())
-            return getAll();
-
+    public List<Artist> getAllByNamePart(String namePart) {
         return artistJpaRepository.findAllByNameContainingIgnoreCase(namePart);
     }
 
     @Override
-    public List<Artist> getAll(Long minListeners) {
-        return artistJpaRepository.findAllByListenersAfter(minListeners != null ? minListeners : 0L);
+    public List<Artist> getAllByMinListeners(Long minListeners) {
+        return artistJpaRepository.findAllByListenersAfter(minListeners);
     }
 
     @Override
-    public List<Artist> getAll(String namePart, Long minListeners) {
-        if(namePart == null || namePart.isBlank())
-            return getAll(minListeners);
-
-        if(minListeners == null || minListeners == 0L)
-            return getAll(namePart);
-
+    public List<Artist> getAllByNamePartAndMinListeners(String namePart, Long minListeners) {
         return artistJpaRepository.findAllByListenersAfterAndNameContainingIgnoreCase(minListeners, namePart);
     }
 

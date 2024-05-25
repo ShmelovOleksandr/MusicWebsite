@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ArtistService extends GeneralService<Artist, Integer> {
     Artist getArtistByName(String name);
-    List<Artist> getAll(String name);
-    List<Artist> getAll(Long minListeners);
-    List<Artist> getAll(String namePart, Long minListeners);
+    List<Artist> getAllByNamePart(String namePart);
+    List<Artist> getAllByMinListeners(Long minListeners);
+    List<Artist> getAllByNamePartAndMinListeners(String namePart, Long minListeners);
 }
