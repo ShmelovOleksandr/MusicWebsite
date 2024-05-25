@@ -95,7 +95,7 @@ class SongsControllerTest {
                                 .with(csrf())
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/login"));
+                .andExpect(redirectedUrl("/login"));
     }
 
     @Test
