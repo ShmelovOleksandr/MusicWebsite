@@ -1,13 +1,12 @@
 image: gradle:alpine
 
 before_script:
-  - apk add --no-cache nodejs=20.12.1-r0
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
 build:
   stage: build
-  script: gradle --build-cache assemble
+  script: apk add --no-cache nodejs=20.12.1-r0; gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -24,7 +23,7 @@ test:
     POSTGRES_USER: 'music_admin'
     POSTGRES_PASSWORD: 'best_music_admin'
     CI_DB_HOST_PORT: 'postgres:5432'
-  script: gradle check
+  script: apk add --no-cache nodejs=20.12.1-r0; gradle check
   artifacts:
     when: always
     reports:
