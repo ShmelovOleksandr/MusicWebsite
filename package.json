@@ -1,0 +1,35 @@
+{
+  "name": "musicwebsite",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MusicTracker is a basic CRUD website made using <b>Spring</b> and <b>Thymeleaf</b>. The project is made by <b>Oleksandr Shmelov</b>, student of <i>Karel de Grote Hogeschool</i>.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/kdg-ti/programming-5/projects-23-24/acs202/oleksandr.shmelov/programming-5.git"
+  },
+  "author": "Oleksandr Shmelov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/kdg-ti/programming-5/projects-23-24/acs202/oleksandr.shmelov/programming-5/issues"
+  },
+  "homepage": "https://gitlab.com/kdg-ti/programming-5/projects-23-24/acs202/oleksandr.shmelov/programming-5#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+      "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
+    "mini-css-extract-plugin": "^2.9.0",
+    "sass": "^1.77.1",
+    "sass-loader": "^14.2.1",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "build": "webpack"
+  }
+
+}
