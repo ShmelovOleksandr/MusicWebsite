@@ -1,6 +1,7 @@
 image: gradle:alpine
 
 before_script:
+  - apk add --no-cache nodejs=20.12.1-r0
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
