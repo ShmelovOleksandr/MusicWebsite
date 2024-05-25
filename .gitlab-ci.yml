@@ -16,7 +16,18 @@ build:
 
 test:
   stage: test
+  services:
+    - postgres:16.1-alpine
+  variables:
+    POSTGRES_DB: 'musicwebsite_test'
+    POSTGRES_USER: 'music_admin'
+    POSTGRES_PASSWORD: 'best_music_admin'
+    CI_DB_HOST_PORT: 'postgres:5432'
   script: gradle check
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -24,7 +35,3 @@ test:
       - build
       - .gradle
 
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
