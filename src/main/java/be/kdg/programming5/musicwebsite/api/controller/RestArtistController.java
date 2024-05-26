@@ -48,14 +48,14 @@ public class RestArtistController {
 
     @GetMapping
     public ResponseEntity<List<ArtistDTO>> getAllArtists(
-            @RequestParam(value = "namePart", required = false) String artistNamePat,
+            @RequestParam(value = "namePart", required = false) String artistNamePart,
             @RequestParam(value = "listeners", required = false) Long listeners) {
 
         List<Artist> artists;
-        if ((artistNamePat != null && !artistNamePat.isEmpty()) && (listeners != null && listeners > 0))
-            artists = artistService.getAllByNamePartAndMinListeners(artistNamePat, listeners);
-        else if (artistNamePat != null && !artistNamePat.isBlank())
-            artists = artistService.getAllByNamePart(artistNamePat);
+        if ((artistNamePart != null && !artistNamePart.isEmpty()) && (listeners != null && listeners > 0))
+            artists = artistService.getAllByNamePartAndMinListeners(artistNamePart, listeners);
+        else if (artistNamePart != null && !artistNamePart.isBlank())
+            artists = artistService.getAllByNamePart(artistNamePart);
         else if (listeners != null && listeners > 0)
             artists = artistService.getAllByMinListeners(listeners);
         else

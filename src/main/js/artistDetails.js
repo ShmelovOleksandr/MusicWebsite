@@ -78,9 +78,9 @@ function enableSongsTable() {
     songsTable.classList.remove('d-none')
     anime({
         targets: songsTable,
-        opacity: 1,     // Target opacity value
-        duration: 1000, // Animation duration in milliseconds
-        easing: 'easeInOutQuad' // Easing function
+        opacity: 1,
+        duration: 500,
+        easing: 'easeInOutQuad'
     });
     songsTableIsEnabled = true
 }
@@ -88,11 +88,10 @@ function enableSongsTable() {
 function disableSongsTable() {
     anime({
         targets: songsTable,
-        opacity: 0,     // Target opacity value
-        duration: 1000, // Animation duration in milliseconds
-        easing: 'easeInOutQuad', // Easing function
+        opacity: 0,
+        duration: 500,
+        easing: 'easeInOutQuad',
         complete: function() {
-            // Add 'd-none' class after the animation completes
             songsTable.classList.add('d-none');
         }
     });
