@@ -3,6 +3,7 @@ import 'bootstrap'
 
 import {header, token} from './util/csrf.js'
 import axios from "axios";
+import anime from "animejs";
 
 const editButton= document.getElementById('editButton')
 const deleteButton = document.getElementById('deleteButton')
@@ -75,11 +76,26 @@ function hideSongsTable() {
 
 function enableSongsTable() {
     songsTable.classList.remove('d-none')
+    anime({
+        targets: songsTable,
+        opacity: 1,     // Target opacity value
+        duration: 1000, // Animation duration in milliseconds
+        easing: 'easeInOutQuad' // Easing function
+    });
     songsTableIsEnabled = true
 }
 
 function disableSongsTable() {
-    songsTable.classList.add('d-none')
+    anime({
+        targets: songsTable,
+        opacity: 0,     // Target opacity value
+        duration: 1000, // Animation duration in milliseconds
+        easing: 'easeInOutQuad', // Easing function
+        complete: function() {
+            // Add 'd-none' class after the animation completes
+            songsTable.classList.add('d-none');
+        }
+    });
     songsTableIsEnabled = false
 }
 
@@ -127,11 +143,26 @@ function hideToursTable() {
 
 function enableToursTable() {
     toursTable.classList.remove('d-none')
+    anime({
+        targets: toursTable,
+        opacity: 1,     // Target opacity value
+        duration: 1000, // Animation duration in milliseconds
+        easing: 'easeInOutQuad' // Easing function
+    });
     toursTableIsEnabled = true
 }
 
 function disableToursTable() {
-    toursTable.classList.add('d-none')
+    anime({
+        targets: toursTable,
+        opacity: 0,     // Target opacity value
+        duration: 1000, // Animation duration in milliseconds
+        easing: 'easeInOutQuad', // Easing function
+        complete: function() {
+            // Add 'd-none' class after the animation completes
+            toursTable.classList.add('d-none');
+        }
+    });
     toursTableIsEnabled = false
 }
 
