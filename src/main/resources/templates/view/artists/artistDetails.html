@@ -23,7 +23,7 @@
         </table>
     </div>
 
-    <button sec:authorize="isAuthenticated()" id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
+    <button sec:authorize="isAuthenticated()" th:if="${modificationAllowed}" id="editButton" class="btn btn-warning" th:utext="#{application.edit}">[Edit]</button>
 
     <button id="songsButton" class="btn btn-secondary mt-3">Show songs</button>
     <div id="songsTable" class="d-none">
@@ -57,7 +57,7 @@
         </table>
     </div>
 
-    <button sec:authorize="isAuthenticated()" id="deleteButton" class="btn btn-outline-danger mt-3" th:utext="#{application.delete}">[Delete]</button>
+    <button sec:authorize="isAuthenticated()" th:if="${modificationAllowed}" id="deleteButton" class="btn btn-outline-danger mt-3" th:utext="#{application.delete}">[Delete]</button>
 
     <a th:href="@{/artists}" class="mt-3" th:utext="#{application.back}">[Back]</a>
 </div>

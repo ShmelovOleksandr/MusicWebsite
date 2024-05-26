@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,7 +29,10 @@ public class ArtistController extends DownloadController {
     }
 
     @GetMapping("/{id}")
-    public String getArtistsDetailsPage(){
+    public String getArtistsDetailsPage(@PathVariable int id,
+                                        Model model,
+                                        @AuthenticationPrincipal WebsiteUserDetails userDetails){
+        model.addAttribute("modificationAllowed", userDetails.isAdmin() || (userDetails != null && userDetails.getArtistId() == id));
         return "view/artists/artistDetails";
     }
 

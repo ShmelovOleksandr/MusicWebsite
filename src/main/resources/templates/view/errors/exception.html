@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title th:utext="#{index.title}">[Music]</title>
+    <thymeleaf th:replace="~{view/fragments/meta :: meta_links}"/>
     <script defer src="/css/bundle-site.css"></script>
 </head>
 <body>
 <header th:replace="~{view/fragments/header::header}"></header>
 
-<div class="container pb-3 col-lg-5">
+<div class="container pb-3 col-lg-5 d-flex align-items-center flex-column mt-xl-5">
     <h3 th:utext="#{error.header}">[error header]</h3>
     <span th:text="${errorCode}" class="text-danger">[error code]</span>
     <p th:text="${errorMessage}">[error message]</p>

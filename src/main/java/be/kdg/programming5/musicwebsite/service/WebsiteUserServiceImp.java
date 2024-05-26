@@ -34,14 +34,20 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
                 () -> new UsernameNotFoundException("Username not found.")
         );
 
+        boolean isAdmin = false;
+        int artistId = 0;
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if (user.isAdmin())
+        if (user.isAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            isAdmin = true;
+        }
 
-        if (user.getArtist() != null)
+        if (user.getArtist() != null) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+            artistId = user.getArtist().getId();
+        }
 
-        return new WebsiteUserDetails(user.getUsername(), user.getPassword(), authorities);
+        return new WebsiteUserDetails(user.getUsername(), user.getPassword(), authorities, artistId, isAdmin);
     }
 
     @Override
