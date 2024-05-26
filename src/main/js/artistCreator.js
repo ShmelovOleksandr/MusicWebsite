@@ -1,7 +1,8 @@
 // import '../scss/search-issues.scss'
 import 'bootstrap'
 
-import { header, token } from './util/csrf.js'
+import {header, token} from './util/csrf.js'
+import axios from "axios";
 
 const nameErrorField = document.getElementById('nameError')
 const dateErrorField = document.getElementById('dateError')
@@ -62,15 +63,16 @@ async function sendPostRequest() {
         birthDate: document.getElementById('date').value,
         listeners: document.getElementById('listeners').value
     }
-
-    return await fetch('/api/artists', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            [header]: token
-        },
-        body: JSON.stringify(formData)
-    })
+    try {
+        return await axios.post('/api/artists', formData, {
+            headers: {
+                'Content-Type': 'application/json',
+                [header]: token
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred while sending the POST request:", error);
+    }
 }
 
 addEventListeners()

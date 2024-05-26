@@ -2,6 +2,7 @@
 import 'bootstrap'
 
 import {header, token} from './util/csrf.js'
+import axios from "axios";
 
 const editButton= document.getElementById('editButton')
 const deleteButton = document.getElementById('deleteButton')
@@ -29,14 +30,17 @@ function redirectToArtistEditor() {
 }
 
 async function deleteArtist() {
-    const response = await fetch('/api/artists/' + artistId, {
-        method:'DELETE',
-        headers: {
-            [header]: token
+    try {
+        const response = await axios.delete(`/api/artists/${artistId}`, {
+            headers: {
+                [header]: token
+            }
+        });
+        if (response.status === 204) {
+            window.location.replace('/artists');
         }
-    })
-    if(response.status === 204) {
-        window.location.replace('/artists')
+    } catch (error) {
+        console.error("An error occurred while deleting the artist:", error);
     }
 }
 
@@ -80,7 +84,12 @@ function disableSongsTable() {
 }
 
 async function fetchSongs() {
-    return fetch(`/api/artists/${artistId}/songs`).then(response => response.json())
+    try {
+        const response = await axios.get(`/api/artists/${artistId}/songs`);
+        return response.data;
+    } catch (error) {
+        console.error("An error occurred while fetching the songs:", error);
+    }
 }
 
 async function fillSongsTable() {
@@ -127,7 +136,12 @@ function disableToursTable() {
 }
 
 async function fetchTours() {
-    return fetch(`/api/artists/${artistId}/tours`).then(response => response.json())
+    try {
+        const response = await axios.get(`/api/artists/${artistId}/tours`);
+        return response.data;
+    } catch (error) {
+        console.error("An error occurred while fetching the tours:", error);
+    }
 }
 
 async function fillToursTable() {
@@ -144,10 +158,6 @@ async function fillToursTable() {
         `
     }
 }
-
-
-
-
 
 function addEventListeners() {
     editButton?.addEventListener('click', redirectToArtistEditor)

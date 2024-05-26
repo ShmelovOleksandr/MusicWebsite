@@ -1,5 +1,6 @@
 import 'bootstrap'
-import Joi from "joi";
+import joi from "joi";
+import axios from "axios";
 
 import {header, token} from './util/csrf.js'
 
@@ -22,10 +23,10 @@ const listenersFieldName = 'listeners'
 const url = window.location.href
 const artistId = url.substring(url.lastIndexOf('/artists') + '/artists'.length + 1, url.lastIndexOf('/'))
 
-const artistEditSchema = Joi.object({
-    name: Joi.string().min(3).max(18).required(),
-    birthDate: Joi.date().less("now").required(),
-    listeners: Joi.number().min(0).max(Number.MAX_SAFE_INTEGER).required(),
+const artistEditSchema = joi.object({
+    name: joi.string().min(3).max(18).required(),
+    birthDate: joi.date().less("now").required(),
+    listeners: joi.number().min(0).max(Number.MAX_SAFE_INTEGER).required(),
 });
 
 function validateForm(formData) {
@@ -105,18 +106,25 @@ async function handleResponse(response) {
 }
 
 async function sendPatchRequest(data) {
-    return await fetch(`/api/artists/${artistId}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            [header]: token
-        },
-        body: JSON.stringify(data)
-    })
+    try {
+        return await axios.patch(`/api/artists/${artistId}`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                [header]: token
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred while sending the PATCH request:", error);
+    }
 }
 
-function fetchArtist() {
-    return fetch(`/api/artists/${artistId}`).then(response => response.json())
+async function fetchArtist() {
+    try {
+        const response = await axios.get(`/api/artists/${artistId}`);
+        return response.data;
+    } catch (error) {
+        console.error("An error occurred while fetching the artist:", error);
+    }
 }
 
 

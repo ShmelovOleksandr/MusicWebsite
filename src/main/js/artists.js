@@ -1,11 +1,16 @@
 // import '../scss/search-issues.scss'
 import 'bootstrap'
+import axios from "axios";
 
 const artistRecordsTable = document.getElementById('artistRecordsList')
 
 async function fetchArtistsJson() {
-    const artistsResponse = await fetch('api/artists')
-    return await artistsResponse.json()
+    try {
+        const response = await axios.get('/api/artists');
+        return response.data;
+    } catch (error) {
+        console.error("An error occurred while fetching artists:", error);
+    }
 }
 
 async function fillInArtistsRecordsTable() {

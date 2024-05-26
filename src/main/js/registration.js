@@ -1,7 +1,8 @@
 // import '../scss/search-issues.scss'
 import 'bootstrap'
 
-import { header, token } from './util/csrf.js'
+import {header, token} from './util/csrf.js'
+import axios from "axios";
 
 const submitButton  = document.getElementById('submit')
 const usernameInput = document.getElementById('username')
@@ -50,12 +51,14 @@ async function sendPostRequest(username, password) {
         password: password
     }
 
-    return await fetch('/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            [header]: token
-        },
-        body: JSON.stringify(formData)
-    })
+    try {
+        return await axios.post('/register', formData, {
+            headers: {
+                'Content-Type': 'application/json',
+                [header]: token
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred while sending the POST request:", error);
+    }
 }
