@@ -7,12 +7,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import java.nio.file.AccessDeniedException;
+
 @ControllerAdvice
-//@ControllerAdvice(basePackages = { "be.kdg.programming5.musicwebsite.api.controller" })
 public class APIControllerAdvice {
     @ExceptionHandler(value = { ArtistNotFoundException.class })
     public ErrorResponse handleArtistNotFoundException(ArtistNotFoundException ex, WebRequest request) {
         return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
+    }
+    @ExceptionHandler(value = { AccessDeniedException.class })
+    public ErrorResponse handleArtistNotFoundException(AccessDeniedException ex, WebRequest request) {
+        return ErrorResponse.create(ex, HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
     }
 
 }

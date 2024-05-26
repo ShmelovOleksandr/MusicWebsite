@@ -28,7 +28,7 @@
                 <button class="btn btn-primary col-md-12" id="filterButton" type="submit" th:utext="#{application.filter}">[Filter]</button>
             </div>
 
-            <div class="m-2 col-md-6">
+            <div class="m-2 col-md-6" th:if="${artistAddAllowed}">
                 <a th:href="@{/artists/new}" class="btn btn-primary col-md-12" th:utext="#{artist.index.addArtist}">[Add artist]</a>
             </div>
         </div>

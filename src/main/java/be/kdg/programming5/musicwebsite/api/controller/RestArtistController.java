@@ -99,7 +99,7 @@ public class RestArtistController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistPostDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
-        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails.getUsername()))
+        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Artist artist = mapper.map(artistDTO, Artist.class);
@@ -111,7 +111,7 @@ public class RestArtistController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody @Valid ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
-        if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails.getUsername(), id))
+        if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails, id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Artist artist = mapper.map(artistDTO, Artist.class);
@@ -123,7 +123,7 @@ public class RestArtistController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<Void> deleteArtist(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
-        if (!artistManipulationPermissionService.allowedArtistDelete(websiteUserDetails.getUsername(), id))
+        if (!artistManipulationPermissionService.allowedArtistDelete(websiteUserDetails, id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         artistService.delete(id);
