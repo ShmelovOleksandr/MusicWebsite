@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static org.springframework.security.web.util.matcher.RegexRequestMatcher.regexMatcher;
@@ -31,10 +33,19 @@ public class SecurityConfiguration {
                                 ).permitAll()
 
                                 .requestMatchers(
+                                        antMatcher(HttpMethod.GET, "/registration"),
+                                        antMatcher(HttpMethod.POST, "/register")
+                                ).permitAll()
+
+                                .requestMatchers(
                                         antMatcher(HttpMethod.GET, "/"),
                                         antMatcher(HttpMethod.GET, "/artists"),
                                         antMatcher(HttpMethod.GET, "/songs"),
                                         antMatcher(HttpMethod.GET, "/tours")
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        antMatcher(HttpMethod.GET, "/api/**")
                                 ).permitAll()
 
                                 .requestMatchers(
@@ -43,28 +54,33 @@ public class SecurityConfiguration {
                                         regexMatcher(HttpMethod.GET, "^/tours/[0-9]*")
                                 ).permitAll()
 
+                                // Required for week9 Client POST
                                 .requestMatchers(
-                                        antMatcher(HttpMethod.GET, "/api/**")
+                                        antMatcher(HttpMethod.POST, "/api/artists")
                                 ).permitAll()
 
-                                .requestMatchers(
-                                        antMatcher(HttpMethod.GET, "/registration"),
-                                        antMatcher(HttpMethod.POST, "/register")
-                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
+
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/login")
                                 .defaultSuccessUrl("/", true)
                                 .permitAll()
                 )
+
                 .logout(
                         logoutConfigurer -> logoutConfigurer
                                 .logoutUrl("/logout")
                                 .permitAll()
                                 .logoutSuccessUrl("/")
                 )
+
+                // Required for week9 Client POST
+                .csrf(csrf -> csrf.ignoringRequestMatchers(
+                        antMatcher(HttpMethod.POST, "/api/artists")
+                ))
+
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(
                                 (request, response, exception) -> {
@@ -77,6 +93,20 @@ public class SecurityConfiguration {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:9000")
+                        .allowedMethods(
+                                HttpMethod.GET.name(),
+                                HttpMethod.POST.name());
+            }
+        };
     }
 
 

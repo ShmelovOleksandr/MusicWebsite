@@ -95,12 +95,13 @@ public class RestArtistController {
         return ResponseEntity.ok(tourDTOS);
     }
 
+    // Removed role validation for the correct work of the Week9 Client project
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistPostDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
-        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails))
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Artist artist = mapper.map(artistDTO, Artist.class);
         Artist savedArtist = artistService.save(artist);
