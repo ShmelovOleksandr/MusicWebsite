@@ -18,7 +18,6 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -30,13 +29,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-//	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
-//	implementation("org.springframework.session:spring-session-jdbc")
 	runtimeOnly("org.postgresql:postgresql")
 
 	implementation("org.modelmapper:modelmapper:3.1.1")
 	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0")
 }
 
 tasks.withType<Test> {

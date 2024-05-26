@@ -11,49 +11,110 @@ MusicTracker is a basic CRUD website made using <b>Spring</b> and <b>Thymeleaf</
 This project was created for a college assignment.
 It reflects what we have learned in the academic program.
 
-#### Entities relationships
+### Entities relationships
 There are 3 main entities in the project: <b>Artist</b>, <b>Song</b> and <b>Tour</b>.  
 The structure is as follows:
 * <b>Artist</b> can have many <b>Songs</b> and many <b>Tours</b>
 * <b>Song</b> can be made by many <b>Artists</b>. (Many-to-Many)
 * <b>Tour</b> can be performed by one <b>Artist</b>. (One-to-Many)
-
+  ![](.gitlab/prog5_relations.svg)
 ## Setup
 
-#### Ready to run.
+#### Requires:
+* Java 17 (or higher)
+* Nodejs
+* Npm
+* Docker
+
 Server port:<b> 8080</b>.
+
 
 ## Week 2
 ```http request
 ###
-#Fetching one artist - Not Found
+# Fetching all artists - OK 
+# @no-redirect
+GET http://localhost:8080/api/artists
+Accept: application/json
+
+Response:
+HTTP/1.1 200 
+  
+  Headers:
+  Content-Type: application/json
+  
+  Body:
+  [
+    {
+      "id": 1,
+      "name": "Taylor Swift",
+      "birthDate": "1989-12-13",
+      "listeners": 100734996
+    },
+    {
+      "id": 2,
+      "name": "Ed Sheeran",
+      "birthDate": "1991-02-17",
+      "listeners": 74889692
+    },
+    {
+      "id": 3,
+      "name": "Beyonce",
+      "birthDate": "1981-09-04",
+      "listeners": 49366942
+    },
+    {
+      "id": 4,
+      "name": "Elvis Presley",
+      "birthDate": "1935-01-08",
+      "listeners": 17850458
+    }
+  ]
+
+
+###
+# Fetching one artist - Not Found
+# @no-redirect
 GET http://localhost:8080/api/artists/6
 Accept: application/json
 
 Response:
-{
-  "type": "about:blank",
-  "title": "Not Found",
-  "status": 404,
-  "detail": "No artists with given id have been found.",
-  "instance": "/api/artists/6"
-}
+HTTP/1.1 404 
+  
+  Headers:
+  Content-Type: application/problem+json
+  
+  Body:
+  {
+    "type": "about:blank",
+    "title": "Not Found",
+    "status": 404,
+    "detail": "No artists with given id have been found.",
+    "instance": "/api/artists/6"
+  }
 
 ###
 #Fetching one artist - OK
+# @no-redirect
 GET http://localhost:8080/api/artists/4
 Accept: application/json
 
 Response:
-{
-  "id": 4,
-  "name": "Elvis Presley",
-  "birthDate": "1935-01-08",
-  "listeners": 17850458
-}
+HTTP/1.1 200 
+  
+  Headers:
+  Content-Type: application/json
+  
+  Body:
+  {
+    "id": 4,
+    "name": "Elvis Presley",
+    "birthDate": "1935-01-08",
+    "listeners": 17850458
+  }
 ```
 
-## Week 3
+## Week 3 (TODO)
 ```http request
 ###
 # Creating an artist - CREATED
@@ -68,12 +129,18 @@ Content-Type: application/json
 }
 
 Response:
-{
-  "id": 5
-  "name": "test name",
-  "birthDate": "2000-01-01",
-  "listeners": 1000
-}
+HTTP/1.1 201 
+
+  Headers:
+  Content-Type: application/json
+  
+  Body:
+  {
+    "id": 5
+    "name": "test name",
+    "birthDate": "2000-01-01",
+    "listeners": 1000
+  }
 
 ###
 # Patch an artist - OK

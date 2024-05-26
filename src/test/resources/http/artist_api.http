@@ -1,32 +1,32 @@
-@id=6
-###
+@id=4
+### Get all artists
 # @no-redirect
 GET http://localhost:8080/api/artists
 Accept: application/json
 
 <> 2024-03-17T152644.200.json
 
-###
+### Get one artist
 # @no-redirect
 GET http://localhost:8080/api/artists/{{id}}
 Accept: application/json
 
 <> 2024-03-17T152644-1.200.json
 
-###
+### Get all songs of the artist
 # @no-redirect
 GET http://localhost:8080/api/artists/{{id}}/songs
 Accept: application/json
 
 <> 2024-03-17T152644-2.200.json
 
-###
+### Get all tours of the artist
 GET http://localhost:8080/api/artists/{{id}}/tours
 Accept: application/json
 
 <> 2024-03-17T152645.200.json
 
-###
+### Post new artist
 # @no-redirect
 POST http://localhost:8080/api/artists
 Accept: application/json
@@ -38,10 +38,22 @@ Content-Type: application/json
   "listeners": 1000
 }
 
+### Post new artist with invalid data
+# @no-redirect
+POST http://localhost:8080/api/artists
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "na",
+  "birthDate": "2222-01-01",
+  "listeners": -1
+}
+
 <> 2024-03-17T152645.201.json
 
 
-###
+### Patch an artist
 # @no-redirect
 PATCH http://localhost:8080/api/artists/{{id}}
 Accept: application/json
@@ -57,7 +69,7 @@ Content-Type: application/json
 
 
 
-###
+### Delete an artist
 # @no-redirect
 DELETE http://localhost:8080/api/artists/{{id}}
 Accept: application/json

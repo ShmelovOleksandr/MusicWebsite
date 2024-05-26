@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,19 +35,17 @@ public class RestArtistController {
     private final TourService tourService;
     private final ArtistManipulationPermissionService artistManipulationPermissionService;
     private final ModelMapper mapper;
-    private final Logger logger;
 
     @Autowired
-    public RestArtistController(ArtistService artistService, SongService songService, TourService tourService, ArtistManipulationPermissionService artistManipulationPermissionService, ModelMapper mapper, Logger logger) {
+    public RestArtistController(ArtistService artistService, SongService songService, TourService tourService, ArtistManipulationPermissionService artistManipulationPermissionService, ModelMapper mapper) {
         this.artistService = artistService;
         this.songService = songService;
         this.tourService = tourService;
         this.artistManipulationPermissionService = artistManipulationPermissionService;
         this.mapper = mapper;
-        this.logger = logger;
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<ArtistDTO>> getAllArtists(
             @RequestParam(value = "namePart", required = false) String artistNamePart,
             @RequestParam(value = "listeners", required = false) Long listeners) {
@@ -67,13 +66,13 @@ public class RestArtistController {
         return ResponseEntity.ok(artists.stream().map(artist -> mapper.map(artist, ArtistDTO.class)).toList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",  produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<ArtistDTO> getArtist(@PathVariable int id) {
         ArtistDTO artistDTO = mapper.map(artistService.getOne(id), ArtistDTO.class);
         return ResponseEntity.ok(artistDTO);
     }
 
-    @GetMapping("/{id}/songs")
+    @GetMapping(value = "/{id}/songs",  produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<SongDTO>> getAllSongsByArtist(@PathVariable int id) {
         List<Song> songs = songService.getAllByArtistId(id);
         List<SongDTO> songDTOS = songs.stream().map(song -> mapper.map(song, SongDTO.class)).toList();
@@ -84,7 +83,7 @@ public class RestArtistController {
         return ResponseEntity.ok(songDTOS);
     }
 
-    @GetMapping("/{id}/tours")
+    @GetMapping(value = "/{id}/tours",  produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<TourDTO>> getAllToursByArtist(@PathVariable int id) {
         List<Tour> tours = tourService.getAllByArtistId(id);
         List<TourDTO> tourDTOS = tours.stream().map(song -> mapper.map(song, TourDTO.class)).toList();
@@ -97,7 +96,7 @@ public class RestArtistController {
 
     // Removed role validation for the correct work of the Week9 Client project
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> postArtist(@RequestBody @Valid ArtistPostDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
 //        if(!artistManipulationPermissionService.allowedArtistCreation(websiteUserDetails))
@@ -108,7 +107,7 @@ public class RestArtistController {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.map(savedArtist, ArtistDTO.class));
     }
 
-    @PatchMapping({"/{id}"})
+    @PatchMapping(value = "/{id}",  produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody @Valid ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
@@ -120,7 +119,7 @@ public class RestArtistController {
         return ResponseEntity.ok(mapper.map(updatedArtist, ArtistDTO.class));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}",  produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
     public ResponseEntity<Void> deleteArtist(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {

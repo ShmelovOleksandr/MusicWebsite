@@ -48,15 +48,15 @@ public class SecurityConfiguration {
                                         antMatcher(HttpMethod.GET, "/api/**")
                                 ).permitAll()
 
+                                // Required for week9 Client POST
+                                .requestMatchers(
+                                        antMatcher(HttpMethod.POST, "/api/artists")
+                                ).permitAll()
+
                                 .requestMatchers(
                                         regexMatcher(HttpMethod.GET, "^/artists/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/songs/[0-9]*"),
                                         regexMatcher(HttpMethod.GET, "^/tours/[0-9]*")
-                                ).permitAll()
-
-                                // Required for week9 Client POST
-                                .requestMatchers(
-                                        antMatcher(HttpMethod.POST, "/api/artists")
                                 ).permitAll()
 
                                 .anyRequest().authenticated()
