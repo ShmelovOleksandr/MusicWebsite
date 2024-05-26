@@ -1,5 +1,5 @@
-// import '../scss/search-issues.scss'
 import 'bootstrap'
+import Joi from "joi";
 
 import {header, token} from './util/csrf.js'
 
@@ -22,10 +22,53 @@ const listenersFieldName = 'listeners'
 const url = window.location.href
 const artistId = url.substring(url.lastIndexOf('/artists') + '/artists'.length + 1, url.lastIndexOf('/'))
 
-async function submitForm(event) {
-    event.preventDefault()
+const artistEditSchema = Joi.object({
+    name: Joi.string().min(3).max(18).required(),
+    birthDate: Joi.date().less("now").required(),
+    listeners: Joi.number().min(0).max(Number.MAX_SAFE_INTEGER).required(),
+});
 
-    const response = await sendPatchRequest()
+function validateForm(formData) {
+    return artistEditSchema.validate(formData);
+}
+
+async function trySubmitForm(event) {
+    event.preventDefault()
+    const formData = {
+        name: nameInputField.value,
+        birthDate: dateInputField.value,
+        listeners: listenersInputField.value
+    }
+    const error = validateForm(formData);
+    if (error) {
+        for (let i = 0; i < error.details.length; i++) {
+            const errorDetail = error.details[i]
+            let errorField = null
+
+            switch (errorDetail.message.substring(1, errorDetail.message.indexOf('"', 2))) {
+                case nameFieldName:
+                    errorField = nameErrorField
+                    break
+                case dateFieldName:
+                    errorField = dateErrorField
+                    break
+                case listenersFieldName:
+                    errorField = listenersErrorField
+                    break
+                default:
+                    errorField = generalErrorField
+            }
+
+            errorField.innerText = errorDetail.message
+            errorField.classList.remove('disabled')
+        }
+    } else {
+        await submitForm(formData);
+    }
+}
+
+async function submitForm(data) {
+    const response = await sendPatchRequest(data)
     await handleResponse(response)
 }
 
@@ -61,20 +104,14 @@ async function handleResponse(response) {
     }
 }
 
-async function sendPatchRequest() {
-    const formData = {
-        name: nameInputField.value,
-        birthDate: dateInputField.value,
-        listeners: listenersInputField.value
-    }
-
+async function sendPatchRequest(data) {
     return await fetch(`/api/artists/${artistId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             [header]: token
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(data)
     })
 }
 
@@ -85,14 +122,13 @@ function fetchArtist() {
 
 async function loadCurrentValues() {
     const artist = await fetchArtist()
-    console.log(artist)
     nameInputField.value = artist.name
     dateInputField.value = artist.birthDate
     listenersInputField.value = artist.listeners
 }
 
 function addEventListeners() {
-    submitButton.addEventListener('click', submitForm)
+    submitButton.addEventListener('click', trySubmitForm)
     backButton.addEventListener('click', (event) => window.location.replace(`/artists/${artistId}`))
 }
 

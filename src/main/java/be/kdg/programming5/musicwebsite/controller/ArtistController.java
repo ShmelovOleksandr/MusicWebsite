@@ -32,7 +32,7 @@ public class ArtistController extends DownloadController {
     public String getArtistsDetailsPage(@PathVariable int id,
                                         Model model,
                                         @AuthenticationPrincipal WebsiteUserDetails userDetails){
-        model.addAttribute("modificationAllowed", userDetails.isAdmin() || (userDetails != null && userDetails.getArtistId() == id));
+        model.addAttribute("modificationAllowed", (userDetails != null && userDetails.getArtistId() == id) || (userDetails != null && userDetails.isAdmin()) );
         return "view/artists/artistDetails";
     }
 

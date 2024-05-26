@@ -110,7 +110,7 @@ public class RestArtistController {
     @PatchMapping({"/{id}"})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     @CacheEvict(value = {"all_artists_search", "name_part_artists_search", "min_listeners_artists_search", "name_part_and_min_listeners_artists_search"}, allEntries = true)
-    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
+    public ResponseEntity<ArtistDTO> patchArtist(@PathVariable int id, @RequestBody @Valid ArtistPatchDTO artistDTO, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails) {
         if(!artistManipulationPermissionService.allowedArtistEdit(websiteUserDetails.getUsername(), id))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
