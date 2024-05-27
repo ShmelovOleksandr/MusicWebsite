@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -149,7 +148,8 @@ class RestArtistControllerTest {
     }
 
 
-    @Test
+//    Test is no longer required, since we removed security for this endpoint in Week 9 assignment
+//    @Test
     void postAdminShouldReturnUnauthorizedForAllNonAdminUsers() throws Exception {
         mockMvc.perform(
                 post("/api/artists")

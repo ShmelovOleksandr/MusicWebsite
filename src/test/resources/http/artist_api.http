@@ -1,8 +1,13 @@
 @id=4
-### Get all artists
+### Get all artists (JSON)
 # @no-redirect
 GET http://localhost:8080/api/artists
 Accept: application/json
+
+### Get all artists (XML)
+# @no-redirect
+GET http://localhost:8080/api/artists
+Accept: application/xml
 
 <> 2024-03-17T152644.200.json
 

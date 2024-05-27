@@ -1,4 +1,3 @@
-// import '../scss/search-issues.scss'
 import 'bootstrap'
 
 import {header, token} from './util/csrf.js'

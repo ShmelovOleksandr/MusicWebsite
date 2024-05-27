@@ -37,6 +37,7 @@ public class WebsiteUserServiceImp implements WebsiteUserService {
         boolean isAdmin = false;
         int artistId = 0;
         Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         if (user.isAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             isAdmin = true;
