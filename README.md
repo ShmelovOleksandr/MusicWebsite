@@ -26,7 +26,15 @@ The structure is as follows:
 * Npm
 * Docker
 
-#### Server port:<b> 8080</b>.
+### To run:
+```shell
+docker-compose up -d
+./gradlew build
+./gradlew bootRun
+```
+
+#### Server port:<b> 8080</b>. 
+Access [here](http://localhost:8080).
 
 ### Profiles
 
@@ -49,36 +57,36 @@ Accept: application/json
 Response:
 HTTP/1.1 200 
   
-  Headers:
-  Content-Type: application/json
-  
-  Body:
-  [
-    {
-      "id": 1,
-      "name": "Taylor Swift",
-      "birthDate": "1989-12-13",
-      "listeners": 100734996
-    },
-    {
-      "id": 2,
-      "name": "Ed Sheeran",
-      "birthDate": "1991-02-17",
-      "listeners": 74889692
-    },
-    {
-      "id": 3,
-      "name": "Beyonce",
-      "birthDate": "1981-09-04",
-      "listeners": 49366942
-    },
-    {
-      "id": 4,
-      "name": "Elvis Presley",
-      "birthDate": "1935-01-08",
-      "listeners": 17850458
-    }
-  ]
+Headers:
+Content-Type: application/json
+
+Body:
+[
+  {
+    "id": 1,
+    "name": "Taylor Swift",
+    "birthDate": "1989-12-13",
+    "listeners": 100734996
+  },
+  {
+    "id": 2,
+    "name": "Ed Sheeran",
+    "birthDate": "1991-02-17",
+    "listeners": 74889692
+  },
+  {
+    "id": 3,
+    "name": "Beyonce",
+    "birthDate": "1981-09-04",
+    "listeners": 49366942
+  },
+  {
+    "id": 4,
+    "name": "Elvis Presley",
+    "birthDate": "1935-01-08",
+    "listeners": 17850458
+  }
+]
 
 
 ###
@@ -90,17 +98,17 @@ Accept: application/json
 Response:
 HTTP/1.1 404 
   
-  Headers:
-  Content-Type: application/problem+json
-  
-  Body:
-  {
-    "type": "about:blank",
-    "title": "Not Found",
-    "status": 404,
-    "detail": "No artists with given id have been found.",
-    "instance": "/api/artists/6"
-  }
+Headers:
+Content-Type: application/problem+json
+
+Body:
+{
+  "type": "about:blank",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "No artists with given id have been found.",
+  "instance": "/api/artists/6"
+}
 
 ###
 #Fetching one artist - OK
@@ -110,17 +118,17 @@ Accept: application/json
 
 Response:
 HTTP/1.1 200 
-  
-  Headers:
-  Content-Type: application/json
-  
-  Body:
-  {
-    "id": 4,
-    "name": "Elvis Presley",
-    "birthDate": "1935-01-08",
-    "listeners": 17850458
-  }
+
+Headers:
+Content-Type: application/json
+
+Body:
+{
+  "id": 4,
+  "name": "Elvis Presley",
+  "birthDate": "1935-01-08",
+  "listeners": 17850458
+}
 ```
 
 ## Week 3 (TODO)

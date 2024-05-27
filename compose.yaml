@@ -10,8 +10,7 @@ services:
       - 'POSTGRES_PASSWORD=best_music_admin'
     ports:
       - '5433:5432'
-#    profiles:
-#      - dev
+
   postgres_musicwebsite_db_test:
     image: 'postgres:16.1-alpine'
     restart: always
@@ -21,5 +20,4 @@ services:
       - 'POSTGRES_PASSWORD=best_music_admin'
     ports:
       - '12222:5432'
-#    profiles:
-#      - test
+
