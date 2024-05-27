@@ -45,7 +45,6 @@ async function deleteArtist() {
 }
 
 function updateTextFields(artist) {
-    // window.location.head.title = artist.name
     title.innerText = artist.name
 }
 
@@ -143,9 +142,9 @@ function enableToursTable() {
     toursTable.classList.remove('d-none')
     anime({
         targets: toursTable,
-        opacity: 1,     // Target opacity value
-        duration: 1000, // Animation duration in milliseconds
-        easing: 'easeInOutQuad' // Easing function
+        opacity: 1,
+        duration: 500,
+        easing: 'easeInOutQuad'
     });
     toursTableIsEnabled = true
 }
@@ -153,11 +152,10 @@ function enableToursTable() {
 function disableToursTable() {
     anime({
         targets: toursTable,
-        opacity: 0,     // Target opacity value
-        duration: 1000, // Animation duration in milliseconds
-        easing: 'easeInOutQuad', // Easing function
+        opacity: 0,
+        duration: 500,
+        easing: 'easeInOutQuad',
         complete: function() {
-            // Add 'd-none' class after the animation completes
             toursTable.classList.add('d-none');
         }
     });
@@ -195,10 +193,17 @@ function addEventListeners() {
     toursButton?.addEventListener('click', toggleToursTable)
 }
 
+function redirectToArtistsPage() {
+    window.location.replace(`/artists`)
+}
+
+
 async function updateArtistDetailsPage() {
-    // const artist = await fetchArtistJson();
-    const artistJson = await fetch('/api/artists/' + artistId)
-    const artist = await artistJson.json()
+    const response = await fetch('/api/artists/' + artistId)
+    if (response.status !== 200)
+        redirectToArtistsPage()
+
+    const artist = await response.json()
     updateArtistDetails(artist)
     updateTextFields(artist)
 }

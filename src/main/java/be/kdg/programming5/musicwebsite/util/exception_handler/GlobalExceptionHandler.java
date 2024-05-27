@@ -13,8 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
 
-@ControllerAdvice
-//@ControllerAdvice(basePackages = { "be.kdg.programming5.musicwebsite.controller" })
+@ControllerAdvice(basePackages = { "be.kdg.programming5.musicwebsite.controller" })
 public class GlobalExceptionHandler {
     @Value("${sql-exception.message}")
     private String SQL_EXCEPTION_MESSAGE;
@@ -45,7 +44,7 @@ public class GlobalExceptionHandler {
 
 
 
-//    @ExceptionHandler(value = { JsonParseException.class })
+    @ExceptionHandler(value = { JsonParseException.class })
     private ModelAndView handleJsonException(JsonParseException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -69,7 +68,7 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-//    @ExceptionHandler(value = { RuntimeException.class })
+    @ExceptionHandler(value = { RuntimeException.class })
     private ModelAndView handleSQLException(RuntimeException ex, WebRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 

@@ -37,7 +37,6 @@ public class ArtistController extends DownloadController {
     }
 
     @GetMapping("/new")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getArtistCreatorPage(@AuthenticationPrincipal WebsiteUserDetails websiteUserDetails){
         if(!mvcArtistAccessPermissionService.allowedToSeeCreatorPage(websiteUserDetails))
             return "redirect:/artists";
@@ -45,7 +44,6 @@ public class ArtistController extends DownloadController {
     }
 
     @GetMapping("/{id}/editor")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ARTIST')")
     public String getArtistEditorPage(@PathVariable int id, @AuthenticationPrincipal WebsiteUserDetails websiteUserDetails){
         if(!mvcArtistAccessPermissionService.allowedToSeeEditorPage(websiteUserDetails, id))
             return "redirect:/artists/" + id;

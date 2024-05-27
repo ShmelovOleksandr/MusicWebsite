@@ -30,16 +30,13 @@
       <label for="genre" th:utext="#{song.create.genre}">[Genre:]</label>
       <select id="genre" th:field="*{genre}" class="form-control">
         <option th:each="genre : ${T(be.kdg.programming5.musicwebsite.domain.Genre).values()}" th:text="${genre}" th:value="${genre}">[Genre]</option>
-<!--        TODO-->
       </select>
       <div class="text-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}">[Genres errors]</div>
     </div>
 
     <div class="form-group">
       <label for="artist" th:utext="#{song.create.artists}">[Artists:]</label>
-<!--      <div th:each="artist : ${#ctx.session.get('sessionArtists')}">-->
       <div th:each="artist : ${artists}">
-<!--        TODO -->
         <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getId()}" th:field="*{artistsId}">
       </div>
       <div class="text-danger" th:if="${#fields.hasErrors('artistsId')}" th:errors="*{artistsId}">[ArtistsId errors]</div>

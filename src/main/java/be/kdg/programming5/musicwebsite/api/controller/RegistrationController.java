@@ -31,8 +31,6 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<WebsiteUserDTO> registerUser(@RequestBody @Valid WebsiteUserPostDTO websiteUserPostDTO, HttpServletRequest httpServletRequest) throws ServletException {
         WebsiteUser registeredUser = websiteUserService.registerUser(websiteUserPostDTO.getUsername(), websiteUserPostDTO.getPassword());
-        //TODO
-        // Fix auto login
         httpServletRequest.login(websiteUserPostDTO.getUsername(), websiteUserPostDTO.getPassword());
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.map(registeredUser, WebsiteUserDTO.class));
     }

@@ -19,4 +19,8 @@ public interface SongParticipationJpaRepository extends JpaRepository<SongPartic
     @Modifying
     @Query(value = "delete from SongParticipation where artist.id = :artistId")
     void deleteAllByArtist_Id(int artistId);
+
+    @Modifying
+    @Query(value = "delete from SongParticipation where song.id = :songId")
+    void deleteAllBySong_Id(int songId);
 }

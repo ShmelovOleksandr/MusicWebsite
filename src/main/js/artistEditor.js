@@ -3,6 +3,7 @@ import joi from "joi";
 import axios from "axios";
 
 import {header, token} from './util/csrf.js'
+import {Logger} from "sass";
 
 const submitButton = document.getElementById('submit')
 const backButton = document.getElementById('backButton')
@@ -40,10 +41,11 @@ async function trySubmitForm(event) {
         birthDate: dateInputField.value,
         listeners: listenersInputField.value
     }
-    const error = validateForm(formData);
-    if (error) {
-        for (let i = 0; i < error.details.length; i++) {
-            const errorDetail = error.details[i]
+    const response = validateForm(formData);
+    console.log(response)
+    if (response.error) {
+        for (let i = 0; i < response.error.details.length; i++) {
+            const errorDetail = response.error.details[i]
             let errorField = null
 
             switch (errorDetail.message.substring(1, errorDetail.message.indexOf('"', 2))) {

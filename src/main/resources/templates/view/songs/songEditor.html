@@ -37,7 +37,7 @@
     <div class="form-group">
       <label for="artist" th:utext="#{song.edit.artists}">[Artists]</label>
       <div th:each="artist : ${artists}">
-        <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getUserId()}" th:field="*{artistsId}">
+        <input type="checkbox" id="artist" th:text="${artist.getName()}" th:value="${artist.getId()}" th:field="*{artistsId}">
       </div>
       <div class="text-danger" th:if="${#fields.hasErrors('artistsId')}" th:errors="*{artistsId}">[ArtistsId errors]</div>
     </div>

@@ -27,9 +27,9 @@ async function handleResponse(response) {
     if (response.status === 201) {
         window.location.replace('/artists')
     } else if (response.status === 400) {
-        const errorJson = await response.json()
-        for (let i = 0; i < errorJson.errors.length; i++) {
-            const error = errorJson.errors[i]
+        const dataErrors = response.data.errors
+        for (let i = 0; i < dataErrors.length; i++) {
+            const error = dataErrors[i]
             let errorField = null
 
             switch (error.field) {
@@ -62,8 +62,9 @@ async function sendPostRequest() {
         birthDate: document.getElementById('date').value,
         listeners: document.getElementById('listeners').value
     }
+    let response;
     try {
-        return await axios.post('/api/artists', formData, {
+        response = await axios.post('/api/artists', formData, {
             headers: {
                 'Content-Type': 'application/json',
                 [header]: token
@@ -71,7 +72,9 @@ async function sendPostRequest() {
         });
     } catch (error) {
         console.error("An error occurred while sending the POST request:", error);
+        response = error.response
     }
+    return response
 }
 
 addEventListeners()

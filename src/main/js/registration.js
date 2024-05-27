@@ -13,13 +13,12 @@ const errorsField = document.getElementById('errorsField')
 submitButton.addEventListener('click', submitForm)
 
 async function submitForm(event) {
-    event.preventDefault() // Prevent form submission
+    event.preventDefault()
 
     const username = usernameInput.value
     const password = passwordInput.value
     const passwordValidation = passwordValidationInput.value
 
-    // Basic validation
     if (username.trim() === '') {
         alert('Please enter a username.')
         return

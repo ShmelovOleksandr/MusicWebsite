@@ -131,10 +131,10 @@ Body:
 }
 ```
 
-## Week 3 (TODO)
+## Week 3
+
+* Creating an artist - CREATED
 ```http request
-###
-# Creating an artist - CREATED
 POST http://localhost:8080/api/artists
 Accept: application/json
 Content-Type: application/json
@@ -144,23 +144,136 @@ Content-Type: application/json
   "birthDate": "2000-01-01",
   "listeners": 1000
 }
-
+```
 Response:
+```http request
 HTTP/1.1 201 
 
-  Headers:
-  Content-Type: application/json
-  
-  Body:
-  {
-    "id": 5
-    "name": "test name",
-    "birthDate": "2000-01-01",
-    "listeners": 1000
-  }
+Headers:
+Content-Type: application/json
 
+Body:
+{
+  "id": 5
+  "name": "test name",
+  "birthDate": "2000-01-01",
+  "listeners": 1000
+}
+
+```
+* Creating an artist - BAD REQUEST
+```http request
+POST http://localhost:8080/api/artists
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "na",
+  "birthDate": "2222-01-01",
+  "listeners": -1
+}
+```
+Response:
+```http request
+HTTP/1.1 400
+
+Headers:
+Content-Type: application/json
+
+Body:
+{
+  "timestamp": "2024-05-27T11:31:23.925+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "trace": "org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<be.kdg.programming5.musicwebsite.api.dto.ArtistDTO> be.kdg.programming5.musicwebsite.api.controller.RestArtistController.postArtist(be.kdg.programming5.musicwebsite.api.dto.post.ArtistPostDTO,be.kdg.programming5.musicwebsite.security.detail.WebsiteUserDetails) with 3 errors: [Field error in object 'artistPostDTO' on field 'name': rejected value [na]; codes [Size.artistPostDTO.name,Size.name,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [artistPostDTO.name,name]; arguments []; default message [name],18,3]; default message [Name of the artist should be between 3 and 18 characters.]] [Field error in object 'artistPostDTO' on field 'birthDate': rejected value [2222-01-01]; codes [Past.artistPostDTO.birthDate,Past.birthDate,Past.java.time.LocalDate,Past]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [artistPostDTO.birthDate,birthDate]; arguments []; default message [birthDate]]; default message [Date should be in the past.]] [Field error in object 'artistPostDTO' on field 'listeners': rejected value [-1]; codes [Min.artistPostDTO.listeners,Min.listeners,Min.long,Min]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [artistPostDTO.listeners,listeners]; arguments []; default message [listeners],0]; default message [Number of listeners should be greater than 0.]] \r\n\tat org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:143)\r\n\tat org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)\r\n\tat org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:225)\r\n\tat org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:178)\r\n\tat org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)\r\n\tat org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)\r\n\tat org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)\r\n\tat org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)\r\n\tat org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)\r\n\tat org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)\r\n\tat org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)\r\n\tat org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)\r\n\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)\r\n\tat org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)\r\n\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)\r\n\tat org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)\r\n\tat org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)\r\n\tat org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227)\r\n\tat org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)\r\n\tat org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:117)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)\r\n\tat org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)\r\n\tat org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)\r\n\tat org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)\r\n\tat org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)\r\n\tat org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)\r\n\tat org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)\r\n\tat org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)\r\n\tat org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)\r\n\tat org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:225)\r\n\tat org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)\r\n\tat org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:91)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)\r\n\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)\r\n\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)\r\n\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)\r\n\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)\r\n\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)\r\n\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)\r\n\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)\r\n\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)\r\n\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)\r\n\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)\r\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\r\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\r\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\r\n",
+  "message": "Validation failed for object='artistPostDTO'. Error count: 3",
+  "errors": [
+    {
+      "codes": [
+        "Size.artistPostDTO.name",
+        "Size.name",
+        "Size.java.lang.String",
+        "Size"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "artistPostDTO.name",
+            "name"
+          ],
+          "arguments": null,
+          "defaultMessage": "name",
+          "code": "name"
+        },
+        18,
+        3
+      ],
+      "defaultMessage": "Name of the artist should be between 3 and 18 characters.",
+      "objectName": "artistPostDTO",
+      "field": "name",
+      "rejectedValue": "na",
+      "bindingFailure": false,
+      "code": "Size"
+    },
+    {
+      "codes": [
+        "Past.artistPostDTO.birthDate",
+        "Past.birthDate",
+        "Past.java.time.LocalDate",
+        "Past"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "artistPostDTO.birthDate",
+            "birthDate"
+          ],
+          "arguments": null,
+          "defaultMessage": "birthDate",
+          "code": "birthDate"
+        }
+      ],
+      "defaultMessage": "Date should be in the past.",
+      "objectName": "artistPostDTO",
+      "field": "birthDate",
+      "rejectedValue": "2222-01-01",
+      "bindingFailure": false,
+      "code": "Past"
+    },
+    {
+      "codes": [
+        "Min.artistPostDTO.listeners",
+        "Min.listeners",
+        "Min.long",
+        "Min"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "artistPostDTO.listeners",
+            "listeners"
+          ],
+          "arguments": null,
+          "defaultMessage": "listeners",
+          "code": "listeners"
+        },
+        0
+      ],
+      "defaultMessage": "Number of listeners should be greater than 0.",
+      "objectName": "artistPostDTO",
+      "field": "listeners",
+      "rejectedValue": -1,
+      "bindingFailure": false,
+      "code": "Min"
+    }
+  ],
+  "path": "/api/artists"
+}
+
+```
+* Patch an artist - OK
+```http request
 ###
-# Patch an artist - OK
 PATCH http://localhost:8080/api/artists/1
 Accept: application/json
 Content-Type: application/json
@@ -170,93 +283,99 @@ Content-Type: application/json
   "birthDate": "2001-01-01",
   "listeners": 1000000
 }
-
+```
 Response:
+```http request
+HTTP/1.1 200 
+
+Headers:
+Content-Type: application/json
 {
   "id": 1
   "name": "Taylor",
   "birthDate": "2000-01-01",
   "listeners": 1000000
 }
-
-### Get all artists (JSON)
-# @no-redirect
+```
+* Get all artists (JSON)
+```http request
 GET http://localhost:8080/api/artists
 Accept: application/json
-
+```
 Response:
+```http request
 HTTP/1.1 200 
   
-  Headers:
-  Content-Type: application/json
-  
-  Body:
-  [
-    {
-      "id": 1,
-      "name": "Taylor Swift",
-      "birthDate": "1989-12-13",
-      "listeners": 100734996
-    },
-    {
-      "id": 2,
-      "name": "Ed Sheeran",
-      "birthDate": "1991-02-17",
-      "listeners": 74889692
-    },
-    {
-      "id": 3,
-      "name": "Beyonce",
-      "birthDate": "1981-09-04",
-      "listeners": 49366942
-    },
-    {
-      "id": 4,
-      "name": "Elvis Presley",
-      "birthDate": "1935-01-08",
-      "listeners": 17850458
-    }
-  ]
+Headers:
+Content-Type: application/json
 
-### Get all artists (XML)
-# @no-redirect
+Body:
+[
+  {
+    "id": 1,
+    "name": "Taylor Swift",
+    "birthDate": "1989-12-13",
+    "listeners": 100734996
+  },
+  {
+    "id": 2,
+    "name": "Ed Sheeran",
+    "birthDate": "1991-02-17",
+    "listeners": 74889692
+  },
+  {
+    "id": 3,
+    "name": "Beyonce",
+    "birthDate": "1981-09-04",
+    "listeners": 49366942
+  },
+  {
+    "id": 4,
+    "name": "Elvis Presley",
+    "birthDate": "1935-01-08",
+    "listeners": 17850458
+  }
+]
+```
+* Get all artists (XML)
+```http request
 GET http://localhost:8080/api/artists
 Accept: application/xml
-
+```
 Response:
+```http request
 HTTP/1.1 200 
-  
-  Headers:
-  Content-Type: application/xml
-  
-  Body:
-  <List>
-      <item>
-          <id>1</id>
-          <name>Taylor Swift</name>
-          <birthDate>1989-12-13</birthDate>
-          <listeners>100734996</listeners>
-      </item>
-      <item>
-          <id>2</id>
-          <name>Ed Sheeran</name>
-          <birthDate>1991-02-17</birthDate>
-          <listeners>74889692</listeners>
-      </item>
-      <item>
-          <id>3</id>
-          <name>Beyonce</name>
-          <birthDate>1981-09-04</birthDate>
-          <listeners>49366942</listeners>
-      </item>
-      <item>
-          <id>4</id>
-          <name>Elvis Presley</name>
-          <birthDate>1935-01-08</birthDate>
-          <listeners>17850458</listeners>
-      </item>
-  </List>
 
+Headers:
+Content-Type: application/xml
+
+Body:
+<List>
+    <item>
+        <id>1</id>
+        <name>Taylor Swift</name>
+        <birthDate>1989-12-13</birthDate>
+        <listeners>100734996</listeners>
+    </item>
+    <item>
+        <id>2</id>
+        <name>Ed Sheeran</name>
+        <birthDate>1991-02-17</birthDate>
+        <listeners>74889692</listeners>
+    </item>
+    <item>
+        <id>3</id>
+        <name>Beyonce</name>
+        <birthDate>1981-09-04</birthDate>
+        <listeners>49366942</listeners>
+    </item>
+    <item>
+        <id>4</id>
+        <name>Elvis Presley</name>
+        <birthDate>1935-01-08</birthDate>
+        <listeners>17850458</listeners>
+    </item>
+</List>
 ```
 
 ## Week 4
@@ -285,7 +404,7 @@ HTTP/1.1 200
 
 
 ## Week 5
-#### Users:
+#### Old users:
 * Username: <b>taylor</b> - Password: <b>1234</b> (Roles: USER, ARTIST)
 * Username: <b>ed</b> - Password: <b>1234</b> (Roles: USER, ARTIST)
 * Username: <b>beyonce</b> - Password: <b>1234</b> (Roles: USER, ARTIST)
@@ -299,6 +418,10 @@ HTTP/1.1 200
 * USER - Can access all public pages. Can't edit/create/delete anything.
 * ARTIST - Can edit and delete their own artist profile. Can create/edit/delete songs and tours.
 * ADMIN - Can access everything and edit/create/delete anything. 
+
+## Week 6
+
+Execution and description of tests can be found [here](#tests) (Build/Run section).
 
 
 ## Week 7

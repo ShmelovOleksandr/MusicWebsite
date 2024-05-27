@@ -8,4 +8,6 @@ public interface SongService extends GeneralService<Song, Integer> {
     List<Song> getAllByName(String name);
 
     List<Song> getAllByArtistId(int artistId);
+
+    void deleteAllWithoutArtists();
 }

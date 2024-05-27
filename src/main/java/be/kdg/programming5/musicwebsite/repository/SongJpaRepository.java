@@ -31,4 +31,6 @@ public interface SongJpaRepository extends JpaRepository<Song, Integer> {
             "join Artist a on sp.artist.id = a.id " +
             "where a.id = :artistId")
     List<Song> findAllByArtistId(int artistId);
+
+    void deleteAllBySongParticipationsIsEmpty();
 }

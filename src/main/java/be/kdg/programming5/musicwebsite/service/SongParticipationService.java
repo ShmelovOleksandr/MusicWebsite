@@ -10,4 +10,5 @@ public interface SongParticipationService extends GeneralService<SongParticipati
     Set<SongParticipation> getAllByArtistName(String name);
     Set<SongParticipation> getAllByArtist(Artist artist);
     void deleteByArtistId(int artistId);
+    void deleteBySongId(int songId);
 }

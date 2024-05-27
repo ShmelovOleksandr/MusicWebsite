@@ -6,6 +6,7 @@ import be.kdg.programming5.musicwebsite.repository.SongParticipationJpaRepositor
 import be.kdg.programming5.musicwebsite.util.exception.SongNotFoundException;
 import be.kdg.programming5.musicwebsite.util.exception.SongParticipationNotFound;
 import be.kdg.programming5.musicwebsite.util.id.SongParticipationId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,12 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class SongParticipationServiceImp implements SongParticipationService {
     private final SongParticipationJpaRepository songParticipationRepository;
+    private final SongService songService;
 
-    public SongParticipationServiceImp(SongParticipationJpaRepository songParticipationRepository) {
+    @Autowired
+    public SongParticipationServiceImp(SongParticipationJpaRepository songParticipationRepository, SongService songService) {
         this.songParticipationRepository = songParticipationRepository;
+        this.songService = songService;
     }
 
     @Override
@@ -81,5 +85,11 @@ public class SongParticipationServiceImp implements SongParticipationService {
     @Transactional
     public void deleteByArtistId(int artistId) {
         songParticipationRepository.deleteAllByArtist_Id(artistId);
+        songService.deleteAllWithoutArtists();
+    }
+
+    @Override
+    public void deleteBySongId(int songId) {
+        songParticipationRepository.deleteAllBySong_Id(songId);
     }
 }
