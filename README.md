@@ -369,3 +369,8 @@ This form has validation of all fields:
   * artistEditor.js (src/main/js/artistEditor.js)
   * artists.js (src/main/js/artists.js)
   * registration.js (src/main/js/registration.js)
+
+
+## Week 12
+#### Pipeline results:
+![](.gitlab/gitlab_pipeline_result.png)
